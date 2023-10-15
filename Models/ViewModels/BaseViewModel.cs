@@ -2,8 +2,12 @@
 
 namespace Opuestos_por_el_Vertice.Models.ViewModels
 {
-    public abstract class BaseViewModel : ViewObject
+    public abstract class BaseViewModel
     {
         public int Id { get; set; }
+        public BaseViewModel()
+        {
+            Id = 0;
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
+﻿using Opuestos_por_el_Vertice.Models.Services.ViewModels;
+
+namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
 {
     public class DefaultViewEnvelopment : IViewEnvelopment
     {
