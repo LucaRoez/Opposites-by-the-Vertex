@@ -9,26 +9,48 @@ namespace Opuestos_por_el_Vertice.Data.Repository
         {
             _dbContext = dbContext;
         }
-        public async Task Create(List<Post> posts)
+        public async Task Create(List<BasePost> posts)
         {
             _dbContext.AddRange(posts);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Remove(List<Post> posts)
+        public async Task Remove(List<BasePost> posts)
         {
             _dbContext.RemoveRange(posts);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(List<Post> posts)
+        public async Task Update(List<BasePost> posts)
         {
             _dbContext.UpdateRange(posts);
             await _dbContext.SaveChangesAsync();
         }
 
-        public List<Post> DetailAll() => _dbContext.Posts.ToList();
+        public List<BasePost> DetailAll(string category)
+        {
+            switch (category)
+            {
+                case "Artist": return _dbContext.Artists.ToList<BasePost>();
+                case "Album": return _dbContext.Albums.ToList<BasePost>();
+                case "Genre": return _dbContext.Genres.ToList<BasePost>();
+                case "Event": return _dbContext.Events.ToList<BasePost>();
+                case "New": return _dbContext.News.ToList<BasePost>();
+                default: return _dbContext.News.ToList<BasePost>();
+            }
+        }
 
-        public async Task<Post> DetailOne(int id) => await _dbContext.Posts.FindAsync(id);
+        public async Task<BasePost> DetailOne(string category, int id)
+        {
+            switch (category)
+            {
+                case "Artist": return await _dbContext.Artists.FindAsync(id);
+                case "Album": return await _dbContext.Albums.FindAsync(id);
+                case "Genre": return await _dbContext.Genres.FindAsync(id);
+                case "Event": return await _dbContext.Events.FindAsync(id);
+                case "New": return await _dbContext.News.FindAsync(id);
+                default: return await _dbContext.News.FindAsync(id);
+            }
+        }
     }
 }

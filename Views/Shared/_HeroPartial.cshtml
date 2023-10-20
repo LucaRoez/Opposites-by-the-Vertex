@@ -1,5 +1,5 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
-@model ViewClassViewModel
+@model ViewKindViewModel
 @{
     int imagesAmount = 0;
     List<string> imagesSources = new();
@@ -7,7 +7,7 @@
     List<string> labels = new();
     List<string> sublabels = new();
 
-    switch (Model.Class)
+    switch (Model.Kind)
     {
         case "Home": break;
         default: break;

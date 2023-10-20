@@ -2,6 +2,10 @@
 
 namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
 {
+    /*
+     * This model isolate the correct view model from his own layer, to facilitate their handling.
+    */
+
     public abstract class PostingSeed : BaseViewModel
     {
         public string Title { get; set; }
@@ -10,7 +14,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
         public string Image { get; set; }
         public DateTime PublicationDate { get; set; }
         public string Author { get; set; }
-        public int GenreClass { get; set; }
+        public string Category { get; set; }
         public int Rate { get; set; }
         public PostingSeed()
         {
@@ -20,7 +24,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
             Image = "";
             PublicationDate = new();
             Author = "";
-            GenreClass = 0;
+            Category = "";
             Rate = 0;
         }
     }

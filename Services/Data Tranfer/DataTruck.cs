@@ -1,43 +1,111 @@
 ﻿using Opuestos_por_el_Vertice.Data.Entities;
-using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.ViewModels;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
 {
     public class DataTruck : IDataTruck
     {
-        private readonly IRepository _repository;
-        public DataTruck(IRepository repository)
+        private BasePost? Post { get; set; }
+
+        public BasePost? GetPostData(PostViewModel model)
         {
-            _repository = repository;
-        }
-        public Post GetPostData(PostViewModel model)
-        {
-            Post post = new()
+            if (model.Category == "Artist")
             {
-                Title = model.Title,
-                SubTitle = model.SubTitle,
-                Body = model.Body,
-                Image = model.Image,
-                PublicationDate = model.PublicationDate,
-                Author = model.Author,
-                GenreClass = model.GenreClass,
-                Rate = model.Rate
-            };
+                Artist post = new()
+                {
+                    Title = model.Title,
+                    SubTitle = model.SubTitle,
+                    Body = model.Body,
+                    Image = model.Image,
+                    PublicationDate = model.PublicationDate,
+                    Author = model.Author,
+                    Category = new() { CategoryName = model.Category },
+                    Rate = model.Rate
+                }; Post = post;
+            }
+            else if (model.Category == "Album")
+            {
+                Album post = new()
+                {
+                    Title = model.Title,
+                    SubTitle = model.SubTitle,
+                    Body = model.Body,
+                    Image = model.Image,
+                    PublicationDate = model.PublicationDate,
+                    Author = model.Author,
+                    Category = new() { CategoryName = model.Category },
+                    Rate = model.Rate
+                }; Post = post;
+            }
+            else if (model.Category == "Genre")
+            {
+                Genre post = new()
+                {
+                    Title = model.Title,
+                    SubTitle = model.SubTitle,
+                    Body = model.Body,
+                    Image = model.Image,
+                    PublicationDate = model.PublicationDate,
+                    Author = model.Author,
+                    Category = new() { CategoryName = model.Category },
+                    Rate = model.Rate
+                }; Post = post;
+            }
+            else if (model.Category == "Event")
+            {
+                Event post = new()
+                {
+                    Title = model.Title,
+                    SubTitle = model.SubTitle,
+                    Body = model.Body,
+                    Image = model.Image,
+                    PublicationDate = model.PublicationDate,
+                    Author = model.Author,
+                    Category = new() { CategoryName = model.Category },
+                    Rate = model.Rate
+                }; Post = post;
+            }
+            else if (model.Category == "New")
+            {
+                New post = new()
+                {
+                    Title = model.Title,
+                    SubTitle = model.SubTitle,
+                    Body = model.Body,
+                    Image = model.Image,
+                    PublicationDate = model.PublicationDate,
+                    Author = model.Author,
+                    Category = new() { CategoryName = model.Category },
+                    Rate = model.Rate
+                }; Post = post;
+            }
+            else
+            {
+                New post = new()
+                {
+                    Title = model.Title,
+                    SubTitle = model.SubTitle,
+                    Body = model.Body,
+                    Image = model.Image,
+                    PublicationDate = model.PublicationDate,
+                    Author = model.Author,
+                    Category = new() { CategoryName = model.Category },
+                    Rate = model.Rate
+                }; Post = post;
+            }
 
-            return post;
+            return Post;
         }
 
-        public List<Post> GetAllPostData(List<PostViewModel> models)
+        public List<BasePost> GetAllPostData(List<PostViewModel> models)
         {
-            List<Post> posts = new();
+            List<BasePost> posts = new();
             foreach (var model in models) { posts.Add(GetPostData(model)); }
 
             return posts;
         }
 
-        public PostViewModel GetPostModel(Post post)
+        public PostViewModel GetPostModel(BasePost post)
         {
             PostViewModel model = new()
             {
@@ -47,14 +115,14 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                 Image = post.Image,
                 PublicationDate = post.PublicationDate,
                 Author = post.Author,
-                GenreClass = post.GenreClass,
+                Category = post.Category.CategoryName,
                 Rate = post.Rate
             };
 
             return model;
         }
 
-        public List<PostViewModel> GetAllPostModels(List<Post> posts)
+        public List<PostViewModel> GetAllPostModels(List<BasePost> posts)
         {
             List<PostViewModel> models = new();
             foreach (var post in posts) { models.Add(GetPostModel(post)); }

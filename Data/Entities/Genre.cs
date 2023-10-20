@@ -1,7 +1,6 @@
 ﻿namespace Opuestos_por_el_Vertice.Data.Entities
 {
-    public class BaseEntity
+    public class Genre : BasePost
     {
-        public int Id { get; set; }
     }
 }
