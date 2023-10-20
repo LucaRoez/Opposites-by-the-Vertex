@@ -11,6 +11,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
         public DateTime PublicationDate { get; set; }
         public string Author { get; set; }
         public int GenreClass { get; set; }
+        public int Rate { get; set; }
         public PostingSeed()
         {
             Title = "";
@@ -20,6 +21,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
             PublicationDate = new();
             Author = "";
             GenreClass = 0;
+            Rate = 0;
         }
     }
 }

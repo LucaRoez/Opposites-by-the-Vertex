@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Opuestos_por_el_Vertice.Data;
+using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System;
+using Opuestos_por_el_Vertice.Services.Data_Tranfer;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -13,6 +15,8 @@ string connectionString = config.GetConnectionString("DefaultConnection");
 service.AddDbContext<PostingDbContext>(op =>
     op.UseSqlServer(connectionString));
 
+service.AddTransient<IRepository, DefaultRepository>();
+service.AddTransient<IDataTruck, DataTruck>();
 service.AddTransient<IViewEnvelopment, DefaultViewEnvelopment>();
 
 var app = builder.Build();
