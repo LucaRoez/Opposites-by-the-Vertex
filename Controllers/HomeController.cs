@@ -16,17 +16,11 @@ namespace Opuestos_por_el_Vertice.Controllers
             _envelopment = envelopment;
         }
 
-        public IActionResult Index()
-        {
-            string inputController = "Home";
-            var viewClass = _envelopment.GetEnvelopment(inputController);
+        public IActionResult Index(string controllerInput = "Home") => View(_envelopment.GetEnvelopment(controllerInput, 0, ""));
 
-            return View(viewClass);
-        }
+        public IActionResult Privacy(string controllerInput = "Privacy") => View(_envelopment.GetEnvelopment(controllerInput, 0, ""));
 
-        public IActionResult Privacy() => View();
-
-        public IActionResult About() => View();
+        public IActionResult About(string controllerInput = "About") => View(_envelopment.GetEnvelopment(controllerInput, 0, ""));
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -1,9 +1,67 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
 @model ViewKindViewModel
 @{
+    var morePopularContent = Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist" || p.Category == "Album" || p.Category == "Genre").ToList();
+    var lastNewsContent = Model.ObjectClass.CurrentPostList.Where(p => p.Category == "New" || p.Category == "Event").ToList();
+
+    int morePopularLenght;
+    if (morePopularContent.Count > 10) { morePopularLenght = 10; } else { morePopularLenght = morePopularContent.Count; }
+    int lastNewsLenght;
+    if (lastNewsContent.Count > 6) { lastNewsLenght = 6; } else { lastNewsLenght = lastNewsContent.Count; }
 }
 
 <div class="container text-center">
-    <div class="more-popular col"></div>
-    <div class="last-news col"></div>
+    <div class="more-popular col">
+        <div class="block-title row">
+            <h3>More Popular Today</h3>
+        </div>
+        <div class="more-popular-body row">
+            <ul>
+                @for (int i = 0; i < morePopularLenght; i++)
+                {
+                    <li>
+                        <a href="#">
+                            <h5>@morePopularContent[i].Title</h5>
+                            <h6>@morePopularContent[i].SubTitle</h6>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="last-news col">
+        <div class="block-title row">
+            <h3>Last News and Events</h3>
+        </div>
+        <div class="last-news-body row">
+            <div class="last-news-body-first-row row">
+                @for (int i = 0; i < lastNewsLenght/2; i++)
+                {
+                    <div class="card col">
+                        <a href="#">
+                            <div class="card-body">
+                                <img src="@lastNewsContent[i].Image" class="img-fluid" alt="@lastNewsContent[i].ImageAlt" />
+                                <h5 class="card-title">@lastNewsContent[i].Title</h5>
+                                <h6 class="card-subtitle mb-2 text-body-secondary">@lastNewsContent[i].SubTitle</h6>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+            <div class="last-news-body-second-row row">
+                @for (int i = lastNewsLenght/2; i < lastNewsLenght; i++)
+                {
+                    <div class="card col">
+                        <a href="#">
+                            <div class="card-body">
+                                <img src="@lastNewsContent[i].Image" class="img-fluid" alt="@lastNewsContent[i].ImageAlt" />
+                                <h5 class="card-title">@lastNewsContent[i].Title</h5>
+                                <h6 class="card-subtitle mb-2 text-body-secondary">@lastNewsContent[i].SubTitle</h6>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>

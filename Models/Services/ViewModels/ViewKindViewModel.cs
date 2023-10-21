@@ -11,11 +11,13 @@
         public ViewObject ObjectClass { get; set; }
         public string Kind { get; set; }
         public string WebTitle { get; set; }
+        public List<string> ExtraInfo { get; set; }
         public ViewKindViewModel()
         {
             ObjectClass = new();
             Kind = "";
             WebTitle = "";
+            ExtraInfo = new ();
         }
     }
 }

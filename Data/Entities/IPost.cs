@@ -2,13 +2,14 @@
 {
     public interface IPost
     {
-        public string Title { get; set; }
-        public string SubTitle { get; set; }
-        public string Body { get; set; }
-        public string Image { get; set; }
-        public DateTime PublicationDate { get; set; }
-        public string Author { get; set; }
-        public Category Category { get; set; }
-        public int Rate { get; set; }
+        string Title { get; set; }
+        string SubTitle { get; set; }
+        string Body { get; set; }
+        string Image { get; set; }
+        string ImageAlt { get; set; }
+        DateTime PublicationDate { get; set; }
+        string Author { get; set; }
+        Category Category { get; set; }
+        int Rate { get; set; }
     }
 }

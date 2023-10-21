@@ -1,16 +1,20 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
 @model ViewKindViewModel
 @{
-    int imagesAmount = 0;
+    // extra information handling variables
+    int imagesAmount = int.Parse(Model.ExtraInfo[0]);
     List<string> imagesSources = new();
     List<string> alts = new();
     List<string> labels = new();
     List<string> sublabels = new();
-
-    switch (Model.Kind)
+    // way to sum up information programming
+    List<List<string>> carouselData = new();
+    carouselData.Add(imagesSources); carouselData.Add(alts); carouselData.Add(labels); carouselData.Add(sublabels);
+    // extra information filling
+    int index = 1;
+    for (int carouselFeatures = 0; carouselFeatures < 4; carouselFeatures++)
     {
-        case "Home": break;
-        default: break;
+        for (int i = 0; i < imagesAmount; i++) { carouselData[carouselFeatures].Add(Model.ExtraInfo[index++]); }
     }
 }
 <div class="container text-center">

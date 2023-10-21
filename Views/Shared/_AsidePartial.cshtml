@@ -1,9 +1,65 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
 @model ViewKindViewModel
 @{
+    var artistMorePopularContent = Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList();
+    var albumsMorePopularContent = Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Album").ToList();
+    var genresMorePopularContent = Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Genre").ToList();
 }
 
 <div class="container text-center">
-    <div class="search-bar row"></div>
-    <div class="more-popular-aside row"></div>
+    <div class="search-bar row">
+        <partial name="../Shared/_SearchBarForm.cshtml" />
+    </div>
+    <div class="more-popular-aside row">
+        <div class="col">
+            <div class="block-title row">
+                <h5 class="aside-title">Artist or Bands More Popular</h5>
+            </div>
+            <div class="more-popular-aside-body row">
+                <ul>
+                    @for (int i = 0; i < artistMorePopularContent.Count; i++)
+                    {
+                        <li>
+                            <a href="#">
+                                <h5>@artistMorePopularContent[i].Title</h5>
+                                <h6>@artistMorePopularContent[i].SubTitle</h6>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="block-title row">
+                <h5 class="aside-title">Albums More Popular</h5>
+            </div>
+            <div class="more-popular-aside-body row">
+                <ul>
+                    @for (int i = 0; i < albumsMorePopularContent.Count; i++)
+                    {
+                        <li>
+                            <a href="#">
+                                <h5>@albumsMorePopularContent[i].Title</h5>
+                                <h6>@albumsMorePopularContent[i].SubTitle</h6>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="block-title row">
+                <h5 class="aside-title">Genres or Subgenres More Popular</h5>
+            </div>
+            <div class="more-popular-aside-body row">
+                <ul>
+                    @for (int i = 0; i < genresMorePopularContent.Count; i++)
+                    {
+                        <li>
+                            <a href="#">
+                                <h5>@genresMorePopularContent[i].Title</h5>
+                                <h6>@genresMorePopularContent[i].SubTitle</h6>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
