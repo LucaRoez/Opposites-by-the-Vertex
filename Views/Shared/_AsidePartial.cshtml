@@ -1,9 +1,54 @@
-﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
+﻿    @using Opuestos_por_el_Vertice.Models.Services.ViewModels
+@using Opuestos_por_el_Vertice.Models.ViewModels
 @model ViewKindViewModel
 @{
-    var artistMorePopularContent = Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList();
-    var albumsMorePopularContent = Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Album").ToList();
-    var genresMorePopularContent = Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Genre").ToList();
+    List<List<PostViewModel>> asidesList = new();
+    int blockIterations = 0;
+
+    if (Model.Kind.Equals("Post") || Model.Kind.Contains("Search") && !Model.Kind.Contains("Index"))
+    {
+        if (Model.Kind.Equals("Post"))
+        {
+            if (Model.ObjectClass.CurrentPost.Category == "Genre") { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Genre").ToList()); }
+            else if (Model.ObjectClass.CurrentPost.Category == "Album") { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Album").ToList()); }
+            else { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList()); }
+        }
+        else
+        {
+            if (Model.ObjectClass.CurrentPostList.Count > 0)
+            {
+                if (Model.ObjectClass.CurrentPostList[0].Category.Equals("Genre")) { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Genre").ToList()); }
+                else if (Model.ObjectClass.CurrentPostList[0].Category == "Album") { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Album").ToList()); }
+                else { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList()); }
+            }
+        }
+        blockIterations = 1;
+    }
+    else
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            switch (i)
+            {
+                case 2: asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Genre").ToList()); break;
+                case 1: asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Album").ToList()); break;
+                default: asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList()); break;
+            }
+        }
+        blockIterations = 3;
+    }
+
+    string asideTitle = "";
+    for (int i = 0; i < blockIterations; i++)
+    {
+        if (asidesList.Count < 1 || asidesList[i].Count < 1) { continue; }
+        switch (asidesList[i][0].Category)
+        {
+            case "Genre": asideTitle = "Genres or Subgenres More Popular"; break;
+            case "Album": asideTitle = "Albums More Popular"; break;
+            default: asideTitle = "Artist or Bands More Popular"; break;
+        }
+    }
 }
 
 <div class="container text-center">
@@ -12,54 +57,28 @@
     </div>
     <div class="more-popular-aside row">
         <div class="col">
-            <div class="block-title row">
-                <h5 class="aside-title">Artist or Bands More Popular</h5>
-            </div>
-            <div class="more-popular-aside-body row">
-                <ul>
-                    @for (int i = 0; i < artistMorePopularContent.Count; i++)
-                    {
-                        <li>
-                            <a href="#">
-                                <h5>@artistMorePopularContent[i].Title</h5>
-                                <h6>@artistMorePopularContent[i].SubTitle</h6>
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </div>
-            <div class="block-title row">
-                <h5 class="aside-title">Albums More Popular</h5>
-            </div>
-            <div class="more-popular-aside-body row">
-                <ul>
-                    @for (int i = 0; i < albumsMorePopularContent.Count; i++)
-                    {
-                        <li>
-                            <a href="#">
-                                <h5>@albumsMorePopularContent[i].Title</h5>
-                                <h6>@albumsMorePopularContent[i].SubTitle</h6>
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </div>
-            <div class="block-title row">
-                <h5 class="aside-title">Genres or Subgenres More Popular</h5>
-            </div>
-            <div class="more-popular-aside-body row">
-                <ul>
-                    @for (int i = 0; i < genresMorePopularContent.Count; i++)
-                    {
-                        <li>
-                            <a href="#">
-                                <h5>@genresMorePopularContent[i].Title</h5>
-                                <h6>@genresMorePopularContent[i].SubTitle</h6>
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </div>
+            @for (int asides = 0; asides < blockIterations; asides++)
+            {
+                <div class="block-title row">
+                    <h5 class="aside-title">@asideTitle</h5>
+                </div>
+                <div class="more-popular-aside-body row">
+                    <ul>
+                        @for (int i = 0; i < asidesList.Count; i++)
+                        {
+                            if (asidesList[asides].Count > 0)
+                            {
+                                <li>
+                                    <a href="#">
+                                        <h5>@asidesList[asides][i].Title</h5>
+                                        <h6>@asidesList[asides][i].SubTitle</h6>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            }
         </div>
     </div>
 </div>

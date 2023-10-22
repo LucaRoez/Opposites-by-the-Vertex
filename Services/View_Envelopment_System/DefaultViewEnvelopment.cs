@@ -139,6 +139,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             return viewClass;
         }
 
+        // database comunication behavior
         private string[] GetSchemas(string controller)
         {
             string[] schemas = new string[5];
@@ -221,6 +222,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             return _dataTruck.GetAllPostModels(Posts);
         }
         private async Task<PostViewModel> GetViewModel(int id, string extraData) => _dataTruck.GetPostModel(await _repository.DetailOne(extraData, id));
+        // supplemental view information
         private List<string> GetExtraInfo (string controllerInput, PostViewModel post)
         {
             List<string> extraInfo = new();
@@ -228,73 +230,61 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             if (controllerInput == "Home")
             {
                 // amount of carousel turns, followed by images source, then their alternal description, then the carousel labels followed by their sublabels
-                extraInfo.Add("1"); extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
+                extraInfo = GetHeroInfo(controllerInput, extraInfo);
             }
             else if (controllerInput == "Privacy")
             {
-                extraInfo.Add("1"); extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
+                extraInfo = GetHeroInfo(controllerInput, extraInfo);
             }
             else if (controllerInput == "About")
             {
-                extraInfo.Add("1"); extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
+                extraInfo = GetHeroInfo(controllerInput, extraInfo);
             }
             else if (controllerInput == "IndexSearch")
             {
-                extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
+                extraInfo = GetHeroInfo(controllerInput, extraInfo);
             }
             else if (controllerInput == "EventsSearch")
             {
-                extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
+                extraInfo = GetHeroInfo(controllerInput, extraInfo);
             }
             else if (controllerInput == "NewsSearch")
             {
-                extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
+                extraInfo = GetHeroInfo(controllerInput, extraInfo);
             }
             else if (controllerInput == "ArtistsSearch")
             {
-                extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
+                extraInfo = GetHeroInfo(controllerInput, extraInfo);
             }
             else if (controllerInput == "AlbumsSearch")
             {
-                extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
+                extraInfo = GetHeroInfo(controllerInput, extraInfo);
             }
             else if (controllerInput == "GenresSearch")
             {
-                extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
+                extraInfo = GetHeroInfo(controllerInput, extraInfo);
             }
             else if (controllerInput == "Post")
             {
+                // it doesn't need the GetHeroInfo for this case
                 extraInfo.Add("1"); extraInfo.Add(post.Image); extraInfo.Add(post.ImageAlt);
                 extraInfo.Add(post.Title); extraInfo.Add(post.SubTitle);
             }
             else if (controllerInput == "Admin")
+            {
+                extraInfo = GetHeroInfo(controllerInput, extraInfo);
+            }
+            else
+            {
+                // amount of carousel turns, followed by images source, then their alternal description, then the carousel labels followed by their sublabels
+                extraInfo = GetHeroInfo(controllerInput, extraInfo);
+            }
+
+            return extraInfo;
+        }
+        private List<string> GetHeroInfo(string controllerInput, List<string> extraInfo)
+        {
+            if (controllerInput.Equals("Home"))
             {
                 extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
@@ -303,7 +293,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             }
             else
             {
-                // amount of carousel turns, followed by images source, then their alternal description, then the carousel labels followed by their sublabels
                 extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
