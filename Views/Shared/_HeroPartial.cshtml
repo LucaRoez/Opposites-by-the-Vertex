@@ -19,12 +19,15 @@
 }
 <div class="container text-center">
     <div id="heroCarousel" class="carousel slide">
-        <div class="carousel-indicators">
-            @for (int i = 0; i < imagesAmount; i++)
-            {
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="@i" class="active" aria-current="true" aria-label="Slide @i"></button>
-            }
-        </div>
+        @if (imagesAmount > 1)
+        {
+            <div class="carousel-indicators">
+                @for (int i = 0; i < imagesAmount; i++)
+                {
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="@i" class="active" aria-current="true" aria-label="Slide @i"></button>
+                }
+            </div>
+        }
         <div class="carousel-inner">
             @for (int i = 0; i < imagesAmount; i++)
             {
@@ -37,13 +40,16 @@
                 </div>
             }
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        @if (imagesAmount > 1)
+        {
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
-        </button>
+            </button>
+        }
     </div>
 </div>

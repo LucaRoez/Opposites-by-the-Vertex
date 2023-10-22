@@ -8,9 +8,9 @@ namespace Opuestos_por_el_Vertice.Data.Repository
 
     public interface IRepository
     {
-        Task Create(List<BasePost> posts);
-        Task Remove(List<BasePost> posts);
-        Task Update(List<BasePost> posts);
+        Task Create(BasePost post);
+        Task Remove(BasePost post);
+        Task Update(BasePost post);
         Task<BasePost> DetailOne(string category,int id);
         List<BasePost> DetailAll(string category);
 

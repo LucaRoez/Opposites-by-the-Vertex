@@ -14,6 +14,6 @@ namespace Opuestos_por_el_Vertice.Controllers
             _envelopment = envelopment;
         }
 
-        public IActionResult Post(int id, string postCategory, string controllerInput = "Post") => View(_envelopment.GetEnvelopment(controllerInput, id, postCategory));
+        public async Task<IActionResult> Post(int id, string postCategory, string controllerInput = "Post") => View(await _envelopment.GetEnvelopment(controllerInput, id, postCategory));
     }
 }

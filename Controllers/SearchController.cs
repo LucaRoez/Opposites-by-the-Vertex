@@ -14,16 +14,16 @@ namespace Opuestos_por_el_Vertice.Controllers
             _envelopment = envelopment;
         }
 
-        public IActionResult Index(string controllerInput = "IndexSearch") => View(_envelopment.GetEnvelopment(controllerInput, 0, ""));
+        public async Task<IActionResult> Index(string controllerInput = "IndexSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, ""));
 
-        public IActionResult Events(string controllerInput = "EventsSearch") => View(_envelopment.GetEnvelopment(controllerInput, 0, ""));
+        public async Task<IActionResult> Events(string controllerInput = "EventsSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, ""));
 
-        public IActionResult News(string controllerInput = "NewsSearch") => View(_envelopment.GetEnvelopment(controllerInput, 0, ""));
+        public async Task<IActionResult> News(string controllerInput = "NewsSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, ""));
 
-        public IActionResult Artists(string controllerInput = "ArtistsSearch") => View(_envelopment.GetEnvelopment(controllerInput, 0, ""));
+        public async Task<IActionResult> Artists(string controllerInput = "ArtistsSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, ""));
 
-        public IActionResult Albums(string controllerInput = "AlbumsSearch") => View(_envelopment.GetEnvelopment(controllerInput, 0, ""));
+        public async Task<IActionResult> Albums(string controllerInput = "AlbumsSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, ""));
 
-        public IActionResult Genres(string controllerInput = "GenresSearch") => View(_envelopment.GetEnvelopment(controllerInput, 0, ""));
+        public async Task<IActionResult> Genres(string controllerInput = "GenresSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, ""));
     }
 }

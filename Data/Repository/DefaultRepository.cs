@@ -9,21 +9,21 @@ namespace Opuestos_por_el_Vertice.Data.Repository
         {
             _dbContext = dbContext;
         }
-        public async Task Create(List<BasePost> posts)
+        public async Task Create(BasePost post)
         {
-            _dbContext.AddRange(posts);
+            _dbContext.Add(post);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Remove(List<BasePost> posts)
+        public async Task Remove(BasePost post)
         {
-            _dbContext.RemoveRange(posts);
+            _dbContext.Remove(post);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(List<BasePost> posts)
+        public async Task Update(BasePost post)
         {
-            _dbContext.UpdateRange(posts);
+            _dbContext.Update(post);
             await _dbContext.SaveChangesAsync();
         }
 

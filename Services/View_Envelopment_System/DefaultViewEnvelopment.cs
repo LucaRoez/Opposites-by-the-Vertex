@@ -17,27 +17,32 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             _dataTruck = dataTruck;
         }
 
-        public ViewKindViewModel GetEnvelopment(string controllerInput, int id, string postCategory)
+        public async Task<ViewKindViewModel> GetEnvelopment(string controllerInput, int id, string extraData)
         {
             // This is the package object, where the internal logic is the same for all
             List<PostViewModel> posts = new();
             PostViewModel post = new();
             List<string> schemas = new();
-            if (controllerInput == "Home") { posts = IterateSchemas(GetSchemas(controllerInput), 5); }
-            else if (controllerInput == "Privacy") { posts = IterateSchemas(GetSchemas(controllerInput), 5); }
-            else if (controllerInput == "About") { posts = IterateSchemas(GetSchemas(controllerInput), 5); }
-            else if (controllerInput == "IndexSearch") { posts = IterateSchemas(GetSchemas(controllerInput), 5); }
-            else if (controllerInput == "EventsSearch") { posts = IterateSchemas(GetSchemas(controllerInput), 1); }
-            else if (controllerInput == "NewsSearch") { posts = IterateSchemas(GetSchemas(controllerInput), 1); }
-            else if (controllerInput == "ArtistsSearch") { posts = IterateSchemas(GetSchemas(controllerInput), 1); }
-            else if (controllerInput == "AlbumsSearch") { posts = IterateSchemas(GetSchemas(controllerInput), 1); }
-            else if (controllerInput == "GenresSearch") { posts = IterateSchemas(GetSchemas(controllerInput), 1); }
+            if (controllerInput == "Home") { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
+            else if (controllerInput == "Privacy") { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
+            else if (controllerInput == "About") { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
+            else if (controllerInput == "IndexSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
+            else if (controllerInput == "EventsSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
+            else if (controllerInput == "NewsSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
+            else if (controllerInput == "ArtistsSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
+            else if (controllerInput == "AlbumsSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
+            else if (controllerInput == "GenresSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
             else if (controllerInput == "Post")
             {
-                posts = IterateSchemas(GetSchemas(postCategory+"sSearch"), 1);
-                post = posts.Find(p => p.Id == id);
+                posts = GetViewModelList(GetSchemas(extraData+"sSearch"), 1);
+                post = posts.Find(p => p.Id == id); if (post == null) { post = new(); }
             }
-            else { posts = IterateSchemas(GetSchemas(controllerInput), 5); }
+            else if (controllerInput == "Admin")
+            {
+                posts = GetViewModelList(GetSchemas(controllerInput), 5);
+                if (id == 0) { post = new(); } else { post = await GetViewModel(id, extraData); }
+            }
+            else { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
 
             // And this is the final shipping object, with his own web site logic
             ViewKindViewModel viewClass = new();
@@ -47,63 +52,63 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.Kind = new String("Home");
                     viewClass.WebTitle = "Home Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput);
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 case "Privacy":
                     viewClass.Kind = new String("Privacy");
                     viewClass.WebTitle = "Privacy Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput);
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 case "About":
                     viewClass.Kind = new String("About");
                     viewClass.WebTitle = "About us";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput);
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 case "IndexSearch":
                     viewClass.Kind = new String("IndexSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput);
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 case "EventsSearch":
                     viewClass.Kind = new String("EventsSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput);
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 case "NewsSearch":
                     viewClass.Kind = new String("NewsSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput);
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 case "ArtistsSearch":
                     viewClass.Kind = new String("ArtistsSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput);
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 case "AlbumsSearch":
                     viewClass.Kind = new String("AlbumsSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput);
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 case "GenresSearch":
                     viewClass.Kind = new String("GenresSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput);
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 case "Post":
@@ -111,14 +116,23 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.WebTitle = String.Format("{0} - {1}", post.Title, post.Category);
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ObjectClass.CurrentPost = post;
-                    viewClass.ExtraInfo = GetExtraInfo(postCategory);
+                    viewClass.ExtraInfo = GetExtraInfo(extraData, post);
+                    break;
+
+                case "Admin":
+                    viewClass.Kind = new String("Admin");
+                    viewClass.WebTitle = "Admin Page";
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.PublicationDate).ToList();
+                    viewClass.ObjectClass.CurrentPost = post;
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    if (id == 0 && extraData != "") { viewClass.AdminMessage = extraData; }
                     break;
 
                 default:
                     viewClass.Kind = new String("Home");
                     viewClass.WebTitle = "Home Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput);
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
             }
 
@@ -128,37 +142,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
         private string[] GetSchemas(string controller)
         {
             string[] schemas = new string[5];
-            if (controller == "Home")
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    switch (i)
-                    {
-                        case 0: schemas[i] = "New"; break;
-                        case 1: schemas[i] = "Event"; break;
-                        case 2: schemas[i] = "Artist"; break;
-                        case 3: schemas[i] = "Album"; break;
-                        case 4: schemas[i] = "Genre"; break;
-                        default: schemas[i] = "New"; break;
-                    }
-                }
-            }
-            else if (controller == "Privacy")
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    switch (i)
-                    {
-                        case 0: schemas[i] = "New"; break;
-                        case 1: schemas[i] = "Event"; break;
-                        case 2: schemas[i] = "Artist"; break;
-                        case 3: schemas[i] = "Album"; break;
-                        case 4: schemas[i] = "Genre"; break;
-                        default: schemas[i] = "New"; break;
-                    }
-                }
-            }
-            else if (controller == "About")
+            if (controller == "Home" || controller == "Privacy" || controller == "About" || controller == "Admin")
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -226,7 +210,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
 
             return schemas;
         }
-        private List<PostViewModel> IterateSchemas(string[] schemas, int iterations)
+        private List<PostViewModel> GetViewModelList(string[] schemas, int iterations)
         {
             List<BasePost> Posts = new();
             for (int i = 0; i < iterations; i++)
@@ -236,28 +220,29 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                 
             return _dataTruck.GetAllPostModels(Posts);
         }
-        private List<string> GetExtraInfo (string controllerInput)
+        private async Task<PostViewModel> GetViewModel(int id, string extraData) => _dataTruck.GetPostModel(await _repository.DetailOne(extraData, id));
+        private List<string> GetExtraInfo (string controllerInput, PostViewModel post)
         {
             List<string> extraInfo = new();
 
             if (controllerInput == "Home")
             {
                 // amount of carousel turns, followed by images source, then their alternal description, then the carousel labels followed by their sublabels
-                extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
+                extraInfo.Add("1"); extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
             }
             else if (controllerInput == "Privacy")
             {
-                extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
+                extraInfo.Add("1"); extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
             }
             else if (controllerInput == "About")
             {
-                extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
+                extraInfo.Add("1"); extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
@@ -305,6 +290,11 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                 extraInfo.Add(""); extraInfo.Add("");
             }
             else if (controllerInput == "Post")
+            {
+                extraInfo.Add("1"); extraInfo.Add(post.Image); extraInfo.Add(post.ImageAlt);
+                extraInfo.Add(post.Title); extraInfo.Add(post.SubTitle);
+            }
+            else if (controllerInput == "Admin")
             {
                 extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
                 extraInfo.Add(""); extraInfo.Add("");
