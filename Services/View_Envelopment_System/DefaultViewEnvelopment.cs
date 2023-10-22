@@ -53,54 +53,63 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                 case "Privacy":
                     viewClass.Kind = new String("Privacy");
                     viewClass.WebTitle = "Privacy Page";
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput);
                     break;
 
                 case "About":
                     viewClass.Kind = new String("About");
                     viewClass.WebTitle = "About us";
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput);
                     break;
 
                 case "IndexSearch":
                     viewClass.Kind = new String("IndexSearch");
                     viewClass.WebTitle = "Search Page";
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput);
                     break;
 
                 case "EventsSearch":
                     viewClass.Kind = new String("EventsSearch");
                     viewClass.WebTitle = "Search Page";
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput);
                     break;
 
                 case "NewsSearch":
                     viewClass.Kind = new String("NewsSearch");
                     viewClass.WebTitle = "Search Page";
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput);
                     break;
 
                 case "ArtistsSearch":
                     viewClass.Kind = new String("ArtistsSearch");
                     viewClass.WebTitle = "Search Page";
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput);
                     break;
 
                 case "AlbumsSearch":
                     viewClass.Kind = new String("AlbumsSearch");
                     viewClass.WebTitle = "Search Page";
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput);
                     break;
 
                 case "GenresSearch":
                     viewClass.Kind = new String("GenresSearch");
                     viewClass.WebTitle = "Search Page";
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput);
                     break;
 
                 case "Post":
                     viewClass.Kind = new String("Post");
                     viewClass.WebTitle = String.Format("{0} - {1}", post.Title, post.Category);
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ObjectClass.CurrentPost = post;
                     viewClass.ExtraInfo = GetExtraInfo(postCategory);
                     break;

@@ -1,6 +1,7 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
 @model ViewKindViewModel
 @{
+    ViewBag.WebTitle = Model.WebTitle;
     var morePopularContent = Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist" || p.Category == "Album" || p.Category == "Genre").ToList();
     var lastNewsContent = Model.ObjectClass.CurrentPostList.Where(p => p.Category == "New" || p.Category == "Event").ToList();
 
