@@ -1,4 +1,4 @@
-﻿    @using Opuestos_por_el_Vertice.Models.Services.ViewModels
+﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
 @using Opuestos_por_el_Vertice.Models.ViewModels
 @model ViewKindViewModel
 @{
@@ -11,7 +11,7 @@
         {
             if (Model.ObjectClass.CurrentPost.Category == "Genre") { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Genre").ToList()); }
             else if (Model.ObjectClass.CurrentPost.Category == "Album") { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Album").ToList()); }
-            else { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList()); }
+            else { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList()); }     // always it prioritize Artist catalog front anothers options
         }
         else
         {
@@ -22,7 +22,6 @@
                 else { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList()); }
             }
         }
-        blockIterations = 1;
     }
     else
     {
@@ -35,18 +34,44 @@
                 default: asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList()); break;
             }
         }
-        blockIterations = 3;
     }
+    blockIterations = asidesList.Count; if (blockIterations == 0) { blockIterations = 1; }
 
     string asideTitle = "";
+    List<string> asideTitles = new();
     for (int i = 0; i < blockIterations; i++)
     {
-        if (asidesList.Count < 1 || asidesList[i].Count < 1) { continue; }
-        switch (asidesList[i][0].Category)
+        if (blockIterations == 1)
         {
-            case "Genre": asideTitle = "Genres or Subgenres More Popular"; break;
-            case "Album": asideTitle = "Albums More Popular"; break;
-            default: asideTitle = "Artist or Bands More Popular"; break;
+            if (Model.Kind == "Post")
+            {
+                if (Model.ObjectClass.CurrentPost.Category != "")
+                    switch (Model.ObjectClass.CurrentPost.Category)
+                    {
+                        case "Genres": asideTitle = "Genres or Subgenres More Popular"; break;
+                        case "Albums": asideTitle = "Albums More Popular"; break;
+                        default: asideTitle = "Artist or Bands More Popular"; break;
+                    }
+            }
+            else
+            {
+                switch (Model.Kind)
+                {
+                    case "GenresSearch": asideTitle = "Genres or Subgenres More Popular"; break;
+                    case "AlbumsSearch": asideTitle = "Albums More Popular"; break;
+                    default: asideTitle = "Artist or Bands More Popular"; break;
+                }
+            }
+
+        }
+        else
+        {
+            switch (i)
+            {
+                case 2: asideTitle = "Genres or Subgenres More Popular"; asideTitles.Add(asideTitle); break;
+                case 1: asideTitle = "Albums More Popular"; asideTitles.Add(asideTitle); break;
+                default: asideTitle = "Artist or Bands More Popular"; asideTitles.Add(asideTitle); break;
+            }
         }
     }
 }
@@ -60,7 +85,14 @@
             @for (int asides = 0; asides < blockIterations; asides++)
             {
                 <div class="block-title row">
-                    <h5 class="aside-title">@asideTitle</h5>
+                    @if (asideTitles.Count > 0)
+                    {
+                        <h5 class="aside-title">@asideTitles[asides]</h5>
+                    }
+                    else if (asideTitle != "")
+                    {
+                        <h5 class="aside-title">@asideTitle</h5>
+                    }
                 </div>
                 <div class="more-popular-aside-body row">
                     <ul>

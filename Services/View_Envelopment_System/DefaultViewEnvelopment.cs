@@ -35,7 +35,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             else if (controllerInput == "Post")
             {
                 posts = GetViewModelList(GetSchemas(extraData+"sSearch"), 1);
-                post = posts.Find(p => p.Id == id); if (post == null) { post = new(); }
+                post = posts.Find(p => p.Id == id); post ??= new();
             }
             else if (controllerInput == "Admin")
             {
