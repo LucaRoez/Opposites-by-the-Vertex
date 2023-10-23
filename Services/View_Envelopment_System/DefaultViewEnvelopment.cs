@@ -46,6 +46,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
 
             // And this is the final shipping object, with his own web site logic
             ViewKindViewModel viewClass = new();
+            List<string> adminMessage = new();
             switch (controllerInput)
             {
                 case "Home":
@@ -74,6 +75,9 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    // this is the admin order for a specific modifying or deteting search
+                    if (extraData != "") { adminMessage.Add(extraData); }
+                    viewClass.AdminMessage = adminMessage;
                     break;
 
                 case "EventsSearch":
@@ -125,7 +129,9 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.PublicationDate).ToList();
                     viewClass.ObjectClass.CurrentPost = post;
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
-                    if (id == 0 && extraData != "") { viewClass.AdminMessage = extraData; }
+                    // this is the successful admin action message... for further alert span displaying
+                    if (id == 0 && extraData != "") { adminMessage.Add(extraData); }
+                    viewClass.AdminMessage = adminMessage;
                     break;
 
                 default:

@@ -14,7 +14,7 @@ namespace Opuestos_por_el_Vertice.Controllers
             _envelopment = envelopment;
         }
 
-        public async Task<IActionResult> Index(string controllerInput = "IndexSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, ""));
+        public async Task<IActionResult> Index(string adminOrder = "", string controllerInput = "IndexSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, adminOrder));
 
         public async Task<IActionResult> Events(string controllerInput = "EventsSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, ""));
 
