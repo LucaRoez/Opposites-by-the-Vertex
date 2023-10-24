@@ -19,13 +19,13 @@ namespace Opuestos_por_el_Vertice.Controllers
             _admin = admin;
         }
 
-        public async Task<IActionResult> Index(string message = "", int page = 0, string controllerInput = "Admin") => View(await _envelopment.GetEnvelopment(controllerInput, 0, page, message));
+        public async Task<IActionResult> Index(string message = "", int page = 0, string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, 0, message));
 
-        public async Task<IActionResult> New(int page = 0, string controllerInput = "Admin") => View(await _envelopment.GetEnvelopment(controllerInput, 0, page, ""));
+        public async Task<IActionResult> New(int page = 0, string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, 0, ""));
 
-        public async Task<IActionResult> Modify(int id, string category, int page = 0, string controllerInput = "Admin") => View(await _envelopment.GetEnvelopment(controllerInput, id, page, category));
+        public async Task<IActionResult> Modify(int id, string category, int page = 0, string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, id, category));
 
-        public async Task<IActionResult> Delete(int id, string category, int page = 0, string controllerInput = "Admin") => View(await _envelopment.GetEnvelopment(controllerInput, id, page, category));
+        public async Task<IActionResult> Delete(int id, string category, int page = 0, string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, id, category));
 
         [HttpPost]
         public async Task<IActionResult> Create(ViewKindViewModel post)

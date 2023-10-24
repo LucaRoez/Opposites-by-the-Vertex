@@ -1,4 +1,5 @@
-﻿using Opuestos_por_el_Vertice.Data.Entities;
+﻿using Microsoft.Extensions.Hosting;
+using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
@@ -17,31 +18,18 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             _dataTruck = dataTruck;
         }
 
-        public async Task<ViewKindViewModel> GetEnvelopment(string controllerInput, int id, int page, string extraData)
+        public async Task<ViewKindViewModel> GetStandardEnvelopment(string controllerInput)
         {
             // This is the package object, where the internal logic is the same for all
             List<PostViewModel> posts = new();
             PostViewModel post = new();
             List<string> schemas = new();
             if (controllerInput == "Home" || controllerInput == "Privacy" ||
-                controllerInput == "About" || controllerInput == "IndexSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
-            else if (controllerInput == "EventsSearch" || controllerInput == "NewsSearch" || controllerInput == "ArtistsSearch" ||
-                controllerInput == "AlbumsSearch" || controllerInput == "GenresSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
-            else if (controllerInput == "Post")
-            {
-                posts = GetViewModelList(GetSchemas(extraData+"sSearch" /* little variable usage arrangement */ ), 1);
-                post = posts.Find(p => p.Id == id); post ??= new();
-            }
-            else if (controllerInput == "Admin")
-            {
-                posts = GetViewModelList(GetSchemas(controllerInput), 5);
-                if (id == 0) { post = new(); } else { post = await GetViewModel(id, extraData); }
-            }
+                controllerInput == "About") { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
             else { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
 
             // And this is the final shipping object, with his own web site logic
             ViewKindViewModel viewClass = new();
-            List<string> adminMessage = new();
             switch (controllerInput)
             {
                 case "Home":
@@ -65,6 +53,81 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
+                default:
+                    viewClass.Kind = new String("Home");
+                    viewClass.WebTitle = "Home Page";
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    break;
+            }
+
+            return viewClass;
+        }
+
+        public async Task<ViewKindViewModel> GetPostEnvelopment(string controllerInput, int id, string extraData)
+        {
+            List<PostViewModel> posts = new();
+            PostViewModel post = new();
+            List<string> schemas = new();
+            
+            if (controllerInput == "Post")
+            {
+                posts = GetViewModelList(GetSchemas(extraData), 1);
+                post = posts.Find(p => p.Id == id); post ??= new();
+            }
+            else if (controllerInput == "Admin")
+            {
+                posts = GetViewModelList(GetSchemas(controllerInput), 5);
+                if (id == 0) { post = new(); } else { post = await GetViewModel(id, extraData); }
+            }
+
+            ViewKindViewModel viewClass = new();
+            switch (controllerInput)
+            {
+                case "Post":
+                    viewClass.Kind = new String("Post");
+                    viewClass.WebTitle = String.Format("{0} - {1}", post.Title, post.Category);
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
+                    post.Rate++; _repository.Update(_dataTruck.GetPostData(post));
+                    viewClass.ObjectClass.CurrentPost = post;
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    break;
+
+                case "Admin":
+                    viewClass.Kind = new String("Admin");
+                    viewClass.WebTitle = "Admin Page";
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.PublicationDate).ToList();
+                    viewClass.ObjectClass.CurrentPost = post;
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    // this is the successful admin action message... for further alert span displaying
+                    viewClass.AdminMessage = extraData;
+                    break;
+
+                default:
+                    viewClass.Kind = new String("Post");
+                    viewClass.WebTitle = String.Format("{0} - {1}", post.Title, post.Category);
+                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
+                    post.Rate++; _repository.Update(_dataTruck.GetPostData(post));
+                    viewClass.ObjectClass.CurrentPost = post;
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    break;
+            }
+
+            return viewClass;
+        }
+
+        public ViewKindViewModel GetSearchEnvelopment(string controllerInput, int page, string extraData)
+        {
+            List<PostViewModel> posts = new();
+            PostViewModel post = new();
+            List<string> schemas = new();
+
+            if (controllerInput.StartsWith("Index")) { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
+            else { posts = GetViewModelList(GetSchemas(extraData), 1); }
+
+            ViewKindViewModel viewClass = new();
+            switch (controllerInput)
+            {
                 case "IndexSearch":
                     viewClass.Kind = new String("IndexSearch");
                     viewClass.WebTitle = "Search Page";
@@ -72,8 +135,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
                     // this is the admin order for a specific modifying or deteting search
-                    if (extraData != "") { adminMessage.Add(extraData); }
-                    viewClass.AdminMessage = adminMessage;
+                    viewClass.AdminMessage = extraData;
                     break;
 
                 case "EventsSearch":
@@ -116,30 +178,14 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.CurrentPage = page;
                     break;
 
-                case "Post":
-                    viewClass.Kind = new String("Post");
-                    viewClass.WebTitle = String.Format("{0} - {1}", post.Title, post.Category);
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    viewClass.ObjectClass.CurrentPost = post;
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
-                    break;
-
-                case "Admin":
-                    viewClass.Kind = new String("Admin");
-                    viewClass.WebTitle = "Admin Page";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.PublicationDate).ToList();
-                    viewClass.ObjectClass.CurrentPost = post;
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
-                    // this is the successful admin action message... for further alert span displaying
-                    if (id == 0 && extraData != "") { adminMessage.Add(extraData); }
-                    viewClass.AdminMessage = adminMessage;
-                    break;
-
                 default:
-                    viewClass.Kind = new String("Home");
-                    viewClass.WebTitle = "Home Page";
+                    viewClass.Kind = new String("IndexSearch");
+                    viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    viewClass.CurrentPage = page;
+                    // this is the admin order for a specific modifying or deteting search
+                    viewClass.AdminMessage = extraData;
                     break;
             }
 
@@ -165,23 +211,23 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     }
                 }
             }
-            else if (controller == "EventsSearch")
-            {
-                schemas[0] = "Event";
-            }
-            else if (controller == "NewsSearch")
-            {
-                schemas[0] = "News";
-            }
-            else if (controller == "ArtistsSearch")
+            //else if (controller == "Event")
+            //{
+            //    schemas[0] = "Event";
+            //}
+            //else if (controller == "New")
+            //{
+            //    schemas[0] = "News";
+            //}
+            else if (controller == "Artist" || controller == "Event" || controller == "New")
             {
                 schemas[0] = "Artist";
             }
-            else if (controller == "AlbumsSearch")
+            else if (controller == "Album")
             {
                 schemas[0] = "Album";
             }
-            else if (controller == "GenresSearch")
+            else if (controller == "Genre")
             {
                 schemas[0] = "Genre";
             }
@@ -213,7 +259,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                 
             return _dataTruck.GetAllPostModels(Posts);
         }
-        private async Task<PostViewModel> GetViewModel(int id, string extraData) => _dataTruck.GetPostModel(await _repository.DetailOne(extraData, id));
+        private async Task<PostViewModel> GetViewModel(int id, string postCategory) => _dataTruck.GetPostModel(await _repository.DetailOne(postCategory, id));
         // supplemental view information
         private List<string> GetExtraInfo (string controllerInput, PostViewModel post)
         {

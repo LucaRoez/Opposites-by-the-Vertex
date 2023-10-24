@@ -14,16 +14,16 @@ namespace Opuestos_por_el_Vertice.Controllers
             _envelopment = envelopment;
         }
 
-        public async Task<IActionResult> Index(string adminOrder = "", int page = 1, string controllerInput = "IndexSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, page, adminOrder));
+        public  IActionResult Index(string adminOrder = "", int page = 1, string controllerInput = "IndexSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, adminOrder));
 
-        public async Task<IActionResult> Events(int page = 1, string controllerInput = "EventsSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, page, ""));
+        public  IActionResult Events(int page = 1, string controllerInput = "EventsSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, "Event"));
 
-        public async Task<IActionResult> News(int page = 1, string controllerInput = "NewsSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, page, ""));
+        public  IActionResult News(int page = 1, string controllerInput = "NewsSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, "New"));
 
-        public async Task<IActionResult> Artists(int page = 1, string controllerInput = "ArtistsSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, page, ""));
+        public  IActionResult Artists(int page = 1, string controllerInput = "ArtistsSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, "Artist"));
 
-        public async Task<IActionResult> Albums(int page = 1, string controllerInput = "AlbumsSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, page, ""));
+        public  IActionResult Albums(int page = 1, string controllerInput = "AlbumsSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, "Album"));
 
-        public async Task<IActionResult> Genres(int page = 1, string controllerInput = "GenresSearch") => View(await _envelopment.GetEnvelopment(controllerInput, 0, page, ""));
+        public  IActionResult Genres(int page = 1, string controllerInput = "GenresSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, "Genre"));
     }
 }

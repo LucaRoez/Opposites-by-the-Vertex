@@ -13,7 +13,7 @@
         public string WebTitle { get; set; }
         public List<string> ExtraInfo { get; set; }
         public int CurrentPage { get; set; }
-        public List<string> AdminMessage { get; set; }
+        public string AdminMessage { get; set; }
         public ViewKindViewModel()
         {
             ObjectClass = new();
@@ -21,7 +21,7 @@
             WebTitle = "";
             ExtraInfo = new ();
             CurrentPage = 0;
-            AdminMessage = new();
+            AdminMessage = "";
         }
     }
 }
