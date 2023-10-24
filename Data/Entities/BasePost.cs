@@ -10,6 +10,7 @@
         public string ImageAlt { get; set; }
         public DateTime PublicationDate { get; set; }
         public string Author { get; set; }
+        public int CategoryId { get; set; }
         public Category Category { get; set; }
         public int Rate { get; set; }
     }

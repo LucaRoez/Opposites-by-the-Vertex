@@ -1,4 +1,5 @@
 ﻿using Opuestos_por_el_Vertice.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Opuestos_por_el_Vertice.Data.Repository
 {
@@ -31,12 +32,12 @@ namespace Opuestos_por_el_Vertice.Data.Repository
         {
             switch (category)
             {
-                case "Artist": return _dbContext.Artists.ToList<BasePost>();
-                case "Album": return _dbContext.Albums.ToList<BasePost>();
-                case "Genre": return _dbContext.Genres.ToList<BasePost>();
-                case "Event": return _dbContext.Events.ToList<BasePost>();
-                case "New": return _dbContext.News.ToList<BasePost>();
-                default: return _dbContext.News.ToList<BasePost>();
+                case "Artist": return _dbContext.Artists.Include(p => p.Category).ToList<BasePost>();
+                case "Album": return _dbContext.Albums.Include(p => p.Category).ToList<BasePost>();
+                case "Genre": return _dbContext.Genres.Include(p => p.Category).ToList<BasePost>();
+                case "Event": return _dbContext.Events.Include(p => p.Category).ToList<BasePost>();
+                case "New": return _dbContext.News.Include(p => p.Category).ToList<BasePost>();
+                default: return _dbContext.News.Include(p => p.Category).ToList<BasePost>();
             }
         }
 
@@ -44,12 +45,12 @@ namespace Opuestos_por_el_Vertice.Data.Repository
         {
             switch (category)
             {
-                case "Artist": return await _dbContext.Artists.FindAsync(id);
-                case "Album": return await _dbContext.Albums.FindAsync(id);
-                case "Genre": return await _dbContext.Genres.FindAsync(id);
-                case "Event": return await _dbContext.Events.FindAsync(id);
-                case "New": return await _dbContext.News.FindAsync(id);
-                default: return await _dbContext.News.FindAsync(id);
+                case "Artist": return await _dbContext.Artists.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+                case "Album": return await _dbContext.Albums.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+                case "Genre": return await _dbContext.Genres.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+                case "Event": return await _dbContext.Events.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+                case "New": return await _dbContext.News.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+                default: return await _dbContext.News.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
             }
         }
     }

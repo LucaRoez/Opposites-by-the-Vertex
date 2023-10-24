@@ -18,18 +18,22 @@
 }
 
 <div class="container text-center">
-    <div class="admin-title">
+    @if (TempData["AdminMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["AdminMessage"]
+        </div>
+    }
+    <div class="admin-title row">
         <h3>Posting Administration Hub</h3>
     </div>
-    <div class="admin-body col">
+    <div class="admin-body row">
         @for (int i = 0; i < 3; i++)
         {
-            <div class="admin-card card col">
-                <div class="card-body">
-                    <form asp-controller="@aspControl[i]" asp-action="@aspAction[i]" method="post">
-                        <button type="submit" class="">@buttons[i]</button>
-                    </form>
-                </div>
+            <div class="admin-options col">
+                <form asp-controller="@aspControl[i]" asp-action="@aspAction[i]" method="post">
+                    <button type="submit" class="">@buttons[i]</button>
+                </form>
             </div>
         }
     </div>

@@ -67,7 +67,7 @@ namespace Opuestos_por_el_Vertice.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Albums");
+                    b.ToTable("Albums", (string)null);
                 });
 
             modelBuilder.Entity("Opuestos_por_el_Vertice.Data.Entities.Artist", b =>
@@ -115,7 +115,7 @@ namespace Opuestos_por_el_Vertice.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Artists");
+                    b.ToTable("Artists", (string)null);
                 });
 
             modelBuilder.Entity("Opuestos_por_el_Vertice.Data.Entities.Category", b =>
@@ -132,7 +132,7 @@ namespace Opuestos_por_el_Vertice.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Opuestos_por_el_Vertice.Data.Entities.Event", b =>
@@ -180,7 +180,7 @@ namespace Opuestos_por_el_Vertice.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("Opuestos_por_el_Vertice.Data.Entities.Genre", b =>
@@ -228,7 +228,7 @@ namespace Opuestos_por_el_Vertice.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Genres");
+                    b.ToTable("Genres", (string)null);
                 });
 
             modelBuilder.Entity("Opuestos_por_el_Vertice.Data.Entities.New", b =>
@@ -276,7 +276,7 @@ namespace Opuestos_por_el_Vertice.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("News");
+                    b.ToTable("News", (string)null);
                 });
 
             modelBuilder.Entity("Opuestos_por_el_Vertice.Data.Entities.Album", b =>

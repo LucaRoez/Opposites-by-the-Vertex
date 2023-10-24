@@ -96,9 +96,9 @@
                 </div>
                 <div class="more-popular-aside-body row">
                     <ul>
-                        @for (int i = 0; i < asidesList.Count; i++)
+                        @for (int i = 0; i < asidesList[asides].Count; i++)
                         {
-                            if (asidesList[asides].Count > 0)
+                            if (asidesList[i].Count > 0)
                             {
                                 <li>
                                     <a href="#">

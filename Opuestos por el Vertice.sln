@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opuestos por el Vertice", "Opuestos por el Vertice.csproj", "{6D7134AC-1DB5-4ED1-AAFF-CA713EAE414A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opuestos por el Vertice", "Opuestos por el Vertice.csproj", "{6D7134AC-1DB5-4ED1-AAFF-CA713EAE414A}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Data Post Hub DB", "..\Data Post Hub DB\Data Post Hub DB.sqlproj", "{9E0605D9-5221-41CF-A795-54AA040C9D2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,12 @@ Global
 		{6D7134AC-1DB5-4ED1-AAFF-CA713EAE414A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D7134AC-1DB5-4ED1-AAFF-CA713EAE414A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D7134AC-1DB5-4ED1-AAFF-CA713EAE414A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E0605D9-5221-41CF-A795-54AA040C9D2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E0605D9-5221-41CF-A795-54AA040C9D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E0605D9-5221-41CF-A795-54AA040C9D2A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9E0605D9-5221-41CF-A795-54AA040C9D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E0605D9-5221-41CF-A795-54AA040C9D2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E0605D9-5221-41CF-A795-54AA040C9D2A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

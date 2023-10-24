@@ -3,4 +3,41 @@
 @{
     ViewBag.WebTitle = Model.WebTitle;
 }
-}
+
+<div class="container text-center">
+    <div class="admin-title row">
+        <h3>Create a New Post</h3>
+    </div>
+    <div class="admin-body row">
+        <form asp-action="Create" method="post">
+            <label for="post-title" class="form-label">Title</label>
+            <input id="post-title" type="text" asp-for="@Model.ObjectClass.CurrentPost.Title" class="form-control" />
+
+            <label for="post-sub" class="form-label">Subtitle</label>
+            <input id="post-sub" type="text" asp-for="@Model.ObjectClass.CurrentPost.SubTitle" class="form-control" />
+
+            <label for="front-img" class="form-label">Front Image file source</label>
+            <input id="front-img" type="text" asp-for="@Model.ObjectClass.CurrentPost.Image" class="form-control" />
+
+            <label for="front-alt" class="form-label">Front Image description</label>
+            <input id="front-alt" type="text" asp-for="@Model.ObjectClass.CurrentPost.ImageAlt" class="form-control" />
+
+            <label for="author" class="form-label">Author Name</label>
+            <input id="author" type="text" asp-for="@Model.ObjectClass.CurrentPost.Author" class="form-control" />
+
+            <label for="post-body" class="form-label">Post Body</label>
+            <textarea id="post-body" type="text" asp-for="@Model.ObjectClass.CurrentPost.Body" class="form-control" rows="6"></textarea>
+
+            <label for="post-category" class="form-label">Post Category</label>
+            <select id="post-category" type="text" asp-for="@Model.ObjectClass.CurrentPost.Category" class="form-select">
+                <option value="New" selected>New</option>
+                <option value="Event">Event</option>
+                <option value="Artist">Artist</option>
+                <option value="Album">Album</option>
+                <option value="Genre">Genre</option>
+            </select>
+
+            <button type="submit" class="btn btn-dark">Send to Record</button>
+        </form>
+    </div>
+</div>

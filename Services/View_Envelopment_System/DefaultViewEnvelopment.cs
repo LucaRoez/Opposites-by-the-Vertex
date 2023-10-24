@@ -23,15 +23,10 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             List<PostViewModel> posts = new();
             PostViewModel post = new();
             List<string> schemas = new();
-            if (controllerInput == "Home") { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
-            else if (controllerInput == "Privacy") { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
-            else if (controllerInput == "About") { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
-            else if (controllerInput == "IndexSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
-            else if (controllerInput == "EventsSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
-            else if (controllerInput == "NewsSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
-            else if (controllerInput == "ArtistsSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
-            else if (controllerInput == "AlbumsSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
-            else if (controllerInput == "GenresSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
+            if (controllerInput == "Home" || controllerInput == "Privacy" ||
+                controllerInput == "About" || controllerInput == "IndexSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
+            else if (controllerInput == "EventsSearch" || controllerInput == "NewsSearch" || controllerInput == "ArtistsSearch" ||
+                controllerInput == "AlbumsSearch" || controllerInput == "GenresSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
             else if (controllerInput == "Post")
             {
                 posts = GetViewModelList(GetSchemas(extraData+"sSearch"), 1);
@@ -149,22 +144,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
         private string[] GetSchemas(string controller)
         {
             string[] schemas = new string[5];
-            if (controller == "Home" || controller == "Privacy" || controller == "About" || controller == "Admin")
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    switch (i)
-                    {
-                        case 0: schemas[i] = "New"; break;
-                        case 1: schemas[i] = "Event"; break;
-                        case 2: schemas[i] = "Artist"; break;
-                        case 3: schemas[i] = "Album"; break;
-                        case 4: schemas[i] = "Genre"; break;
-                        default: schemas[i] = "New"; break;
-                    }
-                }
-            }
-            else if (controller == "IndexSearch")
+            if (controller == "Home" || controller == "Privacy" || controller == "About" || controller == "Admin" || controller == "IndexSearch")
             {
                 for (int i = 0; i < 5; i++)
                 {

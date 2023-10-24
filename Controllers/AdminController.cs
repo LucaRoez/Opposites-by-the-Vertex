@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System;
+using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.AdminManager;
 
@@ -26,13 +27,17 @@ namespace Opuestos_por_el_Vertice.Controllers
 
         public async Task<IActionResult> Delete(int id, string category, string controllerInput = "Admin") => View(await _envelopment.GetEnvelopment(controllerInput, id, category));
 
-        public async Task<IActionResult> Create(PostViewModel post)
+        [HttpPost]
+        public async Task<IActionResult> Create(ViewKindViewModel post)
         {
-            await _admin.CreateNewPost(post);
+            post.ObjectClass.CurrentPost.PublicationDate = DateTime.Now;
+            await _admin.CreateNewPost(post.ObjectClass.CurrentPost);
+            TempData["AdminMessage"] = "It is created satisfactorily";
 
-            return View("Index", "It is created satisfactorily");
+            return RedirectToAction("Index");
         }
 
+        [HttpPut]
         public async Task<IActionResult> Update(int id, string category)
         {
             await _admin.UpdatePost(id, category);
@@ -40,6 +45,7 @@ namespace Opuestos_por_el_Vertice.Controllers
             return View("Index", "It is updated satisfactorily");
         }
 
+        [HttpDelete]
         public async Task<IActionResult> Remove(int id, string category)
         {
             await _admin.RemovePost(id, category);
