@@ -1,0 +1,73 @@
+﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
+@model ViewKindViewModel
+@{
+    var list = Model.ObjectClass.CurrentPostList;
+    var posts = list.Count;
+    var currentPage = Model.CurrentPage;
+    var divider = 10;
+    var rest = posts % divider;
+    var totalPages = posts / divider;
+    if (rest > 0) { totalPages++; }
+}
+
+<nav aria-label="Search pagination">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <!-- Display the first page -->
+        @if (currentPage == 1)
+        {
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        }
+        else
+        {
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+        }
+        <!-- Display an ellipsis if not on the first few pages -->
+        @if (currentPage > 5)
+        {
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+        }
+        <!-- Display a maximum of 4 pages to the left of the current page -->
+        @for (int i = Math.Max(2, currentPage - 4); i < currentPage; i++)
+        {
+            <li class="page-item"><a class="page-link" href="#">@i</a></li>
+        }
+        <!-- Display the current page as active here if it's not the first one -->
+        @if (currentPage != 1)
+        {
+            <li class="page-item active">
+                <span class="page-link">@currentPage</span>
+            </li>
+        }
+        <!-- Display a maximum of 4 pages to the right of the current page -->
+        @for (int i = currentPage + 1; i <= Math.Min(totalPages - 1, currentPage + 4); i++)
+        {
+            <li class="page-item"><a class="page-link" href="#">@i</a></li>
+        }
+        <!-- Display an ellipsis if not on the last few pages -->
+        @if (currentPage < totalPages - 4)
+        {
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+        }
+        <!-- Display the last page if there's not already showed  -->
+        @if (currentPage != totalPages)
+        {
+            <li class="page-item"><a class="page-link" href="#">@totalPages</a></li>
+        }
+
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

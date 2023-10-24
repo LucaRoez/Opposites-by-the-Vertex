@@ -19,9 +19,9 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
         private PostViewModel ParsePostBody(PostViewModel post)
         {
             var body = post.Body;
-            body.Insert(0, "<p>").Replace("<..>", "</p><p>");
-            body.Replace("<title>", "<h3>").Replace("<litle>", "<h5>");
-            body.Replace("</title>", "</h3>").Replace("</litle>", "</h5>");
+            body = "<p>" + body.Replace("<..>", "</p><p>")
+                .Replace("<title>", "<h3>").Replace("<litle>", "<h5>")
+                .Replace("</title>", "</h3>").Replace("</litle>", "</h5>");
             post.Body = body.Insert(body.Length, "</p>");
 
             return post;

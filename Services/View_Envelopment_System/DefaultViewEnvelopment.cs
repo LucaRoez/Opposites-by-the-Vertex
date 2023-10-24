@@ -17,7 +17,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             _dataTruck = dataTruck;
         }
 
-        public async Task<ViewKindViewModel> GetEnvelopment(string controllerInput, int id, string extraData)
+        public async Task<ViewKindViewModel> GetEnvelopment(string controllerInput, int id, int page, string extraData)
         {
             // This is the package object, where the internal logic is the same for all
             List<PostViewModel> posts = new();
@@ -70,6 +70,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    viewClass.CurrentPage = page;
                     // this is the admin order for a specific modifying or deteting search
                     if (extraData != "") { adminMessage.Add(extraData); }
                     viewClass.AdminMessage = adminMessage;
@@ -80,6 +81,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    viewClass.CurrentPage = page;
                     break;
 
                 case "NewsSearch":
@@ -87,6 +89,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    viewClass.CurrentPage = page;
                     break;
 
                 case "ArtistsSearch":
@@ -94,6 +97,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    viewClass.CurrentPage = page;
                     break;
 
                 case "AlbumsSearch":
@@ -101,6 +105,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    viewClass.CurrentPage = page;
                     break;
 
                 case "GenresSearch":
@@ -108,6 +113,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    viewClass.CurrentPage = page;
                     break;
 
                 case "Post":

@@ -1,5 +1,40 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
+@using Opuestos_por_el_Vertice.Models.ViewModels
 @model ViewKindViewModel
 @{
     ViewBag.WebTitle = Model.WebTitle;
+    List<PostViewModel> postList = Model.ObjectClass.CurrentPostList;
+    int listLenght = postList.Count;
+    if (listLenght > 10) { listLenght = 10; }
 }
+
+<div class="container">
+    <div class="search-body row">
+        <div class="col">
+            <ul class="list-group">
+                @for (int p = 0; p < listLenght; p++)
+                {
+                    <li class="list-group-item">
+                        <a asp-controller="Post" asp-action="Post" asp-route-id="@postList[p].Id" asp-route-postCategory="@postList[p].Category">
+                            <div class="row">
+                                <div class="col">
+                                    <h4>@postList[p].Title</h4>
+                                    <h6>@postList[p].SubTitle</h6>
+                                    <a asp-controller="Post" asp-action="Post" asp-route-id="@postList[p].Id" asp-route-postCategory="@postList[p].Category"><i>Read More...</i></a>
+                                </div>
+                                <div class="col">
+                                    <a asp-controller="Post" asp-action="Post" asp-route-id="@postList[p].Id" asp-route-postCategory="@postList[p].Category">
+                                        <img class="img-thumbnail rounded" src="@postList[p].Image" alt="@postList[p].ImageAlt" style="max-height: 9rem;" />
+                                    </a>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="search-pag row">
+        <partial name="../Shared/_PaginationPartial.cshtml" model="@Model" />
+    </div>
+</div>
