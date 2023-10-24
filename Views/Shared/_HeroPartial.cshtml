@@ -7,6 +7,8 @@
     List<string> alts = new();
     List<string> labels = new();
     List<string> sublabels = new();
+    string author = ""; string date = "";
+    if (Model.Kind.Equals("Post")) { author = Model.ObjectClass.CurrentPost.Author; date = Model.ObjectClass.CurrentPost.PublicationDate.Date.ToString(); }
     // way to sum up information programming afterwards
     List<List<string>> carouselData = new();
     carouselData.Add(imagesSources); carouselData.Add(alts); carouselData.Add(labels); carouselData.Add(sublabels);
@@ -34,8 +36,12 @@
                 <div class="carousel-item active">
                     <img src="@imagesSources[i]" class="d-block w-100" alt="@alts[i]">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>@labels[i]</h5>
-                        <p>@sublabels[i]</p>
+                        <h1>@labels[i]</h1>
+                        <h3><i>@sublabels[i]</i></h3>
+                        @if (Model.Kind.Equals("Post"))
+                        {
+                            <h5><i>Created by @author on @date</i></h5>
+                        }
                     </div>
                 </div>
             }

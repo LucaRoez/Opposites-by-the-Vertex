@@ -115,7 +115,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.WebTitle = String.Format("{0} - {1}", post.Title, post.Category);
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ObjectClass.CurrentPost = post;
-                    viewClass.ExtraInfo = GetExtraInfo(extraData, post);
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 case "Admin":
