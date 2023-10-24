@@ -18,7 +18,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             _dataTruck = dataTruck;
         }
 
-        public async Task<ViewKindViewModel> GetStandardEnvelopment(string controllerInput)
+        public ViewKindViewModel GetStandardEnvelopment(string controllerInput)
         {
             // This is the package object, where the internal logic is the same for all
             List<PostViewModel> posts = new();
@@ -217,34 +217,23 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             //}
             //else if (controller == "New")
             //{
-            //    schemas[0] = "News";
+            //    schemas[0] = "New";
             //}
-            else if (controller == "Artist" || controller == "Event" || controller == "New")
-            {
-                schemas[0] = "Artist";
-            }
-            else if (controller == "Album")
-            {
-                schemas[0] = "Album";
-            }
-            else if (controller == "Genre")
-            {
-                schemas[0] = "Genre";
-            }
+            //else if (controller == "Artist")
+            //{
+            //    schemas[0] = "Artist";
+            //}
+            //else if (controller == "Album")
+            //{
+            //    schemas[0] = "Album";
+            //}
+            //else if (controller == "Genre")
+            //{
+            //    schemas[0] = "Genre";
+            //}
             else
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    switch (i)
-                    {
-                        case 0: schemas[i] = "New"; break;
-                        case 1: schemas[i] = "Event"; break;
-                        case 2: schemas[i] = "Artist"; break;
-                        case 3: schemas[i] = "Album"; break;
-                        case 4: schemas[i] = "Genre"; break;
-                        default: schemas[i] = "New"; break;
-                    }
-                }
+                schemas[0] = controller;
             }
 
             return schemas;

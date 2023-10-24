@@ -1,5 +1,45 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
+@using Opuestos_por_el_Vertice.Models.ViewModels
 @model ViewKindViewModel
 @{
     ViewBag.WebTitle = Model.WebTitle;
+    List<PostViewModel> postList = Model.ObjectClass.CurrentPostList;
+    int listLenght = postList.Count;
+    if (listLenght > 10) { listLenght = 10; }
+
+    List<PostViewModel> pageList = postList.GetRange(((Model.CurrentPage - 1) * 10), listLenght);
 }
+
+<div class="container">
+    <div class="search-body row">
+        <div class="col">
+            <ul class="list-group">
+                @for (int p = 0; p < listLenght; p++)
+                {
+                    <li class="list-group-item">
+                        <div class="search-body-content col">
+                            <a asp-controller="Post" asp-action="Post" asp-route-id="@pageList[p].Id" asp-route-postCategory="@pageList[p].Category">
+                                <div class="row">
+                                    <div class="col">
+                                        <h4>@pageList[p].Title</h4>
+                                        <h6>@pageList[p].SubTitle</h6>
+                                        <a asp-controller="Post" asp-action="Post" asp-route-id="@pageList[p].Id" asp-route-postCategory="@pageList[p].Category"><i>Read More...</i></a>
+                                    </div>
+                                    <div class="col">
+                                        <img class="img-thumbnail rounded" src="@pageList[p].Image" alt="@pageList[p].ImageAlt" style="max-height: 9rem;" />
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="search-body-admin col">
+                            <partial name="../Shared/_AdminButtonsPartial.cshtml" model="@postList[p]" />
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="search-pag row">
+        <partial name="../Shared/_PaginationPartial.cshtml" model="@Model" />
+    </div>
+</div>

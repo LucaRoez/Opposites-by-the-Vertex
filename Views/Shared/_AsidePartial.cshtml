@@ -3,26 +3,21 @@
 @model ViewKindViewModel
 @{
     List<List<PostViewModel>> asidesList = new();
-    int blockIterations = 0;
-
+    // here the list or lists are added
+    var list = Model.ObjectClass.CurrentPostList;
+    // this little tangle is because the Post View content constrains
     if (Model.Kind.Equals("Post") || Model.Kind.Contains("Search") && !Model.Kind.Contains("Index"))
     {
-        if (Model.Kind.Equals("Post"))
+        // post single cast categorization
+        if (list.Count > 0)
         {
-            if (Model.ObjectClass.CurrentPost.Category == "Genre") { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Genre").ToList()); }
-            else if (Model.ObjectClass.CurrentPost.Category == "Album") { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Album").ToList()); }
-            else { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList()); }     // always it prioritize Artist catalog front anothers options
+            if (list[0].Category.Equals("New")) { asidesList.Add(list.Where(p => p.Category == "New").ToList()); }
+            else if (list[0].Category.Equals("Event")) { asidesList.Add(list.Where(p => p.Category == "Event").ToList()); }
+            else if (list[0].Category.Equals("Genre")) { asidesList.Add(list.Where(p => p.Category == "Genre").ToList()); }
+            else if (list[0].Category == "Album") { asidesList.Add(list.Where(p => p.Category == "Album").ToList()); }
+            else { asidesList.Add(list.Where(p => p.Category == "Artist").ToList()); }     // always it prioritize Artist catalog front anothers options
         }
-        else
-        {
-            if (Model.ObjectClass.CurrentPostList.Count > 0)
-            {
-                if (Model.ObjectClass.CurrentPostList[0].Category.Equals("Genre")) { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Genre").ToList()); }
-                else if (Model.ObjectClass.CurrentPostList[0].Category == "Album") { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Album").ToList()); }
-                else { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList()); }
-            }
-            else { List<PostViewModel> asideGhost = new(); asidesList.Add(asideGhost); }
-        }
+        else { List<PostViewModel> ghostAside = new(); asidesList.Add(ghostAside); }
     }
     else
     {
@@ -30,51 +25,42 @@
         {
             switch (i)
             {
-                case 2: asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Genre").ToList()); break;
-                case 1: asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Album").ToList()); break;
-                default: asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList()); break;
+                case 2: asidesList.Add(list.Where(p => p.Category == "New").ToList()); break;
+                case 1: asidesList.Add(list.Where(p => p.Category == "Event").ToList()); break;
+                default: asidesList.Add(list.Where(p => p.Category == "Artist").ToList()); break;
             }
         }
     }
-    blockIterations = asidesList.Count; if (blockIterations == 0) { blockIterations = 1; }
 
+    // and here the title or title list
     string asideTitle = "";
-    List<string> asideTitles = new();
-    for (int i = 0; i < blockIterations; i++)
+    List<string> asideTitles = new(); asideTitles.Add("Artist or Bands More Popular"); asideTitles.Add("Shows and Concerts More Popular");
+    asideTitles.Add("Relevant Metal News"); asideTitles.Add("Albums More Popular"); asideTitles.Add("Genres or Subgenres More Popular");
+    // this is for the Post path
+    if (Model.ObjectClass.CurrentPost.Category != "")
     {
-        if (blockIterations == 1)
+        switch (Model.ObjectClass.CurrentPost.Category)
         {
-            if (Model.Kind == "Post")
-            {
-                if (Model.ObjectClass.CurrentPost.Category != "")
-                    switch (Model.ObjectClass.CurrentPost.Category)
-                    {
-                        case "Genres": asideTitle = "Genres or Subgenres More Popular"; break;
-                        case "Albums": asideTitle = "Albums More Popular"; break;
-                        default: asideTitle = "Artist or Bands More Popular"; break;
-                    }
-            }
-            else
-            {
-                switch (Model.Kind)
-                {
-                    case "GenresSearch": asideTitle = "Genres or Subgenres More Popular"; break;
-                    case "AlbumsSearch": asideTitle = "Albums More Popular"; break;
-                    default: asideTitle = "Artist or Bands More Popular"; break;
-                }
-            }
-
-        }
-        else
-        {
-            switch (i)
-            {
-                case 2: asideTitle = "Genres or Subgenres More Popular"; asideTitles.Add(asideTitle); break;
-                case 1: asideTitle = "Albums More Popular"; asideTitles.Add(asideTitle); break;
-                default: asideTitle = "Artist or Bands More Popular"; asideTitles.Add(asideTitle); break;
-            }
+            case "Genre": asideTitle = asideTitles[4]; break;
+            case "Album": asideTitle = asideTitles[3]; break;
+            case "New": asideTitle = asideTitles[2]; break;
+            case "Event": asideTitle = asideTitles[1]; break;
+            default: asideTitle = asideTitles[0]; break;
         }
     }
+    // and this for the specific Search one
+    else
+    {
+        switch (Model.Kind)
+        {
+            case "GenresSearch": asideTitle = asideTitles[4]; break;
+            case "AlbumsSearch": asideTitle = asideTitles[3]; break;
+            case "NewsSearch": asideTitle = asideTitles[2]; break;
+            case "EventsSearch": asideTitle = asideTitles[1]; break;
+            default: asideTitle = asideTitles[0]; break;
+        }
+    }
+    // there's no need to set the colective aside titles list because we already have the information needed in the asideTitles list and the amount and order in asideList one
 }
 
 <div class="container text-center">
@@ -83,14 +69,14 @@
     </div>
     <div class="more-popular-aside row">
         <div class="col">
-            @for (int asides = 0; asides < blockIterations; asides++)
+            @for (int asides = 0; asides < asidesList.Count; asides++)
             {
                 <div class="block-title row">
                     @if (asideTitles.Count > 0)
                     {
                         <h5 class="aside-title">@asideTitles[asides]</h5>
                     }
-                    else if (asideTitle != "")
+                    else if (asideTitle.Length > 0)
                     {
                         <h5 class="aside-title">@asideTitle</h5>
                     }
@@ -99,7 +85,7 @@
                     <ul>
                         @for (int i = 0; i < asidesList[asides].Count; i++)
                         {
-                            if (asidesList[i].Count > 0)
+                            @if (asidesList[asides][i].Title != "")
                             {
                                 <li>
                                     <a asp-controller="Post" asp-action="Post" asp-route-id="@asidesList[asides][i].Id" asp-route-postCategory="@asidesList[asides][i].Category">

@@ -23,6 +23,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
             SubTitle = "";
             Body = "";
             Image = "";
+            ImageAlt = "";
             PublicationDate = new();
             Author = "";
             Category = "";
