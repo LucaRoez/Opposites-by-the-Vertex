@@ -21,6 +21,7 @@
                 else if (Model.ObjectClass.CurrentPostList[0].Category == "Album") { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Album").ToList()); }
                 else { asidesList.Add(Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist").ToList()); }
             }
+            else { List<PostViewModel> asideGhost = new(); asidesList.Add(asideGhost); }
         }
     }
     else
