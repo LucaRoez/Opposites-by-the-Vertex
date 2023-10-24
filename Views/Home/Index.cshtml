@@ -22,7 +22,7 @@
                     @for (int i = 0; i < morePopularLenght; i++)
                     {
                         <li>
-                            <a href="#">
+                            <a asp-controller="Post" asp-action="Post" asp-route-id="@morePopularContent[i].Id" asp-route-postCategory="@morePopularContent[i].Category">
                                 <h5>@morePopularContent[i].Title</h5>
                                 <h6>@morePopularContent[i].SubTitle</h6>
                             </a>
@@ -40,7 +40,7 @@
                     @for (int i = 0; i < lastNewsLenght/2; i++)
                     {
                         <div class="news-card card col">
-                            <a href="#">
+                            <a asp-controller="Post" asp-action="Post" asp-route-id="@lastNewsContent[i].Id" asp-route-postCategory="@lastNewsContent[i].Category">
                                 <div class="card-body">
                                     <img src="@lastNewsContent[i].Image" class="card-img-top" alt="@lastNewsContent[i].ImageAlt" />
                                     <h5 class="card-title">@lastNewsContent[i].Title</h5>
@@ -54,7 +54,7 @@
                     @for (int i = lastNewsLenght/2; i < lastNewsLenght; i++)
                     {
                         <div class="card col">
-                            <a href="#">
+                            <a asp-controller="Post" asp-action="Post" asp-route-id="@lastNewsContent[i].Id" asp-route-postCategory="@lastNewsContent[i].Category">
                                 <div class="card-body">
                                     <img src="@lastNewsContent[i].Image" class="card-img-top" alt="@lastNewsContent[i].ImageAlt" />
                                     <h5 class="card-title">@lastNewsContent[i].Title</h5>

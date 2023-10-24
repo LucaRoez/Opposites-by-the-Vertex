@@ -102,7 +102,7 @@
                             if (asidesList[i].Count > 0)
                             {
                                 <li>
-                                    <a href="#">
+                                    <a asp-controller="Post" asp-action="Post" asp-route-id="@asidesList[asides][i].Id" asp-route-postCategory="@asidesList[asides][i].Category">
                                         <h5>@asidesList[asides][i].Title</h5>
                                         <h6>@asidesList[asides][i].SubTitle</h6>
                                     </a>

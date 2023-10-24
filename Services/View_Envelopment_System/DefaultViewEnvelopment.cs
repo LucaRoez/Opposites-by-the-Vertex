@@ -29,7 +29,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                 controllerInput == "AlbumsSearch" || controllerInput == "GenresSearch") { posts = GetViewModelList(GetSchemas(controllerInput), 1); }
             else if (controllerInput == "Post")
             {
-                posts = GetViewModelList(GetSchemas(extraData+"sSearch"), 1);
+                posts = GetViewModelList(GetSchemas(extraData+"sSearch" /* little variable usage arrangement */ ), 1);
                 post = posts.Find(p => p.Id == id); post ??= new();
             }
             else if (controllerInput == "Admin")

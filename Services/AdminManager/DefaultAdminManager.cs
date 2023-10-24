@@ -15,7 +15,17 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
             _dataTruck = dataTruck;
         }
 
-        public async Task CreateNewPost(PostViewModel post) => await _repository.Create(_dataTruck.GetPostData(post));
+        public async Task CreateNewPost(PostViewModel post) => await _repository.Create(_dataTruck.GetPostData(ParsePostBody(post)));
+        private PostViewModel ParsePostBody(PostViewModel post)
+        {
+            var body = post.Body;
+            body.Insert(0, "<p>").Replace("<..>", "</p><p>");
+            body.Replace("<title>", "<h3>").Replace("<litle>", "<h5>");
+            body.Replace("</title>", "</h3>").Replace("</litle>", "</h5>");
+            post.Body = body.Insert(body.Length, "</p>");
+
+            return post;
+        }
 
         public async Task RemovePost(int id, string category) => await _repository.Remove(_repository.DetailAll(category).Find(p => p.Id == id));
 

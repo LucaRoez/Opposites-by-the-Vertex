@@ -1,4 +1,4 @@
-# Opposites by the Vertex
+# Opposites by the Vertex - Posting Web Rest API
 
 ### This is my first work on a personal web project, a layered modular monolith software architecture with currently several DB schemas, witch I've been working on for several months ago, but I'm begin to restart it now with github, hence I will be uploading this project picemeal, and upload it to a server in a few months.
 
@@ -18,3 +18,9 @@
 - Web Layout Design patterns :heavy_check_mark:
 - SOLID principles :heavy_check_mark:
 - Dependencies Injection design pattern :heavy_check_mark:
+
+> [!IMPORTANT]
+> for use the creation admin resource, in the body follow this reference symbols for html tags applying:
+1. "<..>" => <p>
+1. "<title>" => <h3> && "</title>" => </h3>
+1. "<litle>" => <h5> && "</litle>" => </h5>

@@ -41,16 +41,18 @@ namespace Opuestos_por_el_Vertice.Controllers
         public async Task<IActionResult> Update(int id, string category)
         {
             await _admin.UpdatePost(id, category);
+            TempData["AdminMessage"] = "It is updated satisfactorily";
 
-            return View("Index", "It is updated satisfactorily");
+            return View("Index");
         }
 
         [HttpDelete]
         public async Task<IActionResult> Remove(int id, string category)
         {
             await _admin.RemovePost(id, category);
+            TempData["AdminMessage"] = "It is removed satisfactorily";
 
-            return View("Index", "It is removed satisfactorily");
+            return View("Index");
         }
     }
 }
