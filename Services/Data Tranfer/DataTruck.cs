@@ -20,8 +20,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                     ImageAlt = model.ImageAlt,
                     PublicationDate = model.PublicationDate,
                     Author = model.Author,
-                    Category = new() { CategoryName = model.Category },
-                    CategoryId = 3,
+                    CategoryId = model.CategoryId,
                     Rate = model.Rate
                 }; Post = post;
             }
@@ -36,8 +35,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                     ImageAlt = model.ImageAlt,
                     PublicationDate = model.PublicationDate,
                     Author = model.Author,
-                    Category = new() { CategoryName = model.Category },
-                    CategoryId= 4,
+                    CategoryId = model.CategoryId,
                     Rate = model.Rate
                 }; Post = post;
             }
@@ -52,8 +50,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                     ImageAlt = model.ImageAlt,
                     PublicationDate = model.PublicationDate,
                     Author = model.Author,
-                    Category = new() { CategoryName = model.Category },
-                    CategoryId = 5,
+                    CategoryId = model.CategoryId,
                     Rate = model.Rate
                 }; Post = post;
             }
@@ -68,8 +65,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                     ImageAlt = model.ImageAlt,
                     PublicationDate = model.PublicationDate,
                     Author = model.Author,
-                    Category = new() { CategoryName = model.Category },
-                    CategoryId = 2,
+                    CategoryId = model.CategoryId,
                     Rate = model.Rate
                 }; Post = post;
             }
@@ -84,7 +80,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                     ImageAlt = model.ImageAlt,
                     PublicationDate = model.PublicationDate,
                     Author = model.Author,
-                    Category = new() { CategoryName = model.Category },
+                    CategoryId = model.CategoryId,
                     Rate = model.Rate
                 }; Post = post;
             }
@@ -99,8 +95,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                     ImageAlt = model.ImageAlt,
                     PublicationDate = model.PublicationDate,
                     Author = model.Author,
-                    Category = new() { CategoryName = model.Category },
-                    CategoryId = 1,
+                    CategoryId = model.CategoryId,
                     Rate = model.Rate
                 }; Post = post;
             }
@@ -129,6 +124,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                 PublicationDate = post.PublicationDate,
                 Author = post.Author,
                 Category = post.Category.CategoryName,
+                CategoryId = post.CategoryId,
                 Rate = post.Rate
             };
 

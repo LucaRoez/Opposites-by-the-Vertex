@@ -12,27 +12,44 @@
         <h3>Delete this Post</h3>
     </div>
     <div class="admin-body row">
-        <form asp-action="Remove" asp-route-id="@Model.ObjectClass.CurrentPost.Id" asp-route-category="@Model.ObjectClass.CurrentPost.Category" method="post">
-            <label for="post-title" class="form-label">Title</label>
-            <input id="post-title" type="text" asp-for="@Model.ObjectClass.CurrentPost.Title" value="@Model.ObjectClass.CurrentPost.Title" class="form-control" disabled />
+        <form asp-action="Remove" method="post">
+            <input type="hidden" asp-for="@Model.ObjectClass.CurrentPost.Id" />
+            <input type="hidden" asp-for="@Model.ObjectClass.CurrentPost.Category" value="@Model.ObjectClass.CurrentPost.Id" />
 
-            <label for="post-sub" class="form-label">Subtitle</label>
-            <input id="post-sub" type="text" asp-for="@Model.ObjectClass.CurrentPost.SubTitle" value="@Model.ObjectClass.CurrentPost.SubTitle" class="form-control" disabled />
-
-            <label for="front-img" class="form-label">Front Image file source</label>
-            <input id="front-img" type="text" asp-for="@Model.ObjectClass.CurrentPost.Image" value="@Model.ObjectClass.CurrentPost.Image" class="form-control" disabled />
-
-            <label for="front-alt" class="form-label">Front Image description</label>
-            <input id="front-alt" type="text" asp-for="@Model.ObjectClass.CurrentPost.ImageAlt" value="@Model.ObjectClass.CurrentPost.ImageAlt" class="form-control" disabled />
-
-            <label for="author" class="form-label">Author Name</label>
-            <input id="author" type="text" asp-for="@Model.ObjectClass.CurrentPost.Author" value="@Model.ObjectClass.CurrentPost.Author" class="form-control" disabled />
-
-            <label for="post-body" class="form-label">Post Body</label>
-            <textarea id="post-body" type="text" asp-for="@Model.ObjectClass.CurrentPost.Body" value="@Model.ObjectClass.CurrentPost.Body" class="form-control" rows="6" disabled></textarea>
-
-            <label for="post-category" class="form-label">Post Category</label>
-            <input id="post-category" type="text" asp-for="@Model.ObjectClass.CurrentPost.Category" value="@Model.ObjectClass.CurrentPost.Category" class="form-control" disabled />
+            <div class="form-group">
+                <label for="post-title" class="form-label">Title</label>
+                <input id="post-title" type="text" asp-for="@Model.ObjectClass.CurrentPost.Title" value="@Model.ObjectClass.CurrentPost.Title" class="form-control" disabled />
+            </div>
+            
+            <div class="form-group">
+                <label for="post-sub" class="form-label">Subtitle</label>
+                <input id="post-sub" type="text" asp-for="@Model.ObjectClass.CurrentPost.SubTitle" value="@Model.ObjectClass.CurrentPost.SubTitle" class="form-control" disabled />
+            </div>
+            
+            <div class="form-group">
+                <label for="front-img" class="form-label">Front Image file source</label>
+                <input id="front-img" type="text" asp-for="@Model.ObjectClass.CurrentPost.Image" value="@Model.ObjectClass.CurrentPost.Image" class="form-control" disabled />
+            </div>
+            
+            <div class="form-group">
+                <label for="front-alt" class="form-label">Front Image description</label>
+                <input id="front-alt" type="text" asp-for="@Model.ObjectClass.CurrentPost.ImageAlt" value="@Model.ObjectClass.CurrentPost.ImageAlt" class="form-control" disabled />
+            </div>
+            
+            <div class="form-group">
+                <label for="author" class="form-label">Author Name</label>
+                <input id="author" type="text" asp-for="@Model.ObjectClass.CurrentPost.Author" value="@Model.ObjectClass.CurrentPost.Author" class="form-control" disabled />
+            </div>
+            
+            <div class="form-group">
+                <label for="post-body" class="form-label">Post Body</label>
+                <textarea id="post-body" type="text" asp-for="@Model.ObjectClass.CurrentPost.Body" value="@Model.ObjectClass.CurrentPost.Body" class="form-control" rows="6" disabled></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="post-category" class="form-label">Post Category</label>
+                <input id="post-category" type="text" asp-for="@Model.ObjectClass.CurrentPost.Category" value="@Model.ObjectClass.CurrentPost.Category" class="form-control" disabled />
+            </div>
 
             <button type="submit" class="btn btn-danger">Delete Permanently</button>
         </form>

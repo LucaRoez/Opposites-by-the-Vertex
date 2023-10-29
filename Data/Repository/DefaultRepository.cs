@@ -53,5 +53,7 @@ namespace Opuestos_por_el_Vertice.Data.Repository
                 default: return await _dbContext.News.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
             }
         }
+
+        public List<Category> GetCategories() => _dbContext.Categories.ToList();
     }
 }

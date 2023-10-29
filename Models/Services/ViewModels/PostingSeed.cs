@@ -16,6 +16,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
         public DateTime PublicationDate { get; set; }
         public string Author { get; set; }
         public string Category { get; set; }
+        public int CategoryId { get; set; }
         public int Rate { get; set; }
         public PostingSeed()
         {
@@ -27,6 +28,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
             PublicationDate = new();
             Author = "";
             Category = "";
+            CategoryId = 0;
             Rate = 0;
         }
     }

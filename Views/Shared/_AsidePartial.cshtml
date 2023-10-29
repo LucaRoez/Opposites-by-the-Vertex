@@ -32,7 +32,7 @@
         }
     }
 
-    // and here the title or title list
+    // and here the title or title list are added
     string asideTitle = "";
     List<string> asideTitles = new(); asideTitles.Add("Artist or Bands More Popular"); asideTitles.Add("Shows and Concerts More Popular");
     asideTitles.Add("Relevant Metal News"); asideTitles.Add("Albums More Popular"); asideTitles.Add("Genres or Subgenres More Popular");
@@ -49,7 +49,7 @@
         }
     }
     // and this for the specific Search one
-    else
+    else if (Model.Kind.Contains("Search") && !Model.Kind.Contains("Index"))
     {
         switch (Model.Kind)
         {
@@ -60,19 +60,30 @@
             default: asideTitle = asideTitles[0]; break;
         }
     }
-    // there's no need to set the colective aside titles list because we already have the information needed in the asideTitles list and the amount and order in asideList one
+    // finally there's no need to set the colective aside titles list because we already have it in the asideTitles list with the order
+
+    // and here the Search Bar info
+    SearchViewModel searchViewModel = new();
+    var action = Model.Kind;
+    if (action.Contains("Search") && !Model.Kind.Contains("Index"))
+    {
+        action = action.Replace("Search", "");
+    }
+    else if (action == "Post") { action = Model.ObjectClass.CurrentPost.Category + "s"; }
+    else { action = "IndexSearch"; }
+    searchViewModel.Action = action;
 }
 
 <div class="container text-center">
     <div class="search-bar row">
-        <partial name="../Shared/_SearchBarForm.cshtml" />
+        <partial name="../Shared/_SearchBarFormPartial.cshtml" model="@searchViewModel" />
     </div>
     <div class="more-popular-aside row">
         <div class="col">
-            @for (int asides = 0; asides < asidesList.Count; asides++)
+            @for (int asides = 0; asides < asidesList.Count; asides++)          @* Here we mix the asidesList and the asideTitles list to get amount and order info *@
             {
                 <div class="block-title row">
-                    @if (asideTitles.Count > 0)
+                    @if (asidesList.Count > 1)
                     {
                         <h5 class="aside-title">@asideTitles[asides]</h5>
                     }

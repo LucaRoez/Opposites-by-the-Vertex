@@ -1,4 +1,5 @@
-﻿using Opuestos_por_el_Vertice.Data.Entities;
+﻿using Microsoft.Extensions.Hosting;
+using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.Data_Tranfer;
@@ -15,7 +16,43 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
             _dataTruck = dataTruck;
         }
 
-        public async Task CreateNewPost(PostViewModel post) => await _repository.Create(_dataTruck.GetPostData(ParsePostBody(post)));
+        public async Task CreateNewPost(PostViewModel model)
+        {
+            model = CheckNulls(model); model.Category = GetCategoryName(model.CategoryId);
+            BasePost Post = _dataTruck.GetPostData(ParsePostBody(model));
+            await _repository.Create(Post);
+        }
+
+        public async Task RemovePost(int id, string category)
+        {
+            var Post = await _repository.DetailOne(category, id);
+            await _repository.Remove(Post);
+        }
+
+        public async Task UpdatePost(int id, PostViewModel model, string category)
+        {
+            model = ParsePostBody(model);
+
+            BasePost Post = await _repository.DetailOne(category, id);
+            {
+                Post.Title = model.Title;
+                Post.SubTitle = model.SubTitle;
+                Post.Body = model.Body;
+                Post.Image = model.Image;
+                Post.ImageAlt = model.ImageAlt;
+                Post.Author = model.Author;
+                Post.CategoryId = model.CategoryId;
+            }
+
+            await _repository.Update(Post);
+        }
+
+        private PostViewModel CheckNulls(PostViewModel post)
+        {
+            if (post.Body == null) { post.Body = ""; }
+
+            return post;
+        }
         private PostViewModel ParsePostBody(PostViewModel post)
         {
             var body = post.Body;
@@ -26,9 +63,12 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
 
             return post;
         }
+        private string GetCategoryName(int id)
+        {
+            List<Category> Categories = _repository.GetCategories();
+            string category = Categories.FirstOrDefault(c => c.Id == id).CategoryName;
 
-        public async Task RemovePost(int id, string category) => await _repository.Remove(_repository.DetailAll(category).Find(p => p.Id == id));
-
-        public async Task UpdatePost(int id, string category) => await _repository.Update(_repository.DetailAll(category).Find(p => p.Id == id));
+            return category;
+        }
     }
 }

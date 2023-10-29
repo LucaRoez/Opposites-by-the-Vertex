@@ -66,19 +66,20 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
 
         public async Task<ViewKindViewModel> GetPostEnvelopment(string controllerInput, int id, string extraData)
         {
-            List<PostViewModel> posts = new();
-            PostViewModel post = new();
+            List<PostViewModel> models = new();
+            PostViewModel model = new();
+            BasePost Post = new();
             List<string> schemas = new();
             
             if (controllerInput == "Post")
             {
-                posts = GetViewModelList(GetSchemas(extraData), 1);
-                post = posts.Find(p => p.Id == id); post ??= new();
+                models = GetViewModelList(GetSchemas(extraData), 1);
+                model = models.Find(p => p.Id == id); model ??= new();
             }
             else if (controllerInput == "Admin")
             {
-                posts = GetViewModelList(GetSchemas(controllerInput), 5);
-                if (id == 0) { post = new(); } else { post = await GetViewModel(id, extraData); }
+                models = GetViewModelList(GetSchemas(controllerInput), 5);
+                if (id == 0) { model = new(); } else { model = await GetViewModel(id, extraData); }
             }
 
             ViewKindViewModel viewClass = new();
@@ -86,37 +87,39 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             {
                 case "Post":
                     viewClass.Kind = new String("Post");
-                    viewClass.WebTitle = String.Format("{0} - {1}", post.Title, post.Category);
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    post.Rate++; _repository.Update(_dataTruck.GetPostData(post));
-                    viewClass.ObjectClass.CurrentPost = post;
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    viewClass.WebTitle = String.Format("{0} - {1}", model.Title, model.Category);
+                    viewClass.ObjectClass.CurrentPostList = models.OrderByDescending(p => p.Rate).ToList();
+                    // update rating mechanism
+                    model.Rate++; Post = await _repository.DetailOne(model.Category, id);
+                    Post.Rate = model.Rate; await _repository.Update(Post);
+                    viewClass.ObjectClass.CurrentPost = model;
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, model);
                     break;
 
                 case "Admin":
                     viewClass.Kind = new String("Admin");
                     viewClass.WebTitle = "Admin Page";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.PublicationDate).ToList();
-                    viewClass.ObjectClass.CurrentPost = post;
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
-                    // this is the successful admin action message... for further alert span displaying
-                    viewClass.AdminMessage = extraData;
+                    viewClass.ObjectClass.CurrentPostList = models.OrderBy(p => p.PublicationDate).ToList();
+                    viewClass.ObjectClass.CurrentPost = model;
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, model);
                     break;
 
                 default:
                     viewClass.Kind = new String("Post");
-                    viewClass.WebTitle = String.Format("{0} - {1}", post.Title, post.Category);
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
-                    post.Rate++; _repository.Update(_dataTruck.GetPostData(post));
-                    viewClass.ObjectClass.CurrentPost = post;
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
+                    viewClass.WebTitle = String.Format("{0} - {1}", model.Title, model.Category);
+                    viewClass.ObjectClass.CurrentPostList = models.OrderBy(p => p.Rate).ToList();
+                    model.Rate++; await _repository.DetailOne(model.Category, id);
+                    Post.Rate = model.Rate; await _repository.Update(Post);
+                    model.Rate++; await _repository.Update(_dataTruck.GetPostData(model));
+                    viewClass.ObjectClass.CurrentPost = model;
+                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, model);
                     break;
             }
 
             return viewClass;
         }
 
-        public ViewKindViewModel GetSearchEnvelopment(string controllerInput, int page, string extraData)
+        public ViewKindViewModel GetSearchEnvelopment(string controllerInput, int page, SearchViewModel search, string extraData)
         {
             List<PostViewModel> posts = new();
             PostViewModel post = new();
@@ -126,6 +129,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             else { posts = GetViewModelList(GetSchemas(extraData), 1); }
 
             ViewKindViewModel viewClass = new();
+            string categorySearch = "";
             switch (controllerInput)
             {
                 case "IndexSearch":
@@ -134,8 +138,9 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
+                    categorySearch = "Index";
                     // this is the admin order for a specific modifying or deteting search
-                    viewClass.AdminMessage = extraData;
+                    viewClass.AdminInfo.AdminMessage = extraData;
                     break;
 
                 case "EventsSearch":
@@ -144,6 +149,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
+                    categorySearch = "Event";
                     break;
 
                 case "NewsSearch":
@@ -152,6 +158,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
+                    categorySearch = "New";
                     break;
 
                 case "ArtistsSearch":
@@ -160,6 +167,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
+                    categorySearch = "Artist";
                     break;
 
                 case "AlbumsSearch":
@@ -168,6 +176,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
+                    categorySearch = "Album";
                     break;
 
                 case "GenresSearch":
@@ -176,6 +185,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
+                    categorySearch = "Genre";
                     break;
 
                 default:
@@ -184,10 +194,12 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     viewClass.ObjectClass.CurrentPostList = posts.OrderBy(p => p.Rate).ToList();
                     viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
+                    categorySearch = "General";
                     // this is the admin order for a specific modifying or deteting search
-                    viewClass.AdminMessage = extraData;
+                    viewClass.AdminInfo.AdminMessage = extraData;
                     break;
             }
+            if (search.Search != "" && search.Search != null) { viewClass.Search = GetSearch(search.Search, categorySearch); }
 
             return viewClass;
         }
@@ -211,26 +223,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     }
                 }
             }
-            //else if (controller == "Event")
-            //{
-            //    schemas[0] = "Event";
-            //}
-            //else if (controller == "New")
-            //{
-            //    schemas[0] = "New";
-            //}
-            //else if (controller == "Artist")
-            //{
-            //    schemas[0] = "Artist";
-            //}
-            //else if (controller == "Album")
-            //{
-            //    schemas[0] = "Album";
-            //}
-            //else if (controller == "Genre")
-            //{
-            //    schemas[0] = "Genre";
-            //}
             else
             {
                 schemas[0] = controller;
@@ -327,6 +319,62 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             }
 
             return extraInfo;
+        }
+        // search mechanism
+        private List<PostViewModel> GetSearch(string search, string category)
+        {
+            search = search.Trim().ToLower();
+            List<BasePost> finalSearch = new();
+            string searchStart = ""; string searchEnd = "";
+            for (int i = 0; i < search.Length/2; i++) { searchStart.Append(search[i]); }
+            for (int i = search.Length/2; i < search.Length; i++) { searchEnd.Append(search[i]); }
+
+            if (category == "Index")
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    switch (i)
+                    {
+                        case 4:
+                            finalSearch = _repository.DetailAll("Genre").Where(p => p.Title.ToLower().Contains(search)).ToList();
+                            finalSearch.AddRange(_repository.DetailAll("Genre").Where(p => p.Title.ToLower().Contains(searchStart)).ToList());
+                            finalSearch.AddRange(_repository.DetailAll("Genre").Where(p => p.Title.ToLower().Contains(searchEnd)).ToList());
+                            break;
+
+                        case 3:
+                            finalSearch = _repository.DetailAll("Album").Where(p => p.Title.ToLower().Contains(search)).ToList();
+                            finalSearch.AddRange(_repository.DetailAll("Album").Where(p => p.Title.ToLower().Contains(searchStart)).ToList());
+                            finalSearch.AddRange(_repository.DetailAll("Album").Where(p => p.Title.ToLower().Contains(searchEnd)).ToList());
+                            break;
+
+                        case 2:
+                            finalSearch = _repository.DetailAll("Artist").Where(p => p.Title.ToLower().Contains(search)).ToList();
+                            finalSearch.AddRange(_repository.DetailAll("Artist").Where(p => p.Title.ToLower().Contains(searchStart)).ToList());
+                            finalSearch.AddRange(_repository.DetailAll("Artist").Where(p => p.Title.ToLower().Contains(searchEnd)).ToList());
+                            break;
+
+                        case 1:
+                            finalSearch = _repository.DetailAll("Event").Where(p => p.Title.ToLower().Contains(search)).ToList();
+                            finalSearch.AddRange(_repository.DetailAll("Event").Where(p => p.Title.ToLower().Contains(searchStart)).ToList());
+                            finalSearch.AddRange(_repository.DetailAll("Event").Where(p => p.Title.ToLower().Contains(searchEnd)).ToList());
+                            break;
+
+                        default:
+                            finalSearch = _repository.DetailAll("New").Where(p => p.Title.ToLower().Contains(search)).ToList();
+                            finalSearch.AddRange(_repository.DetailAll("New").Where(p => p.Title.ToLower().Contains(searchStart)).ToList());
+                            finalSearch.AddRange(_repository.DetailAll("New").Where(p => p.Title.ToLower().Contains(searchEnd)).ToList());
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                finalSearch = _repository.DetailAll(category).Where(p => p.Title.ToLower().Contains(search)).ToList();
+                finalSearch.AddRange(_repository.DetailAll(category).Where(p => p.Title.ToLower().Contains(searchStart)).ToList());
+                finalSearch.AddRange(_repository.DetailAll(category).Where(p => p.Title.ToLower().Contains(searchEnd)).ToList());
+            }
+
+            return _dataTruck.GetAllPostModels(finalSearch);
         }
     }
 }

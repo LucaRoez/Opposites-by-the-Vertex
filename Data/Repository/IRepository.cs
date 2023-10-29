@@ -13,6 +13,6 @@ namespace Opuestos_por_el_Vertice.Data.Repository
         Task Update(BasePost post);
         Task<BasePost> DetailOne(string category,int id);
         List<BasePost> DetailAll(string category);
-
+        List<Category> GetCategories();
     }
 }

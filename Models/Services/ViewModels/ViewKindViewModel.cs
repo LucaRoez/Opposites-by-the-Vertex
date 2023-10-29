@@ -1,4 +1,6 @@
-﻿namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
+﻿using Opuestos_por_el_Vertice.Models.ViewModels;
+
+namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
 {
     /*
      * Because of my personal View Envelopment Service, it need to centralize all the View final data here, in this final view model, that
@@ -13,7 +15,8 @@
         public string WebTitle { get; set; }
         public List<string> ExtraInfo { get; set; }
         public int CurrentPage { get; set; }
-        public string AdminMessage { get; set; }
+        public AdminPackage AdminInfo { get; set; }
+        public List<PostViewModel> Search { get; set; }
         public ViewKindViewModel()
         {
             ObjectClass = new();
@@ -21,7 +24,8 @@
             WebTitle = "";
             ExtraInfo = new ();
             CurrentPage = 0;
-            AdminMessage = "";
+            AdminInfo = new();
+            Search = new();
         }
     }
 }

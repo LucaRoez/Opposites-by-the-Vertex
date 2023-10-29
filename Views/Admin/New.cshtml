@@ -1,4 +1,5 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
+@using Opuestos_por_el_Vertice.Models.ViewModels
 @model ViewKindViewModel
 @{
     ViewBag.WebTitle = Model.WebTitle;
@@ -29,12 +30,11 @@
             <textarea id="post-body" type="text" asp-for="@Model.ObjectClass.CurrentPost.Body" class="form-control" rows="6"></textarea>
 
             <label for="post-category" class="form-label">Post Category</label>
-            <select id="post-category" type="text" asp-for="@Model.ObjectClass.CurrentPost.Category" class="form-select">
-                <option value="New" selected>New</option>
-                <option value="Event">Event</option>
-                <option value="Artist">Artist</option>
-                <option value="Album">Album</option>
-                <option value="Genre">Genre</option>
+            <select id="post-category" type="text" asp-for="@Model.AdminInfo.CategoryId" class="form-select">
+                @foreach (CategoryViewModel category in Model.AdminInfo.Categories.Categories)
+                {
+                    <option value="@category.Id">@category.Category</option>
+                }
             </select>
 
             <button type="submit" class="btn btn-dark">Send to Record</button>

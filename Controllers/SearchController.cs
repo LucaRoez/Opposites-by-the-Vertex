@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System;
+using Opuestos_por_el_Vertice.Models.ViewModels;
 
 namespace Opuestos_por_el_Vertice.Controllers
 {
@@ -14,16 +15,16 @@ namespace Opuestos_por_el_Vertice.Controllers
             _envelopment = envelopment;
         }
 
-        public  IActionResult Index(string adminOrder = "", int page = 1, string controllerInput = "IndexSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, adminOrder));
+        public  IActionResult Index(SearchViewModel searchInfo, string adminOrder = "", int page = 1, string controllerInput = "IndexSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, searchInfo, adminOrder));
 
-        public  IActionResult Events(int page = 1, string controllerInput = "EventsSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, "Event"));
+        public  IActionResult Events(SearchViewModel searchInfo, int page = 1, string controllerInput = "EventsSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, searchInfo, "Event"));
 
-        public  IActionResult News(int page = 1, string controllerInput = "NewsSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, "New"));
+        public  IActionResult News(SearchViewModel searchInfo, int page = 1, string controllerInput = "NewsSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, searchInfo, "New"));
 
-        public  IActionResult Artists(int page = 1, string controllerInput = "ArtistsSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, "Artist"));
+        public  IActionResult Artists(SearchViewModel searchInfo, int page = 1, string controllerInput = "ArtistsSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, searchInfo, "Artist"));
 
-        public  IActionResult Albums(int page = 1, string controllerInput = "AlbumsSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, "Album"));
+        public  IActionResult Albums(SearchViewModel searchInfo, int page = 1, string controllerInput = "AlbumsSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, searchInfo, "Album"));
 
-        public  IActionResult Genres(int page = 1, string controllerInput = "GenresSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, "Genre"));
+        public  IActionResult Genres(SearchViewModel searchInfo, int page = 1, string controllerInput = "GenresSearch") => View( _envelopment.GetSearchEnvelopment(controllerInput, page, searchInfo, "Genre"));
     }
 }

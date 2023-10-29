@@ -19,28 +19,32 @@ namespace Opuestos_por_el_Vertice.Controllers
             _admin = admin;
         }
 
-        public async Task<IActionResult> Index(string message = "", int page = 0, string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, 0, message));
+        public async Task<IActionResult> Index(string message = "", string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, 0, message));
 
-        public async Task<IActionResult> New(int page = 0, string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, 0, ""));
+        public async Task<IActionResult> New(string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, 0, ""));
 
-        public async Task<IActionResult> Modify(int id, string category, int page = 0, string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, id, category));
+        public async Task<IActionResult> Modify(int id, string category, string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, id, category));
 
-        public async Task<IActionResult> Delete(int id, string category, int page = 0, string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, id, category));
+        public async Task<IActionResult> Delete(int id, string category, string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, id, category));
 
         [HttpPost]
-        public async Task<IActionResult> Create(ViewKindViewModel post)
+        public async Task<IActionResult> Create(ViewKindViewModel webInfo)
         {
-            post.ObjectClass.CurrentPost.PublicationDate = DateTime.Now;
-            await _admin.CreateNewPost(post.ObjectClass.CurrentPost);
+            var post = webInfo.ObjectClass.CurrentPost;
+            post.CategoryId = webInfo.AdminInfo.CategoryId;
+            post.PublicationDate = DateTime.Now;
+
+            await _admin.CreateNewPost(post);
             TempData["AdminMessage"] = "It is created satisfactorily";
 
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id, string category)
+        public async Task<IActionResult> Update(int id, PostViewModel model, string category)
         {
-            await _admin.UpdatePost(id, category);
+
+            await _admin.UpdatePost(id, model, category);
             TempData["AdminMessage"] = "It is updated satisfactorily";
 
             return RedirectToAction("Index");

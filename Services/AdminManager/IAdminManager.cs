@@ -6,6 +6,6 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
     {
         Task CreateNewPost(PostViewModel post);
         Task RemovePost(int id, string category);
-        Task UpdatePost(int id, string category);
+        Task UpdatePost(int id, PostViewModel model, string category);
     }
 }
