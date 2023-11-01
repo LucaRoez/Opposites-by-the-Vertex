@@ -1,5 +1,6 @@
 ﻿using Opuestos_por_el_Vertice.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Opuestos_por_el_Vertice.Data.Repository
 {
@@ -10,9 +11,86 @@ namespace Opuestos_por_el_Vertice.Data.Repository
         {
             _dbContext = dbContext;
         }
-        public async Task Create(BasePost post)
+        public async Task Create(BasePost post, string category)
         {
-            _dbContext.Add(post);
+            switch (category)
+            {
+                case "Artist":
+                    Artist artist = new()
+                    {
+                        Id = 0,
+                        Title = post.Title,
+                        SubTitle = post.SubTitle,
+                        Body = post.Body,
+                        Image = post.Image,
+                        ImageAlt = post.ImageAlt,
+                        Author = post.Author,
+                        CategoryId = post.CategoryId,
+                        Rate = post.Rate,
+                        PublicationDate = post.PublicationDate
+                    }; await _dbContext.Artists.AddAsync(artist);
+                    break;
+                case "Album":
+                    Album album = new()
+                    {
+                        Id = 0,
+                        Title = post.Title,
+                        SubTitle = post.SubTitle,
+                        Body = post.Body,
+                        Image = post.Image,
+                        ImageAlt = post.ImageAlt,
+                        Author = post.Author,
+                        CategoryId = post.CategoryId,
+                        Rate = post.Rate,
+                        PublicationDate = post.PublicationDate
+                    }; await _dbContext.Albums.AddAsync(album);
+                    break;
+                case "Genre":
+                    Genre genre = new()
+                    {
+                        Id = 0,
+                        Title = post.Title,
+                        SubTitle = post.SubTitle,
+                        Body = post.Body,
+                        Image = post.Image,
+                        ImageAlt = post.ImageAlt,
+                        Author = post.Author,
+                        CategoryId = post.CategoryId,
+                        Rate = post.Rate,
+                        PublicationDate = post.PublicationDate
+                    }; await _dbContext.Genres.AddAsync(genre);
+                    break;
+                case "Event":
+                    Event show = new()
+                    {
+                        Id = 0,
+                        Title = post.Title,
+                        SubTitle = post.SubTitle,
+                        Body = post.Body,
+                        Image = post.Image,
+                        ImageAlt = post.ImageAlt,
+                        Author = post.Author,
+                        CategoryId = post.CategoryId,
+                        Rate = post.Rate,
+                        PublicationDate = post.PublicationDate
+                    }; await _dbContext.Events.AddAsync(show);
+                    break;
+                default:
+                    New news = new()
+                    {
+                        Id = 0,
+                        Title = post.Title,
+                        SubTitle = post.SubTitle,
+                        Body = post.Body,
+                        Image = post.Image,
+                        ImageAlt = post.ImageAlt,
+                        Author = post.Author,
+                        CategoryId = post.CategoryId,
+                        Rate = post.Rate,
+                        PublicationDate = post.PublicationDate
+                    }; await _dbContext.News.AddAsync(news);
+                    break;
+            }
             await _dbContext.SaveChangesAsync();
         }
 
@@ -55,5 +133,398 @@ namespace Opuestos_por_el_Vertice.Data.Repository
         }
 
         public List<Category> GetCategories() => _dbContext.Categories.ToList();
+
+        public async Task ArrangeDb()
+        {
+            for (int kind = 0; kind < 5; kind++)
+            {
+                if (kind == 4)
+                {
+                    List<Genre> currentData = _dbContext.Genres.Where(g => g.CategoryId != 5).ToList();
+                    foreach (Genre oldaData in currentData)
+                    {
+                        if (oldaData.CategoryId == 4)
+                        {
+                            Album newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 4;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Genres.Remove(oldaData);
+                            await _dbContext.Albums.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 3)
+                        {
+                            Artist newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 3;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Genres.Remove(oldaData);
+                            await _dbContext.Artists.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 2)
+                        {
+                            Event newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 2;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Genres.Remove(oldaData);
+                            await _dbContext.Events.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 1)
+                        {
+                            New newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 1;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Genres.Remove(oldaData);
+                            await _dbContext.News.AddAsync(newData);
+                        }
+                        else { continue; }
+                        await _dbContext.SaveChangesAsync();
+                    }
+                }
+                else if (kind == 3)
+                {
+                    List<Album> currentData = _dbContext.Albums.Where(a => a.CategoryId != 4).ToList();
+                    foreach (Album oldaData in currentData)
+                    {
+                        if (oldaData.CategoryId == 5)
+                        {
+                            Genre newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 5;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Albums.Remove(oldaData);
+                            await _dbContext.Genres.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 3)
+                        {
+                            Artist newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 3;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Albums.Remove(oldaData);
+                            await _dbContext.Artists.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 2)
+                        {
+                            Event newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 2;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Albums.Remove(oldaData);
+                            await _dbContext.Events.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 1)
+                        {
+                            New newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 1;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Albums.Remove(oldaData);
+                            await _dbContext.News.AddAsync(newData);
+                        }
+                        else { continue; }
+                        await _dbContext.SaveChangesAsync();
+                    }
+                }
+                else if (kind == 2)
+                {
+                    List<Artist> currentData = _dbContext.Artists.Where(a => a.CategoryId != 3).ToList();
+                    foreach (Artist oldaData in currentData)
+                    {
+                        if (oldaData.CategoryId == 5)
+                        {
+                            Genre newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 5;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Artists.Remove(oldaData);
+                            await _dbContext.Genres.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 4)
+                        {
+                            Album newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 4;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Artists.Remove(oldaData);
+                            await _dbContext.Albums.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 2)
+                        {
+                            Event newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 2;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Artists.Remove(oldaData);
+                            await _dbContext.Events.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 1)
+                        {
+                            New newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 1;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Artists.Remove(oldaData);
+                            await _dbContext.News.AddAsync(newData);
+                        }
+                        else { continue; }
+                        await _dbContext.SaveChangesAsync();
+                    }
+                }
+                else if (kind == 1)
+                {
+                    List<Event> currentData = _dbContext.Events.Where(a => a.CategoryId != 2).ToList();
+                    foreach (Event oldaData in currentData)
+                    {
+                        if (oldaData.CategoryId == 5)
+                        {
+                            Genre newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 5;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Events.Remove(oldaData);
+                            await _dbContext.Genres.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 4)
+                        {
+                            Album newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 4;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Events.Remove(oldaData);
+                            await _dbContext.Albums.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 3)
+                        {
+                            Artist newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 3;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Events.Remove(oldaData);
+                            await _dbContext.Artists.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 1)
+                        {
+                            New newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 1;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.Events.Remove(oldaData);
+                            await _dbContext.News.AddAsync(newData);
+                        }
+                        else { continue; }
+                        await _dbContext.SaveChangesAsync();
+                    }
+                }
+                else
+                {
+                    List<New> currentData = _dbContext.News.Where(n => n.CategoryId != 1).ToList();
+                    foreach (New oldaData in currentData)
+                    {
+                        if (oldaData.CategoryId == 5)
+                        {
+                            Genre newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 5;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.News.Remove(oldaData);
+                            await _dbContext.Genres.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 4)
+                        {
+                            Album newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 4;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.News.Remove(oldaData);
+                            await _dbContext.Albums.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 3)
+                        {
+                            Artist newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 3;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.News.Remove(oldaData);
+                            await _dbContext.Artists.AddAsync(newData);
+                        }
+                        else if (oldaData.CategoryId == 2)
+                        {
+                            Event newData = new();
+                            {
+                                newData.Title = oldaData.Title;
+                                newData.SubTitle = oldaData.SubTitle;
+                                newData.Body = oldaData.Body;
+                                newData.Image = oldaData.Image;
+                                newData.ImageAlt = oldaData.ImageAlt;
+                                newData.PublicationDate = oldaData.PublicationDate;
+                                newData.Author = oldaData.Author;
+                                newData.CategoryId = 2;
+                                newData.Rate = oldaData.Rate;
+                            }
+                            _dbContext.News.Remove(oldaData);
+                            await _dbContext.Events.AddAsync(newData);
+                        }
+                        else { continue; }
+                        await _dbContext.SaveChangesAsync();
+                    }
+
+                }
+            }
+        }
     }
 }

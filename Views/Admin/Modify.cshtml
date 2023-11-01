@@ -1,4 +1,5 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
+@using Opuestos_por_el_Vertice.Models.ViewModels
 @model ViewKindViewModel
 @{
     ViewBag.WebTitle = Model.WebTitle;
@@ -10,8 +11,8 @@
     </div>
     <div class="admin-body row">
         <form asp-action="Update" method="post">
-            <input type="hidden" asp-for="@Model.ObjectClass.CurrentPost.Id" />
-            <input type="hidden" asp-for="@Model.ObjectClass.CurrentPost.Category" value="@Model.ObjectClass.CurrentPost.Id" />
+            <input type="hidden" asp-for="@Model.ObjectClass.CurrentPost.Id" name="id" />
+            <input type="hidden" asp-for="@Model.ObjectClass.CurrentPost.Category" name="category" />
 
             <div class="form-group">
                 <label for="post-title" class="form-label">Title</label>
@@ -45,14 +46,19 @@
 
             <div class="form-group">
                 <label for="post-category" class="form-label">Post Category</label>
-                <select id="post-category" type="text" asp-for="@Model.ObjectClass.CurrentPost.Category" value="@Model.ObjectClass.CurrentPost.Category" class="form-select">
-                    <option value="New">New</option>
-                    <option value="Event">Event</option>
-                    <option value="Artist">Artist</option>
-                    <option value="Album">Album</option>
-                    <option value="Genre">Genre</option>
-                </select>
-            </div>
+            <select id="post-category" type="text" asp-for="@Model.AdminInfo.CategoryId" class="form-select">
+                @foreach (CategoryViewModel category in Model.AdminInfo.Categories.Categories)
+                {
+                        if (category.Id == Model.ObjectClass.CurrentPost.CategoryId)
+                        {
+                            <option value="@category.Id" selected>@category.Category</option>
+                        }
+                        else
+                        {
+                            <option value="@category.Id">@category.Category</option>
+                        }
+                    }
+            </select>
 
             <button type="submit" class="btn btn-warning">Update Record</button>
         </form>

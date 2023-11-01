@@ -20,7 +20,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                     ImageAlt = model.ImageAlt,
                     PublicationDate = model.PublicationDate,
                     Author = model.Author,
-                    CategoryId = model.CategoryId,
+                    CategoryId = 3,
                     Rate = model.Rate
                 }; Post = post;
             }
@@ -35,7 +35,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                     ImageAlt = model.ImageAlt,
                     PublicationDate = model.PublicationDate,
                     Author = model.Author,
-                    CategoryId = model.CategoryId,
+                    CategoryId = 4,
                     Rate = model.Rate
                 }; Post = post;
             }
@@ -50,7 +50,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                     ImageAlt = model.ImageAlt,
                     PublicationDate = model.PublicationDate,
                     Author = model.Author,
-                    CategoryId = model.CategoryId,
+                    CategoryId = 5,
                     Rate = model.Rate
                 }; Post = post;
             }
@@ -65,7 +65,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                     ImageAlt = model.ImageAlt,
                     PublicationDate = model.PublicationDate,
                     Author = model.Author,
-                    CategoryId = model.CategoryId,
+                    CategoryId = 2,
                     Rate = model.Rate
                 }; Post = post;
             }
@@ -80,7 +80,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                     ImageAlt = model.ImageAlt,
                     PublicationDate = model.PublicationDate,
                     Author = model.Author,
-                    CategoryId = model.CategoryId,
+                    CategoryId = 1,
                     Rate = model.Rate
                 }; Post = post;
             }
@@ -95,7 +95,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
                     ImageAlt = model.ImageAlt,
                     PublicationDate = model.PublicationDate,
                     Author = model.Author,
-                    CategoryId = model.CategoryId,
+                    CategoryId = 1,
                     Rate = model.Rate
                 }; Post = post;
             }
@@ -113,6 +113,8 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
 
         public PostViewModel GetPostModel(BasePost post)
         {
+            if (post == null) { return new PostViewModel(); }
+
             PostViewModel model = new()
             {
                 Id = post.Id,

@@ -1,5 +1,8 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
 @using Opuestos_por_el_Vertice.Models.ViewModels
 @model ViewKindViewModel
+@{
+    ViewBag.WebTitle = Model.WebTitle;
+}
 
 <partial name="../Shared/_SearchPartial.cshtml" model="@Model" />

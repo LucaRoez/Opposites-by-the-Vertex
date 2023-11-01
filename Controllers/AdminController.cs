@@ -41,10 +41,12 @@ namespace Opuestos_por_el_Vertice.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id, PostViewModel model, string category)
+        public async Task<IActionResult> Update(int id, ViewKindViewModel webInfo, string category)
         {
+            var post = webInfo.ObjectClass.CurrentPost;
+            post.CategoryId = webInfo.AdminInfo.CategoryId;
 
-            await _admin.UpdatePost(id, model, category);
+            await _admin.UpdatePost(id, post, category);
             TempData["AdminMessage"] = "It is updated satisfactorily";
 
             return RedirectToAction("Index");

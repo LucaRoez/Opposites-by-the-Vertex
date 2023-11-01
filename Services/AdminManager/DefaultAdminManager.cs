@@ -20,7 +20,7 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
         {
             model = CheckNulls(model); model.Category = GetCategoryName(model.CategoryId);
             BasePost Post = _dataTruck.GetPostData(ParsePostBody(model));
-            await _repository.Create(Post);
+            await _repository.Create(Post, model.Category);
         }
 
         public async Task RemovePost(int id, string category)
@@ -29,11 +29,37 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
             await _repository.Remove(Post);
         }
 
-        public async Task UpdatePost(int id, PostViewModel model, string category)
+        public async Task UpdatePost(int id, PostViewModel model, string oldCategory)
         {
+            int categoryId = model.CategoryId;
+            model = CheckNulls(model); string newCategory = GetCategoryName(categoryId);
             model = ParsePostBody(model);
+            BasePost Post = await _repository.DetailOne(oldCategory, id);
 
-            BasePost Post = await _repository.DetailOne(category, id);
+            if (categoryId != Post.CategoryId)
+            {
+                model.PublicationDate = Post.PublicationDate;
+                model.Rate = Post.Rate;
+
+                await _repository.Remove(Post);
+
+                Post = new();
+                {
+                    Post.Id = 0;
+                    Post.Title = model.Title;
+                    Post.SubTitle = model.SubTitle;
+                    Post.Body = model.Body;
+                    Post.Image = model.Image;
+                    Post.ImageAlt = model.ImageAlt;
+                    Post.Author = model.Author;
+                    Post.CategoryId = categoryId;
+                    Post.Rate = model.Rate;
+                    Post.PublicationDate = model.PublicationDate;
+                }
+
+                await _repository.Create(Post, newCategory);
+            }
+            else
             {
                 Post.Title = model.Title;
                 Post.SubTitle = model.SubTitle;
@@ -42,9 +68,9 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
                 Post.ImageAlt = model.ImageAlt;
                 Post.Author = model.Author;
                 Post.CategoryId = model.CategoryId;
-            }
 
-            await _repository.Update(Post);
+                await _repository.Update(Post);
+            }
         }
 
         private PostViewModel CheckNulls(PostViewModel post)

@@ -13,8 +13,8 @@
     </div>
     <div class="admin-body row">
         <form asp-action="Remove" method="post">
-            <input type="hidden" asp-for="@Model.ObjectClass.CurrentPost.Id" />
-            <input type="hidden" asp-for="@Model.ObjectClass.CurrentPost.Category" value="@Model.ObjectClass.CurrentPost.Id" />
+            <input type="hidden" asp-for="@Model.ObjectClass.CurrentPost.Id" value="@Model.ObjectClass.CurrentPost.Id" name="id" />
+            <input type="hidden" asp-for="@Model.ObjectClass.CurrentPost.Category" value="@Model.ObjectClass.CurrentPost.Category" name="category" />
 
             <div class="form-group">
                 <label for="post-title" class="form-label">Title</label>

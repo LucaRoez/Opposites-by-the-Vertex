@@ -21,6 +21,6 @@
 
 > [!IMPORTANT]
 > for use the creation admin resource, in the body follow this reference symbols for html tags applying:
-1. "<..>" => <p>
-1. "<title>" => <h3> && "</title>" => </h3>
-1. "<litle>" => <h5> && "</litle>" => </h5>
+1. "<..>" => add another paragraph
+1. "<title>" => add a header opening tag && "</title>" => and finish with a header closing tag
+1. "<litle>" => add same header but smaller && "</litle>" => and remember close the smaller header
