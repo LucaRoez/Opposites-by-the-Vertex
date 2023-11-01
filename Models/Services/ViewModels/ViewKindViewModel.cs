@@ -15,6 +15,7 @@
         public int CurrentPage { get; set; }
         public AdminPackage AdminInfo { get; set; }
         public SearchViewModel SearchData { get; set; }
+        public AsideViewModel AsideData { get; set; }
         public ViewKindViewModel()
         {
             ObjectClass = new();
@@ -24,6 +25,7 @@
             CurrentPage = 0;
             AdminInfo = new();
             SearchData = new();
+            AsideData = new();
         }
     }
 }

@@ -12,7 +12,7 @@
         listLenght = 10;
         if (Model.CurrentPage == totalPages) { if (rest != 0) { listLenght = rest; } }
     }
-    // here the post per page is trimmed
+    // here the post list is trimmed per page
     List<PostViewModel> pageList = new();
     if (filter > 0)
     {
@@ -21,6 +21,13 @@
 }
 
 <div class="container">
+    <div class="search-head row">
+        <div class="col">
+            <form asp-controller="Admin" asp-action="DeleteAll" asp-route-identifier="@Model.SearchData.Action" method="post">
+                <button type="submit" class="btn btn-danger">Erase All Post</button>
+            </form>
+        </div>
+    </div>
     <div class="search-body row">
         <div class="col">
             <ul class="list-group">

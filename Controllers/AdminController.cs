@@ -60,5 +60,14 @@ namespace Opuestos_por_el_Vertice.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveAll(string identifier)
+        {
+            await _admin.RemoveAll(identifier);
+            TempData["AdminMessage"] = "All publications were removed satisfactorily";
+
+            return RedirectToAction("Index");
+        }
     }
 }

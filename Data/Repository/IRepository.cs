@@ -11,6 +11,7 @@ namespace Opuestos_por_el_Vertice.Data.Repository
         Task Create(BasePost post, string category);
         Task Remove(BasePost post);
         Task Update(BasePost post);
+        Task RemoveAll(string identifier);
         Task<BasePost> DetailOne(string category,int id);
         List<BasePost> DetailAll(string category);
         List<Category> GetCategories();

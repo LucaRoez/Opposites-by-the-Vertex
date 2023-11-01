@@ -2,76 +2,10 @@
 @using Opuestos_por_el_Vertice.Models.ViewModels
 @model ViewKindViewModel
 @{
-    List<List<PostViewModel>> asidesList = new();
-    // here the list or lists are added
-    var list = Model.ObjectClass.CurrentPostList;
-    // this little tangle is because the Post View content constrains
-    if (Model.Kind.Equals("Post") || Model.Kind.Contains("Search") && !Model.Kind.Contains("Index"))
-    {
-        // post single cast categorization
-        if (list.Count > 0)
-        {
-            if (list[0].Category.Equals("New")) { asidesList.Add(list.Where(p => p.Category == "New").ToList()); }
-            else if (list[0].Category.Equals("Event")) { asidesList.Add(list.Where(p => p.Category == "Event").ToList()); }
-            else if (list[0].Category.Equals("Genre")) { asidesList.Add(list.Where(p => p.Category == "Genre").ToList()); }
-            else if (list[0].Category == "Album") { asidesList.Add(list.Where(p => p.Category == "Album").ToList()); }
-            else { asidesList.Add(list.Where(p => p.Category == "Artist").ToList()); }     // always it prioritize Artist catalog front anothers options
-        }
-        else { List<PostViewModel> ghostAside = new(); asidesList.Add(ghostAside); }
-    }
-    else
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            switch (i)
-            {
-                case 2: asidesList.Add(list.Where(p => p.Category == "New").ToList()); break;
-                case 1: asidesList.Add(list.Where(p => p.Category == "Event").ToList()); break;
-                default: asidesList.Add(list.Where(p => p.Category == "Artist").ToList()); break;
-            }
-        }
-    }
-
-    // and here the title or title list are added
-    string asideTitle = "";
-    List<string> asideTitles = new(); asideTitles.Add("Artist or Bands More Popular"); asideTitles.Add("Shows and Concerts More Popular");
-    asideTitles.Add("Relevant Metal News"); asideTitles.Add("Albums More Popular"); asideTitles.Add("Genres or Subgenres More Popular");
-    // this is for the Post path
-    if (Model.ObjectClass.CurrentPost.Category != "")
-    {
-        switch (Model.ObjectClass.CurrentPost.Category)
-        {
-            case "Genre": asideTitle = asideTitles[4]; break;
-            case "Album": asideTitle = asideTitles[3]; break;
-            case "New": asideTitle = asideTitles[2]; break;
-            case "Event": asideTitle = asideTitles[1]; break;
-            default: asideTitle = asideTitles[0]; break;
-        }
-    }
-    // and this for the specific Search one
-    else if (Model.Kind.Contains("Search") && !Model.Kind.Contains("Index"))
-    {
-        switch (Model.Kind)
-        {
-            case "GenresSearch": asideTitle = asideTitles[4]; break;
-            case "AlbumsSearch": asideTitle = asideTitles[3]; break;
-            case "NewsSearch": asideTitle = asideTitles[2]; break;
-            case "EventsSearch": asideTitle = asideTitles[1]; break;
-            default: asideTitle = asideTitles[0]; break;
-        }
-    }
-    // finally there's no need to set the colective aside titles list because we already have it in the asideTitles list with the order
-
-    // and here the Search Bar info
-    SearchViewModel searchViewModel = new();
-    var action = Model.Kind;
-    if (action.Contains("Search") && !Model.Kind.Contains("Index"))
-    {
-        action = action.Replace("Search", "");
-    }
-    else if (action == "Post") { action = Model.ObjectClass.CurrentPost.Category + "s"; }
-    else { action = "IndexSearch"; }
-    searchViewModel.Action = action;
+    SearchViewModel searchViewModel = Model.AsideData.SearchData;
+    List<List<PostViewModel>> asidesList = Model.AsideData.asidesList;
+    List<string> asideTitles = Model.AsideData.asideTitles;
+    string asideTitle = Model.AsideData.asideTitle;
 }
 
 <div class="container text-center">

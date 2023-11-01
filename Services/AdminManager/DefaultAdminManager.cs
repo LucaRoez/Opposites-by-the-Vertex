@@ -73,6 +73,8 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
             }
         }
 
+        public async Task RemoveAll(string identifier) => await _repository.RemoveAll(identifier);
+
         private PostViewModel CheckNulls(PostViewModel post)
         {
             if (post.Body == null) { post.Body = ""; }

@@ -4,6 +4,7 @@ using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.Data_Tranfer;
+using Opuestos_por_el_Vertice.Services.Searcher;
 using System.Collections.Generic;
 
 namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
@@ -13,10 +14,12 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
     {
         private readonly IRepository _repository;
         private readonly IDataTruck _dataTruck;
-        public DefaultViewEnvelopment(IRepository repository, IDataTruck dataTruck)
+        private readonly ISearcher _searcher;
+        public DefaultViewEnvelopment(IRepository repository, IDataTruck dataTruck, ISearcher searcher)
         {
             _repository = repository;
             _dataTruck = dataTruck;
+            _searcher = searcher;
         }
 
         public async Task<ViewKindViewModel> GetStandardEnvelopment(string controllerInput)
@@ -28,8 +31,8 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             PostViewModel post = new();
             List<string> schemas = new();
             if (controllerInput == "Home" || controllerInput == "Privacy" ||
-                controllerInput == "About") { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
-            else { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
+                controllerInput == "About") { posts = _searcher.GetViewModelList(GetSchemas(controllerInput), 5); }
+            else { posts = _searcher.GetViewModelList(GetSchemas(controllerInput), 5); }
 
             // And this is the final shipping object, with his own web site logic
             ViewKindViewModel viewClass = new();
@@ -64,6 +67,8 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     break;
             }
 
+            viewClass.AsideData = _searcher.GetAsideSearch(posts, controllerInput, post, new SearchViewModel() { Action = controllerInput });
+
             return viewClass;
         }
 
@@ -76,14 +81,13 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
 
             if (controllerInput == "Post")
             {
-                models = GetViewModelList(GetSchemas(postCategory), 1);
+                models = _searcher.GetViewModelList(GetSchemas(postCategory), 1);
                 model = models.Find(p => p.Id == id); model ??= new();
             }
             else if (controllerInput == "Admin")
             {
-                await _repository.ArrangeDb();
-                models = GetViewModelList(GetSchemas(controllerInput), 5);
-                if (id == 0) { model = new(); } else { model = await GetViewModel(id, postCategory); }
+                models = _searcher.GetViewModelList(GetSchemas(controllerInput), 5);
+                if (id == 0) { model = new(); } else { model = await _searcher.GetViewModel(id, postCategory); }
             }
 
             ViewKindViewModel viewClass = new();
@@ -120,6 +124,8 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
                     break;
             }
 
+            viewClass.AsideData = _searcher.GetAsideSearch(models, controllerInput, model, new SearchViewModel() { Action = controllerInput });
+
             return viewClass;
         }
 
@@ -129,8 +135,8 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             PostViewModel post = new();
             List<string> schemas = new();
 
-            if (controllerInput.StartsWith("Index")) { posts = GetViewModelList(GetSchemas(controllerInput), 5); }
-            else { posts = GetViewModelList(GetSchemas(extraData), 1); }
+            if (controllerInput.StartsWith("Index")) { posts = _searcher.GetViewModelList(GetSchemas(controllerInput), 5); }
+            else { posts = _searcher.GetViewModelList(GetSchemas(extraData), 1); }
 
             ViewKindViewModel viewClass = new();
             string categorySearch = "";
@@ -205,13 +211,14 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             }
 
             viewClass.SearchData = search;
-            viewClass.SearchData.SearchList = GetSearch(search.Search, categorySearch).OrderByDescending(p => p.PublicationDate).ToList();
-            viewClass.SearchData.PaginationData = GetPaginationData(viewClass.SearchData.SearchList.Count);
+            viewClass.SearchData.SearchList = _searcher.GetSearch(search.Search, categorySearch).OrderByDescending(p => p.PublicationDate).ToList();
+            viewClass.SearchData.PaginationData = _searcher.GetPaginationData(viewClass.SearchData.SearchList.Count);
+            viewClass.AsideData = _searcher.GetAsideSearch(posts, controllerInput, post, search);
 
             return viewClass;
         }
 
-        // database comunication behavior
+        // Db posting kind classification
         private string[] GetSchemas(string controller)
         {
             string[] schemas = new string[5];
@@ -237,17 +244,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
 
             return schemas;
         }
-        private List<PostViewModel> GetViewModelList(string[] schemas, int iterations)
-        {
-            List<BasePost> Posts = new();
-            for (int i = 0; i < iterations; i++)
-            {
-                if (i == 0) { Posts = _repository.DetailAll(schemas[i]); } else { Posts.AddRange(_repository.DetailAll(schemas[i])); }
-            }
-
-            return _dataTruck.GetAllPostModels(Posts);
-        }
-        private async Task<PostViewModel> GetViewModel(int id, string postCategory) => _dataTruck.GetPostModel(await _repository.DetailOne(postCategory, id));
         // supplemental view information
         private List<string> GetExtraInfo(string controllerInput, PostViewModel post)
         {
@@ -326,81 +322,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             }
 
             return extraInfo;
-        }
-        // search mechanism
-        private List<PostViewModel> GetSearch(string search, string category)
-        {
-            List<BasePost> finalSearch = new();
-            if (search == "" || search == null)
-            {
-                if (category == "Index")
-                {
-                    finalSearch = GlobalSearch(finalSearch, "");
-                }
-                else { finalSearch = GetSearchList(category, finalSearch, ""); }
-            }
-            else
-            {
-                if (category == "Index")
-                {
-                    finalSearch = GlobalSearch(finalSearch, search);
-                }
-                else { finalSearch = GetSearchList(category, finalSearch, search); }
-            }
-
-            return _dataTruck.GetAllPostModels(finalSearch);
-        }
-        private List<BasePost> GlobalSearch(List<BasePost> finalSearch, string search)
-        {
-            for (int i = 0; i< 5; i++)
-            {
-                switch (i)
-                {
-                    case 4: finalSearch = GetSearchList("Genre", finalSearch, search); break;
-
-                    case 3: finalSearch = GetSearchList("Album", finalSearch, search); break;
-
-                    case 2: finalSearch = GetSearchList("Artist", finalSearch, search); break;
-
-                    case 1: finalSearch = GetSearchList("Event", finalSearch, search); break;
-
-                    default: finalSearch = GetSearchList("New", finalSearch, search); break;
-                }
-            }
-
-            return finalSearch;
-        }
-        private List<BasePost> GetSearchList(string memory, List<BasePost> List, string search)
-        {
-            if (search != "")
-            {
-                search = search.Trim().ToLower();
-                string searchStart = ""; string searchEnd = "";
-                for (int i = 0; i < search.Length / 2; i++) { searchStart += search[i]; }
-                for (int i = search.Length / 2; i < search.Length; i++) { searchEnd += search[i]; }
-
-                if (searchStart == "" || searchEnd == "") { List.AddRange(_repository.DetailAll(memory).Where(p => p.Title.ToLower().Contains(search)).ToList()); }
-                else
-                {
-                    List.AddRange(_repository.DetailAll(memory).Where(p => p.Title.ToLower().Contains(search) || p.Title.ToLower().Contains(searchStart) || p.Title.ToLower().Contains(searchEnd)).ToList());
-                }
-            }
-            else { List.AddRange(_repository.DetailAll(memory)); }
-
-            return List;
-        }
-        // pagination loads
-        private List<int> GetPaginationData(int totalPosts)
-        {
-            List<int> paginationData = new();
-            if (totalPosts == 0) { totalPosts++; }
-            var divider = 10;
-            var totalPages = totalPosts / divider;
-            var rest = totalPosts % divider;
-            if (rest > 0) { totalPages++; }
-
-            paginationData.Add(totalPosts); paginationData.Add(totalPages); paginationData.Add(rest);
-            return paginationData;
         }
     }
 }

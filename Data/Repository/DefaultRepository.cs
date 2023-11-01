@@ -100,6 +100,12 @@ namespace Opuestos_por_el_Vertice.Data.Repository
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task RemoveAll(string identifier)
+        {
+            _dbContext.RemoveRange(identifier);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task Update(BasePost post)
         {
             _dbContext.Update(post);
