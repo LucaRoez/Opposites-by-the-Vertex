@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-using Opuestos_por_el_Vertice.Data.Entities;
+﻿using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.Data_Tranfer;

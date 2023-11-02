@@ -2,10 +2,6 @@
 @using Opuestos_por_el_Vertice.Models.Services.ViewModels
 @model SearchViewModel
 @{
-    if (Model.Action.Contains("Search"))
-    {
-        Model.Action = Model.Action.Replace("Search", "");
-    }
 }
 
 <form asp-controller="Search" asp-action="@Model.Action" method="post" class="search-bar-form">

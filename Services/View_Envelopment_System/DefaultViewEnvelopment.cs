@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.Hosting;
-using Opuestos_por_el_Vertice.Data.Entities;
+﻿using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.Data_Tranfer;
 using Opuestos_por_el_Vertice.Services.Searcher;
-using System.Collections.Generic;
 
 namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
 {
@@ -72,7 +70,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             return viewClass;
         }
 
-        public async Task<ViewKindViewModel> GetPostEnvelopment(string controllerInput, int id, string postCategory)
+        public async Task<ViewKindViewModel> GetModelEnvelopment(string controllerInput, int id, string postCategory)
         {
             List<PostViewModel> models = new();
             PostViewModel model = new();
@@ -87,7 +85,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
             else if (controllerInput == "Admin")
             {
                 models = _searcher.GetViewModelList(GetSchemas(controllerInput), 5);
-                if (id == 0) { model = new(); } else { model = await _searcher.GetViewModel(id, postCategory); }
+                if (id == 0) { model = new() { Category = postCategory }; } else { model = await _searcher.GetViewModel(id, postCategory); }
             }
 
             ViewKindViewModel viewClass = new();

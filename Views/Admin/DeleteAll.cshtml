@@ -1,0 +1,27 @@
+﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
+@model ViewKindViewModel
+@{
+    string dbContextToErase = "";
+    string action = Model.AsideData.SearchData.Action;
+    switch (action)
+    {
+        case "Index": dbContextToErase = "Every Publication Posted in All the Data Base"; break;
+        default: dbContextToErase = String.Format("All the {0} Publications Type Posted in the Data Base", Model.AsideData.SearchData.Action); break;
+    }
+}
+
+<div class="container row">
+    <div class="col">
+        <div class="confirmation-title row">
+            <h3>Are you really sure you want to @dbContextToErase?</h3>
+        </div>
+        <div class="confirmation-buttons row">
+            <div class="col">
+                <form asp-controller="Admin" asp-action="RemoveAll" asp-route-identifier="@action"><button type="submit" class="btn btn-danger">Yes, I'm Sure</button></form>
+            </div>
+            <div class="col">
+                <form asp-controller="Home" asp-action="Index"><button type="submit" class="btn btn-primary">No, I retract myself</button></form>
+            </div>
+        </div>
+    </div>
+</div>

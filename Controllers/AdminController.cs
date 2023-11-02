@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
@@ -19,13 +20,16 @@ namespace Opuestos_por_el_Vertice.Controllers
             _admin = admin;
         }
 
-        public async Task<IActionResult> Index(string message = "", string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, 0, message));
+        public async Task<IActionResult> Index(string message = "", string controllerInput = "Admin") => View(await _envelopment.GetModelEnvelopment(controllerInput, 0, message));
 
-        public async Task<IActionResult> New(string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, 0, ""));
+        public async Task<IActionResult> New(string controllerInput = "Admin") => View(await _envelopment.GetModelEnvelopment(controllerInput, 0, ""));
 
-        public async Task<IActionResult> Modify(int id, string category, string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, id, category));
+        public async Task<IActionResult> Modify(int id, string category, string controllerInput = "Admin") => View(await _envelopment.GetModelEnvelopment(controllerInput, id, category));
 
-        public async Task<IActionResult> Delete(int id, string category, string controllerInput = "Admin") => View(await _envelopment.GetPostEnvelopment(controllerInput, id, category));
+        public async Task<IActionResult> Delete(int id, string category, string controllerInput = "Admin") => View(await _envelopment.GetModelEnvelopment(controllerInput, id, category));
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAll(string identifier, int id = 0, string controllerInput = "Admin") => View(await _envelopment.GetModelEnvelopment(controllerInput, id, identifier));
 
         [HttpPost]
         public async Task<IActionResult> Create(ViewKindViewModel webInfo)

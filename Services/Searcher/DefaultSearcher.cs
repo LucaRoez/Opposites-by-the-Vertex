@@ -3,6 +3,7 @@ using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.Data_Tranfer;
+using System.Diagnostics;
 
 namespace Opuestos_por_el_Vertice.Services.Searcher
 {
@@ -110,11 +111,24 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
         public AsideViewModel GetAsideSearch(List<PostViewModel> pageList, string pageKind, PostViewModel model, SearchViewModel search)
         {
             AsideViewModel finalAside = new();
-            List<List<PostViewModel>> asidesList = finalAside.asidesList;
-            // this little tangle is because the Post View content constrains
+            finalAside.AsidesList = SelectPostList(pageKind, finalAside.AsidesList, pageList);
+
+            finalAside.AsideTitles.Add("Artist or Bands More Popular");
+            finalAside.AsideTitles.Add("Shows and Concerts More Popular");
+            finalAside.AsideTitles.Add("Relevant Metal News");
+            finalAside.AsideTitles.Add("Albums More Popular");
+            finalAside.AsideTitles.Add("Genres or Subgenres More Popular");
+            finalAside.AsideTitle = GetFinalAsideTitle(finalAside.AsideTitles, model.Category, pageKind);
+
+            finalAside.SearchData = GetActionView(pageKind, model.Category, search);
+
+            return finalAside;
+        }
+        private List<List<PostViewModel>> SelectPostList(string pageKind, List<List<PostViewModel>> asidesList, List<PostViewModel> pageList)
+        {
             if (pageKind.Equals("Post") || pageKind.Contains("Search") && !pageKind.Contains("Index"))
             {
-                // post single cast categorization
+                // single post cast categorization
                 if (pageList.Count > 0)
                 {
                     if (pageList[0].Category.Equals("New")) { asidesList.Add(pageList.Where(p => p.Category == "New").ToList()); }
@@ -127,6 +141,7 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
             }
             else
             {
+                // general multi-post cast categorization
                 for (int i = 0; i < 3; i++)
                 {
                     switch (i)
@@ -138,14 +153,15 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
                 }
             }
 
-            // and here the title or title list are added
-            string asideTitle = finalAside.asideTitle;
-            List<string> asideTitles = finalAside.asideTitles; asideTitles.Add("Artist or Bands More Popular"); asideTitles.Add("Shows and Concerts More Popular");
-            asideTitles.Add("Relevant Metal News"); asideTitles.Add("Albums More Popular"); asideTitles.Add("Genres or Subgenres More Popular");
+            return asidesList;
+        }
+        private string GetFinalAsideTitle(List<string> asideTitles, string modelCategory, string pageKind)
+        {
+            string asideTitle = "";
             // this is for the Post path
-            if (model.Category != "")
+            if (modelCategory != "")
             {
-                switch (model.Category)
+                switch (modelCategory)
                 {
                     case "Genre": asideTitle = asideTitles[4]; break;
                     case "Album": asideTitle = asideTitles[3]; break;
@@ -167,19 +183,19 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
                 }
             }
             // finally there's no need to set the colective aside titles list because we already have it in the asideTitles list with the order
-
-            // and here the Search Bar info
-            var action = pageKind;
-            if (action.Contains("Search") && !pageKind.Contains("Index"))
+            return asideTitle;
+        }
+        private SearchViewModel GetActionView(string pageKind, string modelCategory, SearchViewModel search)
+        {
+            if (pageKind.Contains("Search") && !pageKind.Contains("Index"))
             {
-                action = action.Replace("Search", "");
+                search.Action = pageKind.Replace("Search", "");
             }
-            else if (action == "Post") { action = model.Category + "s"; }
-            else { action = "Index"; }
-            search.Action = action;
-            finalAside.SearchData = search;
+            else if (pageKind == "Post") { search.Action = modelCategory + "s"; }
+            else if (pageKind == "Admin") { search.Action = modelCategory; }
+            else { search.Action = "Index"; }
 
-            return finalAside;
+            return search;
         }
     }
 }
