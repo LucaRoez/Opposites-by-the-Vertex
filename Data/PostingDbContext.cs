@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using Opuestos_por_el_Vertice.Data.Entities;
 
 namespace Opuestos_por_el_Vertice.Data

@@ -1,6 +1,6 @@
 ﻿using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 
-namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
+namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
 {
     /*
      * This Service is for the View data envelopment, so the Controller sends the web site where it comes from, therefore it communicates with

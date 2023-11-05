@@ -5,7 +5,7 @@ using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.Data_Tranfer;
 using Opuestos_por_el_Vertice.Services.Searcher;
 
-namespace Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System
+namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
 {
     // remember always the default web site value is the Home
     public class DefaultViewEnvelopment : IViewEnvelopment

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Opuestos_por_el_Vertice.Data.Entities;
-using Opuestos_por_el_Vertice.Models.Services.View_Envelopment_System;
+using Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
-using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.AdminManager;
 
 namespace Opuestos_por_el_Vertice.Controllers
@@ -34,43 +32,63 @@ namespace Opuestos_por_el_Vertice.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ViewKindViewModel webInfo)
         {
-            var post = webInfo.ObjectClass.CurrentPost;
-            post.CategoryId = webInfo.AdminInfo.CategoryId;
-            post.PublicationDate = DateTime.Now;
+            ModelState.Remove("ObjectClass.CurrentPost.Body");
+            if (ModelState.IsValid)
+            {
+                var post = webInfo.ObjectClass.CurrentPost;
+                post.CategoryId = webInfo.AdminInfo.CategoryId;
+                post.PublicationDate = DateTime.Now;
 
-            await _admin.CreateNewPost(post);
-            TempData["AdminMessage"] = "It is created satisfactorily";
+                await _admin.CreateNewPost(post);
+                TempData["AdminMessage"] = "It is created satisfactorily.";
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("New", webInfo);
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(int id, ViewKindViewModel webInfo, string category)
         {
-            var post = webInfo.ObjectClass.CurrentPost;
-            post.CategoryId = webInfo.AdminInfo.CategoryId;
+            ModelState.Remove("ObjectClass.CurrentPost.Body");
+            if (ModelState.IsValid)
+            {
+                var post = webInfo.ObjectClass.CurrentPost;
+                post.CategoryId = webInfo.AdminInfo.CategoryId;
 
-            await _admin.UpdatePost(id, post, category);
-            TempData["AdminMessage"] = "It is updated satisfactorily";
+                await _admin.UpdatePost(id, post, category);
+                TempData["AdminMessage"] = "It is updated satisfactorily.";
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("New", webInfo);
         }
 
         [HttpPost]
         public async Task<IActionResult> Remove(int id, string category)
         {
-            await _admin.RemovePost(id, category);
-            TempData["AdminMessage"] = "It is removed satisfactorily";
+            if (!string.IsNullOrEmpty(category) || !string.IsNullOrEmpty(id.ToString()))
+            {
+                await _admin.RemovePost(id, category);
+                TempData["AdminMessage"] = "It is removed satisfactorily.";
 
+                return RedirectToAction("Index");
+            }
+            TempData["AdminMessage"] = "There was an error while model data collection attempt.";
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public async Task<IActionResult> RemoveAll(string identifier)
         {
-            await _admin.RemoveAll(identifier);
-            TempData["AdminMessage"] = "All publications were removed satisfactorily";
+            if (!string.IsNullOrEmpty(identifier))
+            {
+                await _admin.RemoveAll(identifier);
+                TempData["AdminMessage"] = "All publications were removed satisfactorily.";
 
+                return RedirectToAction("Index");
+            }
+            TempData["AdminMessage"] = "There was an error while model data collection attempt.";
             return RedirectToAction("Index");
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Opuestos_por_el_Vertice.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Opuestos_por_el_Vertice.Data.Repository
 {
