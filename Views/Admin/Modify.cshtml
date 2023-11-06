@@ -11,54 +11,51 @@
     </div>
     <div class="admin-body row">
         <form asp-action="Update" method="post">
-            <input type="hidden" asp-for="@Model.ObjectClass.CurrentPost.Id" name="id" />
-            <input type="hidden" asp-for="@Model.ObjectClass.CurrentPost.Category" name="category" />
+            @Html.HiddenFor(m => m.ObjectClass.CurrentPost.Id, new {@value=Model.ObjectClass.CurrentPost.Id})
+            @Html.HiddenFor(m => m.ObjectClass.CurrentPost.Category, new {@value=Model.ObjectClass.CurrentPost.Category})
 
             <div class="form-group">
                 <label for="post-title" class="form-label">Title</label>
-                <input id="post-title" type="text" asp-for="@Model.ObjectClass.CurrentPost.Title" value="@Model.ObjectClass.CurrentPost.Title" class="form-control" />
+                @Html.TextBoxFor(m => m.ObjectClass.CurrentPost.Title,
+                    new {@class="form-control", id="post-title", type="text", value=Model.ObjectClass.CurrentPost.Title})
             </div>
 
             <div class="form-group">
                 <label for="post-sub" class="form-label">Subtitle</label>
-                <input id="post-sub" type="text" asp-for="@Model.ObjectClass.CurrentPost.SubTitle" value="@Model.ObjectClass.CurrentPost.SubTitle" class="form-control" />
+                @Html.TextBoxFor(m => m.ObjectClass.CurrentPost.SubTitle,
+                    new {@class="form-control", id="post-sub", type="text", value=Model.ObjectClass.CurrentPost.SubTitle})
             </div>
             
             <div class="form-group">
                 <label for="front-img" class="form-label">Front Image file source</label>
-                <input id="front-img" type="text" asp-for="@Model.ObjectClass.CurrentPost.Image" value="@Model.ObjectClass.CurrentPost.Image" class="form-control" />
+                @Html.TextBoxFor(m => m.ObjectClass.CurrentPost.Image,
+                    new {@class="form-control", id="front-img", type="text", value=Model.ObjectClass.CurrentPost.Image})
             </div>
 
             <div class="form-group">
                 <label for="front-alt" class="form-label">Front Image description</label>
-                <input id="front-alt" type="text" asp-for="@Model.ObjectClass.CurrentPost.ImageAlt" value="@Model.ObjectClass.CurrentPost.ImageAlt" class="form-control" />
+                @Html.TextBoxFor(m => m.ObjectClass.CurrentPost.ImageAlt,
+                    new {@class="form-control", id="front-alt", type="text", value=Model.ObjectClass.CurrentPost.ImageAlt})
             </div>
 
             <div class="form-group">
                 <label for="author" class="form-label">Author Name</label>
-                <input id="author" type="text" asp-for="@Model.ObjectClass.CurrentPost.Author" value="@Model.ObjectClass.CurrentPost.Author" class="form-control" />
+                @Html.TextBoxFor(m => m.ObjectClass.CurrentPost.Author,
+                    new {@class="form-control", id="author", type="text", value=Model.ObjectClass.CurrentPost.Author})
             </div>
 
             <div class="form-group">
                 <label for="post-body" class="form-label">Post Body</label>
-                <textarea id="post-body" type="text" asp-for="@Model.ObjectClass.CurrentPost.Body" value="@Model.ObjectClass.CurrentPost.Body" class="form-control" rows="6"></textarea>
+                @Html.TextAreaFor(m => m.ObjectClass.CurrentPost.Body, 10, 1,
+                    new {@class="form-control", id="post-category", type="text", value=Model.ObjectClass.CurrentPost.Body})
             </div>
 
             <div class="form-group">
                 <label for="post-category" class="form-label">Post Category</label>
-            <select id="post-category" type="text" asp-for="@Model.AdminInfo.CategoryId" class="form-select">
-                @foreach (CategoryViewModel category in Model.AdminInfo.Categories.Categories)
-                {
-                        if (category.Id == Model.ObjectClass.CurrentPost.CategoryId)
-                        {
-                            <option value="@category.Id" selected>@category.Category</option>
-                        }
-                        else
-                        {
-                            <option value="@category.Id">@category.Category</option>
-                        }
-                    }
-            </select>
+                @Html.DropDownListFor(m => m.ObjectClass.CurrentPost.CategoryId, new SelectList( Model.AdminInfo.Categories.Categories, "Id", "Category"),
+                    "Witch Class of Post is it?",
+                    new {@class="form-control", id="post-category", type="text"})
+            </div>
 
             <button type="submit" class="btn btn-warning">Update Record</button>
         </form>

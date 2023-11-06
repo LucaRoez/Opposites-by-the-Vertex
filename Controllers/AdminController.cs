@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
+using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.AdminManager;
 
 namespace Opuestos_por_el_Vertice.Controllers
@@ -44,24 +46,26 @@ namespace Opuestos_por_el_Vertice.Controllers
 
                 return RedirectToAction("Index");
             }
-            return RedirectToAction("New", webInfo);
+            return View("New", await _envelopment.GetModelEnvelopment("Admin", 0, ""));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id, ViewKindViewModel webInfo, string category)
+        public async Task<IActionResult> Update(ViewKindViewModel webInfo)
         {
             ModelState.Remove("ObjectClass.CurrentPost.Body");
             if (ModelState.IsValid)
             {
                 var post = webInfo.ObjectClass.CurrentPost;
-                post.CategoryId = webInfo.AdminInfo.CategoryId;
+                int categoryId = webInfo.AdminInfo.CategoryId;
+                if (categoryId != 0) { post.CategoryId = categoryId; }
+                else { categoryId = post.CategoryId; }
 
-                await _admin.UpdatePost(id, post, category);
+                await _admin.UpdatePost(post.Id, post, post.Category);
                 TempData["AdminMessage"] = "It is updated satisfactorily.";
 
                 return RedirectToAction("Index");
             }
-            return RedirectToAction("New", webInfo);
+            return View("Modify", await _envelopment.GetModelEnvelopment("Admin", 0, ""));
         }
 
         [HttpPost]

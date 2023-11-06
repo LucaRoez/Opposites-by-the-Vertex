@@ -5,15 +5,15 @@
     string action = Model.AsideData.SearchData.Action;
     switch (action)
     {
-        case "Index": dbContextToErase = "Every Publication Posted in All the Data Base"; break;
-        default: dbContextToErase = String.Format("All the {0} Publications Type Posted in the Data Base", Model.AsideData.SearchData.Action); break;
+        case "Index": dbContextToErase = "Every Publication Stored in the Data Base"; break;
+        default: dbContextToErase = String.Format("All the {0} Publications Type Stored in the Data Base", Model.AsideData.SearchData.Action); break;
     }
 }
 
 <div class="container row">
     <div class="col">
         <div class="confirmation-title row">
-            <h3>Are you really sure you want to @dbContextToErase?</h3>
+            <h3>Are you really sure you want to DELETE @dbContextToErase?</h3>
         </div>
         <div class="confirmation-buttons row">
             <div class="col">
