@@ -40,27 +40,25 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                 case "Home":
                     viewClass.Kind = new String("Home");
                     viewClass.WebTitle = "Home Page";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
                     break;
 
                 case "Privacy":
                     viewClass.Kind = new String("Privacy");
                     viewClass.WebTitle = "Privacy Page";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
                     break;
 
                 case "About":
                     viewClass.Kind = new String("About");
                     viewClass.WebTitle = "About us";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
                     break;
 
                 default:
                     viewClass.Kind = new String("Home");
                     viewClass.WebTitle = "Home Page";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
                     break;
             }
+
+            viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
 
             viewClass.AsideData = _searcher.GetAsideSearch(posts, controllerInput, post, new SearchViewModel() { Action = controllerInput });
 
@@ -94,30 +92,27 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                 case "Post":
                     viewClass.Kind = new String("Post");
                     viewClass.WebTitle = String.Format("{0} - {1}", model.Title, postCategory);
-                    viewClass.ObjectClass.CurrentPostList = models.OrderByDescending(p => p.Rate).ToList();
                     // update rating mechanism
                     model.Rate++; Post = await _repository.DetailOne(postCategory, id);
                     Post.Rate = model.Rate; await _repository.Update(Post);
-                    viewClass.ObjectClass.CurrentPost = model;
                     break;
 
                 case "Admin":
                     viewClass.Kind = new String("Admin");
                     viewClass.WebTitle = "Admin Page";
-                    viewClass.ObjectClass.CurrentPostList = models.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.ObjectClass.CurrentPost = model;
                     break;
 
                 default:
                     viewClass.Kind = new String("Post");
                     viewClass.WebTitle = String.Format("{0} - {1}", model.Title, postCategory);
-                    viewClass.ObjectClass.CurrentPostList = models.OrderByDescending(p => p.Rate).ToList();
                     model.Rate++; await _repository.DetailOne(model.Category, id);
                     Post.Rate = model.Rate; await _repository.Update(Post);
                     model.Rate++; await _repository.Update(_dataTruck.GetPostData(model));
-                    viewClass.ObjectClass.CurrentPost = model;
                     break;
             }
+
+            viewClass.ObjectClass.CurrentPostList = models.OrderByDescending(p => p.Rate).ToList();
+            viewClass.ObjectClass.CurrentPost = model;
 
             viewClass.AsideData = _searcher.GetAsideSearch(models, controllerInput, model, new SearchViewModel() { Action = controllerInput });
 
@@ -143,63 +138,48 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                 case "IndexSearch":
                     viewClass.Kind = new String("IndexSearch");
                     viewClass.WebTitle = "Search Page";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.CurrentPage = page;
                     categorySearch = "Index";
-                    // this is the admin order for a specific modifying or deteting search
-                    viewClass.AdminInfo.AdminMessage = extraData;
                     break;
 
                 case "EventsSearch":
                     viewClass.Kind = new String("EventsSearch");
                     viewClass.WebTitle = "Search Page";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.CurrentPage = page;
                     categorySearch = "Event";
                     break;
 
                 case "NewsSearch":
                     viewClass.Kind = new String("NewsSearch");
                     viewClass.WebTitle = "Search Page";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.CurrentPage = page;
                     categorySearch = "New";
                     break;
 
                 case "ArtistsSearch":
                     viewClass.Kind = new String("ArtistsSearch");
                     viewClass.WebTitle = "Search Page";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.CurrentPage = page;
                     categorySearch = "Artist";
                     break;
 
                 case "AlbumsSearch":
                     viewClass.Kind = new String("AlbumsSearch");
                     viewClass.WebTitle = "Search Page";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.CurrentPage = page;
                     categorySearch = "Album";
                     break;
 
                 case "GenresSearch":
                     viewClass.Kind = new String("GenresSearch");
                     viewClass.WebTitle = "Search Page";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.CurrentPage = page;
                     categorySearch = "Genre";
                     break;
 
                 default:
                     viewClass.Kind = new String("IndexSearch");
                     viewClass.WebTitle = "Search Page";
-                    viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.CurrentPage = page;
                     categorySearch = "Index";
-                    // this is the admin order for a specific modifying or deteting search
-                    viewClass.AdminInfo.AdminMessage = extraData;
                     break;
             }
+
+            viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
+            viewClass.CurrentPage = page;
 
             viewClass.SearchData = search;
             viewClass.SearchData.SearchList = _searcher.GetSearch(search.Search, categorySearch).OrderByDescending(p => p.PublicationDate).ToList();
