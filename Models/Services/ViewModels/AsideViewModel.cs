@@ -8,6 +8,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
         public string AsideTitle { get; set; }
         public List<string> AsideTitles { get; set; }
         public SearchViewModel SearchData { get; set; }
+
         public AsideViewModel()
         {
             AsidesList = new();

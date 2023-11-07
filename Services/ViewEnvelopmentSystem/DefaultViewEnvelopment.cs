@@ -1,4 +1,5 @@
-﻿using Opuestos_por_el_Vertice.Data.Entities;
+﻿using Microsoft.Extensions.Hosting;
+using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
@@ -40,32 +41,31 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     viewClass.Kind = new String("Home");
                     viewClass.WebTitle = "Home Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 case "Privacy":
                     viewClass.Kind = new String("Privacy");
                     viewClass.WebTitle = "Privacy Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 case "About":
                     viewClass.Kind = new String("About");
                     viewClass.WebTitle = "About us";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
 
                 default:
                     viewClass.Kind = new String("Home");
                     viewClass.WebTitle = "Home Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     break;
             }
 
             viewClass.AsideData = _searcher.GetAsideSearch(posts, controllerInput, post, new SearchViewModel() { Action = controllerInput });
+
+            viewClass.HeroData = new();
+            viewClass.HeroData.GetHeroData(controllerInput, post);
 
             return viewClass;
         }
@@ -99,7 +99,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     model.Rate++; Post = await _repository.DetailOne(postCategory, id);
                     Post.Rate = model.Rate; await _repository.Update(Post);
                     viewClass.ObjectClass.CurrentPost = model;
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, model);
                     break;
 
                 case "Admin":
@@ -107,7 +106,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     viewClass.WebTitle = "Admin Page";
                     viewClass.ObjectClass.CurrentPostList = models.OrderByDescending(p => p.Rate).ToList();
                     viewClass.ObjectClass.CurrentPost = model;
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, model);
                     break;
 
                 default:
@@ -118,11 +116,13 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     Post.Rate = model.Rate; await _repository.Update(Post);
                     model.Rate++; await _repository.Update(_dataTruck.GetPostData(model));
                     viewClass.ObjectClass.CurrentPost = model;
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, model);
                     break;
             }
 
             viewClass.AsideData = _searcher.GetAsideSearch(models, controllerInput, model, new SearchViewModel() { Action = controllerInput });
+
+            viewClass.HeroData = new();
+            viewClass.HeroData.GetHeroData(controllerInput, model);
 
             return viewClass;
         }
@@ -144,7 +144,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     viewClass.Kind = new String("IndexSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
                     categorySearch = "Index";
                     // this is the admin order for a specific modifying or deteting search
@@ -155,7 +154,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     viewClass.Kind = new String("EventsSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
                     categorySearch = "Event";
                     break;
@@ -164,7 +162,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     viewClass.Kind = new String("NewsSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
                     categorySearch = "New";
                     break;
@@ -173,7 +170,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     viewClass.Kind = new String("ArtistsSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
                     categorySearch = "Artist";
                     break;
@@ -182,7 +178,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     viewClass.Kind = new String("AlbumsSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
                     categorySearch = "Album";
                     break;
@@ -191,7 +186,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     viewClass.Kind = new String("GenresSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
                     categorySearch = "Genre";
                     break;
@@ -200,7 +194,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     viewClass.Kind = new String("IndexSearch");
                     viewClass.WebTitle = "Search Page";
                     viewClass.ObjectClass.CurrentPostList = posts.OrderByDescending(p => p.Rate).ToList();
-                    viewClass.ExtraInfo = GetExtraInfo(controllerInput, post);
                     viewClass.CurrentPage = page;
                     categorySearch = "Index";
                     // this is the admin order for a specific modifying or deteting search
@@ -212,6 +205,9 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             viewClass.SearchData.SearchList = _searcher.GetSearch(search.Search, categorySearch).OrderByDescending(p => p.PublicationDate).ToList();
             viewClass.SearchData.PaginationData = _searcher.GetPaginationData(viewClass.SearchData.SearchList.Count);
             viewClass.AsideData = _searcher.GetAsideSearch(posts, controllerInput, post, search);
+
+            viewClass.HeroData = new();
+            viewClass.HeroData.GetHeroData(controllerInput, post);
 
             return viewClass;
         }
@@ -241,85 +237,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             }
 
             return schemas;
-        }
-        // supplemental view information
-        private List<string> GetExtraInfo(string controllerInput, PostViewModel post)
-        {
-            List<string> extraInfo = new();
-
-            if (controllerInput == "Home")
-            {
-                // amount of carousel turns, followed by images source, then their alternal description, then the carousel labels followed by their sublabels
-                extraInfo = GetHeroInfo(controllerInput, extraInfo);
-            }
-            else if (controllerInput == "Privacy")
-            {
-                extraInfo = GetHeroInfo(controllerInput, extraInfo);
-            }
-            else if (controllerInput == "About")
-            {
-                extraInfo = GetHeroInfo(controllerInput, extraInfo);
-            }
-            else if (controllerInput == "IndexSearch")
-            {
-                extraInfo = GetHeroInfo(controllerInput, extraInfo);
-            }
-            else if (controllerInput == "EventsSearch")
-            {
-                extraInfo = GetHeroInfo(controllerInput, extraInfo);
-            }
-            else if (controllerInput == "NewsSearch")
-            {
-                extraInfo = GetHeroInfo(controllerInput, extraInfo);
-            }
-            else if (controllerInput == "ArtistsSearch")
-            {
-                extraInfo = GetHeroInfo(controllerInput, extraInfo);
-            }
-            else if (controllerInput == "AlbumsSearch")
-            {
-                extraInfo = GetHeroInfo(controllerInput, extraInfo);
-            }
-            else if (controllerInput == "GenresSearch")
-            {
-                extraInfo = GetHeroInfo(controllerInput, extraInfo);
-            }
-            else if (controllerInput == "Post")
-            {
-                // it doesn't need the GetHeroInfo for this case
-                extraInfo.Add("1"); extraInfo.Add(post.Image); extraInfo.Add(post.ImageAlt);
-                extraInfo.Add(post.Title); extraInfo.Add(post.SubTitle);
-            }
-            else if (controllerInput == "Admin")
-            {
-                extraInfo = GetHeroInfo(controllerInput, extraInfo);
-            }
-            else
-            {
-                // amount of carousel turns, followed by images source, then their alternal description, then the carousel labels followed by their sublabels
-                extraInfo = GetHeroInfo(controllerInput, extraInfo);
-            }
-
-            return extraInfo;
-        }
-        private List<string> GetHeroInfo(string controllerInput, List<string> extraInfo)
-        {
-            if (controllerInput.Equals("Home"))
-            {
-                extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-            }
-            else
-            {
-                extraInfo.Add("2"); extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-                extraInfo.Add(""); extraInfo.Add("");
-            }
-
-            return extraInfo;
         }
     }
 }

@@ -2,22 +2,13 @@
 @model ViewKindViewModel
 @{
     // extra information handling variables
-    int imagesAmount = int.Parse(Model.ExtraInfo[0]);
-    List<string> imagesSources = new();
-    List<string> alts = new();
-    List<string> labels = new();
-    List<string> sublabels = new();
+    int imagesAmount = Model.HeroData.ImagesAmount  ;
+    List<string> imagesSources = Model.HeroData.ImageSources;
+    List<string> alts = Model.HeroData.ImageAltSources;
+    List<string> labels = Model.HeroData.Titles;
+    List<string> sublabels = Model.HeroData.SubTitles;
     string author = ""; string date = "";
     if (Model.Kind.Equals("Post")) { author = Model.ObjectClass.CurrentPost.Author; date = Model.ObjectClass.CurrentPost.PublicationDate.Date.ToString(); }
-    // way to sum up information programming afterwards
-    List<List<string>> carouselData = new();
-    carouselData.Add(imagesSources); carouselData.Add(alts); carouselData.Add(labels); carouselData.Add(sublabels);
-    // extra information filling
-    int index = 1;
-    for (int carouselFeatures = 0; carouselFeatures < 4; carouselFeatures++)
-    {
-        for (int i = 0; i < imagesAmount; i++) { carouselData[carouselFeatures].Add(Model.ExtraInfo[index++]); }
-    }
 }
 <div class="container text-center">
     <div id="heroCarousel" class="carousel slide">

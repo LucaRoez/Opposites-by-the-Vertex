@@ -11,7 +11,7 @@
         public ViewObject ObjectClass { get; set; }
         public string Kind { get; set; }
         public string WebTitle { get; set; }
-        public List<string> ExtraInfo { get; set; }
+        public HeroViewModel HeroData { get; set; }
         public int CurrentPage { get; set; }
         public AdminPackage AdminInfo { get; set; }
         public SearchViewModel SearchData { get; set; }
@@ -21,7 +21,7 @@
             ObjectClass = new();
             Kind = "";
             WebTitle = "";
-            ExtraInfo = new ();
+            HeroData = new();
             CurrentPage = 0;
             AdminInfo = new();
             SearchData = new();
