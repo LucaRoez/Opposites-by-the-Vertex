@@ -21,11 +21,11 @@ namespace Opuestos_por_el_Vertice.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<New>().HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId);
-            modelBuilder.Entity<Event>().HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId);
-            modelBuilder.Entity<Artist>().HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId);
-            modelBuilder.Entity<Album>().HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId);
-            modelBuilder.Entity<Genre>().HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId);
+            modelBuilder.Entity<New>().HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId); modelBuilder.Entity<New>().Property(p => p.Body).HasMaxLength(4000);
+            modelBuilder.Entity<Event>().HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId); ; modelBuilder.Entity<Event>().Property(p => p.Body).HasMaxLength(4000);
+            modelBuilder.Entity<Artist>().HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId); ; modelBuilder.Entity<Artist>().Property(p => p.Body).HasMaxLength(4000);
+            modelBuilder.Entity<Album>().HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId); ; modelBuilder.Entity<Album>().Property(p => p.Body).HasMaxLength(4000);
+            modelBuilder.Entity<Genre>().HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId); ; modelBuilder.Entity<Genre>().Property(p => p.Body).HasMaxLength(4000);
         }
     }
 }

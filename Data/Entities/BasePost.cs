@@ -14,10 +14,14 @@ namespace Opuestos_por_el_Vertice.Data.Entities
         [StringLength(120, MinimumLength = 6)]
         public string SubTitle { get; set; }
         [Required]
+        [DataType(DataType.MultilineText)]
+        [StringLength(4000)]
         public string Body { get; set; }
         [Required]
         [DataType(DataType.ImageUrl)]
+        [StringLength(255, MinimumLength = 9)]
         public string Image { get; set; }
+        [StringLength(50, MinimumLength = 3)]
         public string ImageAlt { get; set; }
         [Required]
         [DataType(DataType.Date)]
@@ -26,6 +30,7 @@ namespace Opuestos_por_el_Vertice.Data.Entities
         [StringLength(20, MinimumLength = 2)]
         public string Author { get; set; }
         [Required]
+        [Range(1,5)]
         public int CategoryId { get; set; }
         [Required]
         [ForeignKey("CategoryId")]
