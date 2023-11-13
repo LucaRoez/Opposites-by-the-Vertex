@@ -8,17 +8,15 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
     public class DefaultAdminManager : IAdminManager
     {
         private readonly IRepository _repository;
-        private readonly IDataTruck _dataTruck;
-        public DefaultAdminManager(IRepository repository, IDataTruck dataTruck)
+        public DefaultAdminManager(IRepository repository)
         {
             _repository = repository;
-            _dataTruck = dataTruck;
         }
 
         public async Task CreateNewPost(PostViewModel model)
         {
             model = CheckNulls(model); model.Category = GetCategoryName(model.CategoryId);
-            BasePost Post = _dataTruck.GetPostData(ParsePostBody(model));
+            BasePost Post = DataTruck.GetModelData(ParsePostBody(model));
             await _repository.Create(Post, model.Category);
         }
 

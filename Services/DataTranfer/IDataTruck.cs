@@ -11,7 +11,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
     {
         BasePost GetPostData(PostViewModel model);
         PostViewModel GetPostModel(BasePost post);
-        List<BasePost> GetAllPostData(List<PostViewModel> models);
+        List<BasePost> GetAllPostDatas(List<PostViewModel> models);
         List<PostViewModel> GetAllPostModels(List<BasePost> posts);
     }
 }

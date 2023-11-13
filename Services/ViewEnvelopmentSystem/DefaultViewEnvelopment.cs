@@ -12,12 +12,10 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
     public class DefaultViewEnvelopment : IViewEnvelopment
     {
         private readonly IRepository _repository;
-        private readonly IDataTruck _dataTruck;
         private readonly ISearcher _searcher;
-        public DefaultViewEnvelopment(IRepository repository, IDataTruck dataTruck, ISearcher searcher)
+        public DefaultViewEnvelopment(IRepository repository, ISearcher searcher)
         {
             _repository = repository;
-            _dataTruck = dataTruck;
             _searcher = searcher;
         }
 
@@ -107,7 +105,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     viewClass.WebTitle = String.Format("{0} - {1}", model.Title, postCategory);
                     model.Rate++; await _repository.DetailOne(model.Category, id);
                     Post.Rate = model.Rate; await _repository.Update(Post);
-                    model.Rate++; await _repository.Update(_dataTruck.GetPostData(model));
+                    model.Rate++; await _repository.Update(DataTruck.GetModelData(model));
                     break;
             }
 
