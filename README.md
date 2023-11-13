@@ -13,11 +13,13 @@
 - `CSS` language :heavy_check_mark:
 - `JSON` language :heavy_check_mark:
 - Object-Oriented Programming paradigm :heavy_check_mark:
+- Fuctional Programming paradigm :heavy_check_mark:
 - MVC architecture :heavy_check_mark:
 - `Bootstrap` framework :heavy_check_mark:
 - Web Layout Design patterns :heavy_check_mark:
 - SOLID principles :heavy_check_mark:
-- Dependencies Injection design pattern :heavy_check_mark:
+- Pure and High-Order Functions principles :heavy_check_mark:
+- Dependencies Injection design pattern besides  :heavy_check_mark:
 
 > [!IMPORTANT]
 > for use the creation admin resource, in the body follow this reference symbols for html tags applying:
