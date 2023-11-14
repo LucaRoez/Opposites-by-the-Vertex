@@ -28,7 +28,7 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
         public async Task UpdatePost(int id, PostViewModel model, string oldCategory)
         {
             int categoryId = model.CategoryId;
-            model = CheckNulls(model); string newCategory = GetCategoryName(categoryId);
+            model = CheckNulls(model); model.Category = GetCategoryName(categoryId);
             model = ParsePostBody(model);
             BasePost Post = await _repository.DetailOne(oldCategory, id);
 
@@ -38,22 +38,7 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
                 model.Rate = Post.Rate;
 
                 await _repository.Remove(Post);
-
-                Post = new();
-                {
-                    Post.Id = 0;
-                    Post.Title = model.Title;
-                    Post.SubTitle = model.SubTitle;
-                    Post.Body = model.Body;
-                    Post.Image = model.Image;
-                    Post.ImageAlt = model.ImageAlt;
-                    Post.Author = model.Author;
-                    Post.CategoryId = categoryId;
-                    Post.Rate = model.Rate;
-                    Post.PublicationDate = model.PublicationDate;
-                }
-
-                await _repository.Create<BasePost>(Post);
+                await _repository.Create<BasePost>(DataTruck.GetModelData(ParsePostBody(model)));
             }
             else
             {
