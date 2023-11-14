@@ -8,7 +8,7 @@ namespace Opuestos_por_el_Vertice.Data.Repository
 
     public interface IRepository
     {
-        Task Create(BasePost post, string category);
+        Task Create<TEntity>(BasePost post) where TEntity : BasePost;
         Task Remove(BasePost post);
         Task Update(BasePost post);
         Task RemoveAll(string identifier);

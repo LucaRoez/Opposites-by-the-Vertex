@@ -10,85 +10,17 @@ namespace Opuestos_por_el_Vertice.Data.Repository
         {
             _dbContext = dbContext;
         }
-        public async Task Create(BasePost post, string category)
+        public async Task Create<TEntity>(BasePost post) where TEntity : BasePost
         {
-            switch (category)
+            //_dbContext.Add(post); // pure TPT implementation
+            switch (post)
             {
-                case "Artist":
-                    Artist artist = new()
-                    {
-                        Id = 0,
-                        Title = post.Title,
-                        SubTitle = post.SubTitle,
-                        Body = post.Body,
-                        Image = post.Image,
-                        ImageAlt = post.ImageAlt,
-                        Author = post.Author,
-                        CategoryId = post.CategoryId,
-                        Rate = post.Rate,
-                        PublicationDate = post.PublicationDate
-                    }; await _dbContext.Artists.AddAsync(artist);
-                    break;
-                case "Album":
-                    Album album = new()
-                    {
-                        Id = 0,
-                        Title = post.Title,
-                        SubTitle = post.SubTitle,
-                        Body = post.Body,
-                        Image = post.Image,
-                        ImageAlt = post.ImageAlt,
-                        Author = post.Author,
-                        CategoryId = post.CategoryId,
-                        Rate = post.Rate,
-                        PublicationDate = post.PublicationDate
-                    }; await _dbContext.Albums.AddAsync(album);
-                    break;
-                case "Genre":
-                    Genre genre = new()
-                    {
-                        Id = 0,
-                        Title = post.Title,
-                        SubTitle = post.SubTitle,
-                        Body = post.Body,
-                        Image = post.Image,
-                        ImageAlt = post.ImageAlt,
-                        Author = post.Author,
-                        CategoryId = post.CategoryId,
-                        Rate = post.Rate,
-                        PublicationDate = post.PublicationDate
-                    }; await _dbContext.Genres.AddAsync(genre);
-                    break;
-                case "Event":
-                    Event show = new()
-                    {
-                        Id = 0,
-                        Title = post.Title,
-                        SubTitle = post.SubTitle,
-                        Body = post.Body,
-                        Image = post.Image,
-                        ImageAlt = post.ImageAlt,
-                        Author = post.Author,
-                        CategoryId = post.CategoryId,
-                        Rate = post.Rate,
-                        PublicationDate = post.PublicationDate
-                    }; await _dbContext.Events.AddAsync(show);
-                    break;
-                default:
-                    New news = new()
-                    {
-                        Id = 0,
-                        Title = post.Title,
-                        SubTitle = post.SubTitle,
-                        Body = post.Body,
-                        Image = post.Image,
-                        ImageAlt = post.ImageAlt,
-                        Author = post.Author,
-                        CategoryId = post.CategoryId,
-                        Rate = post.Rate,
-                        PublicationDate = post.PublicationDate
-                    }; await _dbContext.News.AddAsync(news);
-                    break;
+                case Artist artist: _dbContext.Artists.Add(artist); break;
+                case Album album: _dbContext.Albums.Add(album); break;
+                case Genre genre: _dbContext.Genres.Add(genre); break;
+                case Event @event: _dbContext.Events.Add(@event); break;
+                case New @new: _dbContext.News.Add(@new); break;
+                default: break;
             }
             await _dbContext.SaveChangesAsync();
         }

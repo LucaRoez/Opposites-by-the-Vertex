@@ -16,8 +16,7 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
         public async Task CreateNewPost(PostViewModel model)
         {
             model = CheckNulls(model); model.Category = GetCategoryName(model.CategoryId);
-            BasePost Post = DataTruck.GetModelData(ParsePostBody(model));
-            await _repository.Create(Post, model.Category);
+            await _repository.Create<BasePost>(DataTruck.GetModelData(ParsePostBody(model)));
         }
 
         public async Task RemovePost(int id, string category)
@@ -54,7 +53,7 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
                     Post.PublicationDate = model.PublicationDate;
                 }
 
-                await _repository.Create(Post, newCategory);
+                await _repository.Create<BasePost>(Post);
             }
             else
             {
