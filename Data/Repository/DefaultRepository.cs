@@ -455,11 +455,11 @@ namespace Opuestos_por_el_Vertice.Data.Repository
 
         private IQueryable<BasePost> GetDbContent(string category) => category switch
         {
-            "Artist" => _dbContext.Artists.Cast<BasePost>(),
-            "Album" => _dbContext.Albums.Cast<BasePost>(),
-            "Genre" => _dbContext.Genres.Cast<BasePost>(),
-            "Event" => _dbContext.Events.Cast<BasePost>(),
-            "New" => _dbContext.News.Cast<BasePost>(),
+            "Artist" => _dbContext.Artists.Include(p => p.Category).Cast<BasePost>(),
+            "Album" => _dbContext.Albums.Include(p => p.Category).Cast<BasePost>(),
+            "Genre" => _dbContext.Genres.Include(p => p.Category).Cast<BasePost>(),
+            "Event" => _dbContext.Events.Include(p => p.Category).Cast<BasePost>(),
+            "New" => _dbContext.News.Include(p => p.Category).Cast<BasePost>(),
         };
     }
 }
