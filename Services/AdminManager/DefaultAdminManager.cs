@@ -1,4 +1,5 @@
-﻿using Opuestos_por_el_Vertice.Data.Entities;
+﻿using Microsoft.Extensions.Hosting;
+using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.Data_Tranfer;
@@ -15,20 +16,14 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
 
         public async Task CreateNewPost(PostViewModel model)
         {
-            model = CheckNulls(model); model.Category = GetCategoryName(model.CategoryId);
+            model.Body ??= ""; model.Category = GetCategoryName(model.CategoryId);
             await _repository.Create<BasePost>(DataTruck.GetModelData(ParsePostBody(model)));
-        }
-
-        public async Task RemovePost(int id, string category)
-        {
-            var Post = await _repository.DetailOne(category, id);
-            await _repository.Remove(Post);
         }
 
         public async Task UpdatePost(int id, PostViewModel model, string oldCategory)
         {
             int categoryId = model.CategoryId;
-            model = CheckNulls(model); model.Category = GetCategoryName(categoryId);
+            model.Body ??= ""; model.Category = GetCategoryName(categoryId);
             model = ParsePostBody(model);
             BasePost Post = await _repository.DetailOne(oldCategory, id);
 
@@ -54,14 +49,10 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
             }
         }
 
+        public async Task RemovePost(int id, string category) => await _repository.Remove(await _repository.DetailOne(category, id));
+
         public async Task RemoveAll(string identifier) => await _repository.RemoveAll(identifier);
 
-        private PostViewModel CheckNulls(PostViewModel post)
-        {
-            if (post.Body == null) { post.Body = ""; }
-
-            return post;
-        }
         private PostViewModel ParsePostBody(PostViewModel post)
         {
             var body = post.Body;

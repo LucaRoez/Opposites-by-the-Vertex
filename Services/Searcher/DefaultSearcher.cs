@@ -26,9 +26,9 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
                 if (i == 0) { Posts = _repository.DetailAll(schemas[i]); } else { Posts.AddRange(_repository.DetailAll(schemas[i])); }
             }
 
-            return _dataTruck.GetAllPostModels(Posts);
+            return DataTruck.GetAllViewModels(Posts);
         }
-        public async Task<PostViewModel> GetViewModel(int id, string postCategory) => _dataTruck.GetPostModel(await _repository.DetailOne(postCategory, id));
+        public async Task<PostViewModel> GetViewModel(int id, string postCategory) => DataTruck.GetViewModel(await _repository.DetailOne(postCategory, id));
 
         // search mechanism
         public List<PostViewModel> GetSearch(string search, string category)
@@ -51,7 +51,7 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
                 else { finalSearch = GetSearchList(category, finalSearch, search); }
             }
 
-            return _dataTruck.GetAllPostModels(finalSearch);
+            return DataTruck.GetAllViewModels(finalSearch);
         }
         private List<BasePost> GlobalSearch(List<BasePost> finalSearch, string search)
         {
