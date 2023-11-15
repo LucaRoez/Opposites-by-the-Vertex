@@ -1,9 +1,8 @@
-﻿using Microsoft.Extensions.Hosting;
-using Opuestos_por_el_Vertice.Data.Entities;
+﻿using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
-using Opuestos_por_el_Vertice.Services.Data_Tranfer;
+using Opuestos_por_el_Vertice.Services.DataTranfer;
 using Opuestos_por_el_Vertice.Services.Searcher;
 
 namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
@@ -105,7 +104,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                     viewClass.WebTitle = String.Format("{0} - {1}", model.Title, postCategory);
                     model.Rate++; await _repository.DetailOne(model.Category, id);
                     Post.Rate = model.Rate; await _repository.Update(Post);
-                    model.Rate++; await _repository.Update(DataTruck.GetModelData(model));
+                    model.Rate++; await _repository.Update(DataConverter.GetModelData(model));
                     break;
             }
 

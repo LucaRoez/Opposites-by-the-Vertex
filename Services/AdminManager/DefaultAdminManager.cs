@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Hosting;
-using Opuestos_por_el_Vertice.Data.Entities;
+﻿using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.ViewModels;
-using Opuestos_por_el_Vertice.Services.Data_Tranfer;
+using Opuestos_por_el_Vertice.Services.DataTranfer;
 
 namespace Opuestos_por_el_Vertice.Services.AdminManager
 {
@@ -17,7 +16,7 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
         public async Task CreateNewPost(PostViewModel model)
         {
             model.Body ??= ""; model.Category = GetCategoryName(model.CategoryId);
-            await _repository.Create<BasePost>(DataTruck.GetModelData(ParsePostBody(model)));
+            await _repository.Create<BasePost>(DataConverter.GetModelData(ParsePostBody(model)));
         }
 
         public async Task UpdatePost(int id, PostViewModel model, string oldCategory)
@@ -33,7 +32,7 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
                 model.Rate = Post.Rate;
 
                 await _repository.Remove(Post);
-                await _repository.Create<BasePost>(DataTruck.GetModelData(ParsePostBody(model)));
+                await _repository.Create<BasePost>(DataConverter.GetModelData(ParsePostBody(model)));
             }
             else
             {

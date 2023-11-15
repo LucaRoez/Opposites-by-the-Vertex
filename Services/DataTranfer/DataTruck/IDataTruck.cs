@@ -1,7 +1,7 @@
 ﻿using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 
-namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
+namespace Opuestos_por_el_Vertice.Services.DataTranfer.DataTruck
 {
     /*
      * This Service is for convert the Data Base info into a view model one, using different methods in both directions.

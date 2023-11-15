@@ -2,19 +2,16 @@
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
-using Opuestos_por_el_Vertice.Services.Data_Tranfer;
-using System.Diagnostics;
+using Opuestos_por_el_Vertice.Services.DataTranfer;
 
 namespace Opuestos_por_el_Vertice.Services.Searcher
 {
     public class DefaultSearcher : ISearcher
     {
         private readonly IRepository _repository;
-        private readonly IDataTruck _dataTruck;
-        public DefaultSearcher(IRepository repository, IDataTruck dataTruck)
+        public DefaultSearcher(IRepository repository)
         {
             _repository = repository;
-            _dataTruck = dataTruck;
         }
 
         // database comunication behavior
@@ -26,9 +23,9 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
                 if (i == 0) { Posts = _repository.DetailAll(schemas[i]); } else { Posts.AddRange(_repository.DetailAll(schemas[i])); }
             }
 
-            return DataTruck.GetAllViewModels(Posts);
+            return DataConverter.GetAllViewModels(Posts);
         }
-        public async Task<PostViewModel> GetViewModel(int id, string postCategory) => DataTruck.GetViewModel(await _repository.DetailOne(postCategory, id));
+        public async Task<PostViewModel> GetViewModel(int id, string postCategory) => DataConverter.GetViewModel(await _repository.DetailOne(postCategory, id));
 
         // search mechanism
         public List<PostViewModel> GetSearch(string search, string category)
@@ -51,7 +48,7 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
                 else { finalSearch = GetSearchList(category, finalSearch, search); }
             }
 
-            return DataTruck.GetAllViewModels(finalSearch);
+            return DataConverter.GetAllViewModels(finalSearch);
         }
         private List<BasePost> GlobalSearch(List<BasePost> finalSearch, string search)
         {
