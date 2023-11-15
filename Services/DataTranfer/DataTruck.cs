@@ -56,7 +56,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
             CategoryId = 4,
             Rate = model.Rate
         };
-        private static BasePost GetGenreData(PostViewModel model) => new Genre
+        private static Genre GetGenreData(PostViewModel model) => new Genre
         {
             Title = model.Title,
             SubTitle = model.SubTitle,
@@ -68,7 +68,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
             CategoryId = 5,
             Rate = model.Rate
         };
-        private static BasePost GetEventData(PostViewModel model) => new Event
+        private static Event GetEventData(PostViewModel model) => new Event
         {
             Title = model.Title,
             SubTitle = model.SubTitle,

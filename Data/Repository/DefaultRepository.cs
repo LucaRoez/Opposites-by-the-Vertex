@@ -7,10 +7,101 @@ namespace Opuestos_por_el_Vertice.Data.Repository
     public class DefaultRepository : IRepository
     {
         private readonly PostingDbContext _dbContext;
+        private static Dictionary<string, Func<BasePost, BasePost>> _reset = new Dictionary<string, Func<BasePost, BasePost>>
+        {
+                { "Artist", GetArtistData },
+                { "Album", GetAlbumData },
+                { "Genre", GetGenreData },
+                { "Event", GetEventData },
+                { "New", GetNewData }
+        };
         public DefaultRepository(PostingDbContext dbContext)
         {
             _dbContext = dbContext;
         }
+
+        private static BasePost GetNewData(BasePost oldData)
+        {
+            New newData = new();
+            {
+                newData.Title = oldData.Title;
+                newData.SubTitle = oldData.SubTitle;
+                newData.Body = oldData.Body;
+                newData.Image = oldData.Image;
+                newData.ImageAlt = oldData.ImageAlt;
+                newData.PublicationDate = oldData.PublicationDate;
+                newData.Author = oldData.Author;
+                newData.CategoryId = 1;
+                newData.Rate = oldData.Rate;
+            }
+            return newData;
+        }
+        private static BasePost GetEventData(BasePost oldData)
+        {
+            Event newData = new();
+            {
+                newData.Title = oldData.Title;
+                newData.SubTitle = oldData.SubTitle;
+                newData.Body = oldData.Body;
+                newData.Image = oldData.Image;
+                newData.ImageAlt = oldData.ImageAlt;
+                newData.PublicationDate = oldData.PublicationDate;
+                newData.Author = oldData.Author;
+                newData.CategoryId = 2;
+                newData.Rate = oldData.Rate;
+            }
+            return newData;
+
+        }
+        private static BasePost GetArtistData(BasePost oldData)
+        {
+            Artist newData = new();
+            {
+                newData.Title = oldData.Title;
+                newData.SubTitle = oldData.SubTitle;
+                newData.Body = oldData.Body;
+                newData.Image = oldData.Image;
+                newData.ImageAlt = oldData.ImageAlt;
+                newData.PublicationDate = oldData.PublicationDate;
+                newData.Author = oldData.Author;
+                newData.CategoryId = 3;
+                newData.Rate = oldData.Rate;
+            }
+            return newData;
+        }
+        private static BasePost GetAlbumData(BasePost oldData)
+        {
+            Album newData = new();
+            {
+                newData.Title = oldData.Title;
+                newData.SubTitle = oldData.SubTitle;
+                newData.Body = oldData.Body;
+                newData.Image = oldData.Image;
+                newData.ImageAlt = oldData.ImageAlt;
+                newData.PublicationDate = oldData.PublicationDate;
+                newData.Author = oldData.Author;
+                newData.CategoryId = 4;
+                newData.Rate = oldData.Rate;
+            }
+            return newData;
+        }
+        private static BasePost GetGenreData(BasePost oldData)
+        {
+            Genre newData = new();
+            {
+                newData.Title = oldData.Title;
+                newData.SubTitle = oldData.SubTitle;
+                newData.Body = oldData.Body;
+                newData.Image = oldData.Image;
+                newData.ImageAlt = oldData.ImageAlt;
+                newData.PublicationDate = oldData.PublicationDate;
+                newData.Author = oldData.Author;
+                newData.CategoryId = 5;
+                newData.Rate = oldData.Rate;
+            }
+            return newData;
+        }
+
         public async Task Create<TEntity>(BasePost post) where TEntity : BasePost
         {
             //_dbContext.Add(post); // pure TPT implementation
@@ -60,81 +151,37 @@ namespace Opuestos_por_el_Vertice.Data.Repository
 
         public List<Category> GetCategories() => _dbContext.Categories.ToList();
 
-        public async Task ArrangeDb()
+        public async Task UnbendDb()
         {
             for (int kind = 0; kind < 5; kind++)
             {
                 if (kind == 4)
                 {
                     List<Genre> currentData = _dbContext.Genres.Where(g => g.CategoryId != 5).ToList();
-                    foreach (Genre oldaData in currentData)
+                    foreach (Genre oldData in currentData)
                     {
-                        if (oldaData.CategoryId == 4)
+                        if (oldData.CategoryId == 4)
                         {
-                            Album newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 4;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Genres.Remove(oldaData);
+                            Album newData = (Album)_reset["Album"](oldData);
+                            _dbContext.Genres.Remove(oldData);
                             await _dbContext.Albums.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 3)
+                        else if (oldData.CategoryId == 3)
                         {
-                            Artist newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 3;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Genres.Remove(oldaData);
+                            Artist newData = (Artist)_reset["Artist"](oldData);
+                            _dbContext.Genres.Remove(oldData);
                             await _dbContext.Artists.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 2)
+                        else if (oldData.CategoryId == 2)
                         {
-                            Event newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 2;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Genres.Remove(oldaData);
+                            Event newData = (Event)_reset["Event"](oldData);
+                            _dbContext.Genres.Remove(oldData);
                             await _dbContext.Events.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 1)
+                        else if (oldData.CategoryId == 1)
                         {
-                            New newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 1;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Genres.Remove(oldaData);
+                            New newData = (New)_reset["New"](oldData);
+                            _dbContext.Genres.Remove(oldData);
                             await _dbContext.News.AddAsync(newData);
                         }
                         else { continue; }
@@ -144,74 +191,30 @@ namespace Opuestos_por_el_Vertice.Data.Repository
                 else if (kind == 3)
                 {
                     List<Album> currentData = _dbContext.Albums.Where(a => a.CategoryId != 4).ToList();
-                    foreach (Album oldaData in currentData)
+                    foreach (Album oldData in currentData)
                     {
-                        if (oldaData.CategoryId == 5)
+                        if (oldData.CategoryId == 5)
                         {
-                            Genre newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 5;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Albums.Remove(oldaData);
+                            Genre newData = (Genre)_reset["Genre"](oldData);
+                            _dbContext.Albums.Remove(oldData);
                             await _dbContext.Genres.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 3)
+                        else if (oldData.CategoryId == 3)
                         {
-                            Artist newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 3;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Albums.Remove(oldaData);
+                            Artist newData = (Artist)_reset["Artist"](oldData);
+                            _dbContext.Albums.Remove(oldData);
                             await _dbContext.Artists.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 2)
+                        else if (oldData.CategoryId == 2)
                         {
-                            Event newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 2;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Albums.Remove(oldaData);
+                            Event newData = (Event)_reset["Event"](oldData);
+                            _dbContext.Albums.Remove(oldData);
                             await _dbContext.Events.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 1)
+                        else if (oldData.CategoryId == 1)
                         {
-                            New newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 1;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Albums.Remove(oldaData);
+                            New newData = (New)_reset["New"](oldData);
+                            _dbContext.Albums.Remove(oldData);
                             await _dbContext.News.AddAsync(newData);
                         }
                         else { continue; }
@@ -221,74 +224,30 @@ namespace Opuestos_por_el_Vertice.Data.Repository
                 else if (kind == 2)
                 {
                     List<Artist> currentData = _dbContext.Artists.Where(a => a.CategoryId != 3).ToList();
-                    foreach (Artist oldaData in currentData)
+                    foreach (Artist oldData in currentData)
                     {
-                        if (oldaData.CategoryId == 5)
+                        if (oldData.CategoryId == 5)
                         {
-                            Genre newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 5;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Artists.Remove(oldaData);
+                            Genre newData = (Genre)_reset["Genre"](oldData);
+                            _dbContext.Artists.Remove(oldData);
                             await _dbContext.Genres.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 4)
+                        else if (oldData.CategoryId == 4)
                         {
-                            Album newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 4;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Artists.Remove(oldaData);
+                            Album newData = (Album)_reset["Album"](oldData);
+                            _dbContext.Artists.Remove(oldData);
                             await _dbContext.Albums.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 2)
+                        else if (oldData.CategoryId == 2)
                         {
-                            Event newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 2;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Artists.Remove(oldaData);
+                            Event newData = (Event)_reset["Event"](oldData);
+                            _dbContext.Artists.Remove(oldData);
                             await _dbContext.Events.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 1)
+                        else if (oldData.CategoryId == 1)
                         {
-                            New newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 1;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Artists.Remove(oldaData);
+                            New newData = (New)_reset["New"](oldData);
+                            _dbContext.Artists.Remove(oldData);
                             await _dbContext.News.AddAsync(newData);
                         }
                         else { continue; }
@@ -298,74 +257,30 @@ namespace Opuestos_por_el_Vertice.Data.Repository
                 else if (kind == 1)
                 {
                     List<Event> currentData = _dbContext.Events.Where(a => a.CategoryId != 2).ToList();
-                    foreach (Event oldaData in currentData)
+                    foreach (Event oldData in currentData)
                     {
-                        if (oldaData.CategoryId == 5)
+                        if (oldData.CategoryId == 5)
                         {
-                            Genre newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 5;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Events.Remove(oldaData);
+                            Genre newData = (Genre)_reset["Genre"](oldData);
+                            _dbContext.Events.Remove(oldData);
                             await _dbContext.Genres.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 4)
+                        else if (oldData.CategoryId == 4)
                         {
-                            Album newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 4;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Events.Remove(oldaData);
+                            Album newData = (Album)_reset["Album"](oldData);
+                            _dbContext.Events.Remove(oldData);
                             await _dbContext.Albums.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 3)
+                        else if (oldData.CategoryId == 3)
                         {
-                            Artist newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 3;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Events.Remove(oldaData);
+                            Artist newData = (Artist)_reset["Artist"](oldData);
+                            _dbContext.Events.Remove(oldData);
                             await _dbContext.Artists.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 1)
+                        else if (oldData.CategoryId == 1)
                         {
-                            New newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 1;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.Events.Remove(oldaData);
+                            New newData = (New)_reset["New"](oldData);
+                            _dbContext.Events.Remove(oldData);
                             await _dbContext.News.AddAsync(newData);
                         }
                         else { continue; }
@@ -375,74 +290,30 @@ namespace Opuestos_por_el_Vertice.Data.Repository
                 else
                 {
                     List<New> currentData = _dbContext.News.Where(n => n.CategoryId != 1).ToList();
-                    foreach (New oldaData in currentData)
+                    foreach (New oldData in currentData)
                     {
-                        if (oldaData.CategoryId == 5)
+                        if (oldData.CategoryId == 5)
                         {
-                            Genre newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 5;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.News.Remove(oldaData);
+                            Genre newData = (Genre)_reset["Genre"](oldData);
+                            _dbContext.News.Remove(oldData);
                             await _dbContext.Genres.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 4)
+                        else if (oldData.CategoryId == 4)
                         {
-                            Album newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 4;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.News.Remove(oldaData);
+                            Album newData = (Album)_reset["Album"](oldData);
+                            _dbContext.News.Remove(oldData);
                             await _dbContext.Albums.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 3)
+                        else if (oldData.CategoryId == 3)
                         {
-                            Artist newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 3;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.News.Remove(oldaData);
+                            Artist newData = (Artist)_reset["Artist"](oldData);
+                            _dbContext.News.Remove(oldData);
                             await _dbContext.Artists.AddAsync(newData);
                         }
-                        else if (oldaData.CategoryId == 2)
+                        else if (oldData.CategoryId == 2)
                         {
-                            Event newData = new();
-                            {
-                                newData.Title = oldaData.Title;
-                                newData.SubTitle = oldaData.SubTitle;
-                                newData.Body = oldaData.Body;
-                                newData.Image = oldaData.Image;
-                                newData.ImageAlt = oldaData.ImageAlt;
-                                newData.PublicationDate = oldaData.PublicationDate;
-                                newData.Author = oldaData.Author;
-                                newData.CategoryId = 2;
-                                newData.Rate = oldaData.Rate;
-                            }
-                            _dbContext.News.Remove(oldaData);
+                            Event newData = (Event)_reset["Event"](oldData);
+                            _dbContext.News.Remove(oldData);
                             await _dbContext.Events.AddAsync(newData);
                         }
                         else { continue; }
@@ -452,6 +323,7 @@ namespace Opuestos_por_el_Vertice.Data.Repository
                 }
             }
         }
+
 
         private IQueryable<BasePost> GetDbContent(string category) => category switch
         {

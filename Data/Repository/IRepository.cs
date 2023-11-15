@@ -15,6 +15,6 @@ namespace Opuestos_por_el_Vertice.Data.Repository
         Task<BasePost> DetailOne(string category,int id);
         List<BasePost> DetailAll(string category);
         List<Category> GetCategories();
-        Task ArrangeDb();
+        Task UnbendDb();
     }
 }
