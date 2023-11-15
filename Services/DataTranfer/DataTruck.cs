@@ -6,7 +6,7 @@ namespace Opuestos_por_el_Vertice.Services.Data_Tranfer
     public class DataTruck : IDataTruck
     {
         private BasePost? Post { get; set; }
-        private static Dictionary<string, Func<PostViewModel, BasePost>> postDatas = new Dictionary<string, Func<PostViewModel, BasePost>>
+        private static Dictionary<string, Func<PostViewModel, BasePost>> postDatas = new()
         {
             { "Artist", GetArtistData },
             { "Album", GetAlbumData },

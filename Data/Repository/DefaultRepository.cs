@@ -102,7 +102,7 @@ namespace Opuestos_por_el_Vertice.Data.Repository
             return newData;
         }
 
-        public async Task Create<TEntity>(BasePost post) where TEntity : BasePost
+        public async Task Create<TEntity>(BasePost post)where TEntity : BasePost
         {
             //_dbContext.Add(post); // pure TPT implementation
             switch (post)
@@ -158,168 +158,162 @@ namespace Opuestos_por_el_Vertice.Data.Repository
                 if (kind == 4)
                 {
                     List<Genre> currentData = _dbContext.Genres.Where(g => g.CategoryId != 5).ToList();
-                    foreach (Genre oldData in currentData)
+                    currentData.ForEach(oldData =>
                     {
-                        if (oldData.CategoryId == 4)
+                        switch (oldData.CategoryId)
                         {
-                            Album newData = (Album)_reset["Album"](oldData);
-                            _dbContext.Genres.Remove(oldData);
-                            await _dbContext.Albums.AddAsync(newData);
+                            case 4:
+                                Album newAlbum = (Album)_reset["Album"](oldData);
+                                _dbContext.Genres.Remove(oldData);
+                                _dbContext.Albums.Add(newAlbum);
+                                break;
+                            case 3:
+                                Artist newArtist = (Artist)_reset["Artist"](oldData);
+                                _dbContext.Genres.Remove(oldData);
+                                _dbContext.Artists.Add(newArtist);
+                                break;
+                            case 2:
+                                Event newEvent = (Event)_reset["Event"](oldData);
+                                _dbContext.Genres.Remove(oldData);
+                                _dbContext.Events.Add(newEvent);
+                                break;
+                            case 1:
+                                New newNew = (New)_reset["New"](oldData);
+                                _dbContext.Genres.Remove(oldData);
+                                _dbContext.News.Add(newNew);
+                                break;
+                            default: break;
                         }
-                        else if (oldData.CategoryId == 3)
-                        {
-                            Artist newData = (Artist)_reset["Artist"](oldData);
-                            _dbContext.Genres.Remove(oldData);
-                            await _dbContext.Artists.AddAsync(newData);
-                        }
-                        else if (oldData.CategoryId == 2)
-                        {
-                            Event newData = (Event)_reset["Event"](oldData);
-                            _dbContext.Genres.Remove(oldData);
-                            await _dbContext.Events.AddAsync(newData);
-                        }
-                        else if (oldData.CategoryId == 1)
-                        {
-                            New newData = (New)_reset["New"](oldData);
-                            _dbContext.Genres.Remove(oldData);
-                            await _dbContext.News.AddAsync(newData);
-                        }
-                        else { continue; }
-                        await _dbContext.SaveChangesAsync();
-                    }
+                    });
+                    await _dbContext.SaveChangesAsync();
                 }
                 else if (kind == 3)
                 {
                     List<Album> currentData = _dbContext.Albums.Where(a => a.CategoryId != 4).ToList();
-                    foreach (Album oldData in currentData)
+                    currentData.ForEach(oldData =>
                     {
-                        if (oldData.CategoryId == 5)
+                        switch (oldData.CategoryId)
                         {
-                            Genre newData = (Genre)_reset["Genre"](oldData);
-                            _dbContext.Albums.Remove(oldData);
-                            await _dbContext.Genres.AddAsync(newData);
+                            case 5:
+                                Genre newGenre = (Genre)_reset["Genre"](oldData);
+                                _dbContext.Albums.Remove(oldData);
+                                _dbContext.Genres.Add(newGenre);
+                                break;
+                            case 3:
+                                Artist newArtist = (Artist)_reset["Artist"](oldData);
+                                _dbContext.Albums.Remove(oldData);
+                                _dbContext.Artists.Add(newArtist);
+                                break;
+                            case 2:
+                                Event newEvent = (Event)_reset["Event"](oldData);
+                                _dbContext.Albums.Remove(oldData);
+                                _dbContext.Events.Add(newEvent);
+                                break;
+                            case 1:
+                                New newNew = (New)_reset["New"](oldData);
+                                _dbContext.Albums.Remove(oldData);
+                                _dbContext.News.Add(newNew);
+                                break;
+                            default: break;
                         }
-                        else if (oldData.CategoryId == 3)
-                        {
-                            Artist newData = (Artist)_reset["Artist"](oldData);
-                            _dbContext.Albums.Remove(oldData);
-                            await _dbContext.Artists.AddAsync(newData);
-                        }
-                        else if (oldData.CategoryId == 2)
-                        {
-                            Event newData = (Event)_reset["Event"](oldData);
-                            _dbContext.Albums.Remove(oldData);
-                            await _dbContext.Events.AddAsync(newData);
-                        }
-                        else if (oldData.CategoryId == 1)
-                        {
-                            New newData = (New)_reset["New"](oldData);
-                            _dbContext.Albums.Remove(oldData);
-                            await _dbContext.News.AddAsync(newData);
-                        }
-                        else { continue; }
-                        await _dbContext.SaveChangesAsync();
-                    }
+                    });
+                    await _dbContext.SaveChangesAsync();
                 }
                 else if (kind == 2)
                 {
                     List<Artist> currentData = _dbContext.Artists.Where(a => a.CategoryId != 3).ToList();
-                    foreach (Artist oldData in currentData)
+                    currentData.ForEach(oldData =>
                     {
-                        if (oldData.CategoryId == 5)
+                        switch (oldData.CategoryId)
                         {
-                            Genre newData = (Genre)_reset["Genre"](oldData);
-                            _dbContext.Artists.Remove(oldData);
-                            await _dbContext.Genres.AddAsync(newData);
+                            case 5:
+                                Genre newGenre = (Genre)_reset["Genre"](oldData);
+                                _dbContext.Artists.Remove(oldData);
+                                _dbContext.Genres.Add(newGenre);
+                                break;
+                            case 4:
+                                Album newAlbum = (Album)_reset["Album"](oldData);
+                                _dbContext.Artists.Remove(oldData);
+                                _dbContext.Albums.Add(newAlbum);
+                                break;
+                            case 2:
+                                Event newEvent = (Event)_reset["Event"](oldData);
+                                _dbContext.Artists.Remove(oldData);
+                                _dbContext.Events.Add(newEvent);
+                                break;
+                            case 1:
+                                New newNew = (New)_reset["New"](oldData);
+                                _dbContext.Artists.Remove(oldData);
+                                _dbContext.News.Add(newNew);
+                                break;
+                            default: break;
                         }
-                        else if (oldData.CategoryId == 4)
-                        {
-                            Album newData = (Album)_reset["Album"](oldData);
-                            _dbContext.Artists.Remove(oldData);
-                            await _dbContext.Albums.AddAsync(newData);
-                        }
-                        else if (oldData.CategoryId == 2)
-                        {
-                            Event newData = (Event)_reset["Event"](oldData);
-                            _dbContext.Artists.Remove(oldData);
-                            await _dbContext.Events.AddAsync(newData);
-                        }
-                        else if (oldData.CategoryId == 1)
-                        {
-                            New newData = (New)_reset["New"](oldData);
-                            _dbContext.Artists.Remove(oldData);
-                            await _dbContext.News.AddAsync(newData);
-                        }
-                        else { continue; }
-                        await _dbContext.SaveChangesAsync();
-                    }
+                    });
+                    await _dbContext.SaveChangesAsync();
                 }
                 else if (kind == 1)
                 {
                     List<Event> currentData = _dbContext.Events.Where(a => a.CategoryId != 2).ToList();
-                    foreach (Event oldData in currentData)
+                    currentData.ForEach(oldData =>
                     {
-                        if (oldData.CategoryId == 5)
+                        switch (oldData.CategoryId)
                         {
-                            Genre newData = (Genre)_reset["Genre"](oldData);
-                            _dbContext.Events.Remove(oldData);
-                            await _dbContext.Genres.AddAsync(newData);
+                            case 5:
+                                Genre newGenre = (Genre)_reset["Genre"](oldData);
+                                _dbContext.Events.Remove(oldData);
+                                _dbContext.Genres.Add(newGenre);
+                                break;
+                            case 4:
+                                Album newAlbum = (Album)_reset["Album"](oldData);
+                                _dbContext.Events.Remove(oldData);
+                                _dbContext.Albums.Add(newAlbum);
+                                break;
+                            case 3:
+                                Artist newArtist = (Artist)_reset["Artist"](oldData);
+                                _dbContext.Events.Remove(oldData);
+                                _dbContext.Artists.Add(newArtist);
+                                break;
+                            case 1:
+                                New newNew = (New)_reset["New"](oldData);
+                                _dbContext.Events.Remove(oldData);
+                                _dbContext.News.Add(newNew);
+                                break;
+                            default: break;
                         }
-                        else if (oldData.CategoryId == 4)
-                        {
-                            Album newData = (Album)_reset["Album"](oldData);
-                            _dbContext.Events.Remove(oldData);
-                            await _dbContext.Albums.AddAsync(newData);
-                        }
-                        else if (oldData.CategoryId == 3)
-                        {
-                            Artist newData = (Artist)_reset["Artist"](oldData);
-                            _dbContext.Events.Remove(oldData);
-                            await _dbContext.Artists.AddAsync(newData);
-                        }
-                        else if (oldData.CategoryId == 1)
-                        {
-                            New newData = (New)_reset["New"](oldData);
-                            _dbContext.Events.Remove(oldData);
-                            await _dbContext.News.AddAsync(newData);
-                        }
-                        else { continue; }
-                        await _dbContext.SaveChangesAsync();
-                    }
+                    });
+                    await _dbContext.SaveChangesAsync();
                 }
                 else
                 {
                     List<New> currentData = _dbContext.News.Where(n => n.CategoryId != 1).ToList();
-                    foreach (New oldData in currentData)
+                    currentData.ForEach(oldData =>
                     {
-                        if (oldData.CategoryId == 5)
+                        switch (oldData.CategoryId)
                         {
-                            Genre newData = (Genre)_reset["Genre"](oldData);
-                            _dbContext.News.Remove(oldData);
-                            await _dbContext.Genres.AddAsync(newData);
+                            case 5:
+                                Genre newGenre = (Genre)_reset["Genre"](oldData);
+                                _dbContext.News.Remove(oldData);
+                                _dbContext.Genres.Add(newGenre);
+                                break;
+                            case 4:
+                                Album newAlbum = (Album)_reset["Album"](oldData);
+                                _dbContext.News.Remove(oldData);
+                                _dbContext.Albums.Add(newAlbum);
+                                break;
+                            case 3:
+                                Artist newArtist = (Artist)_reset["Artist"](oldData);
+                                _dbContext.News.Remove(oldData);
+                                _dbContext.Artists.Add(newArtist);
+                                break;
+                            case 2:
+                                Event newEvent = (Event)_reset["Event"](oldData);
+                                _dbContext.News.Remove(oldData);
+                                _dbContext.Events.Add(newEvent);
+                                break;
+                            default: break;
                         }
-                        else if (oldData.CategoryId == 4)
-                        {
-                            Album newData = (Album)_reset["Album"](oldData);
-                            _dbContext.News.Remove(oldData);
-                            await _dbContext.Albums.AddAsync(newData);
-                        }
-                        else if (oldData.CategoryId == 3)
-                        {
-                            Artist newData = (Artist)_reset["Artist"](oldData);
-                            _dbContext.News.Remove(oldData);
-                            await _dbContext.Artists.AddAsync(newData);
-                        }
-                        else if (oldData.CategoryId == 2)
-                        {
-                            Event newData = (Event)_reset["Event"](oldData);
-                            _dbContext.News.Remove(oldData);
-                            await _dbContext.Events.AddAsync(newData);
-                        }
-                        else { continue; }
-                        await _dbContext.SaveChangesAsync();
-                    }
-
+                    });
+                    await _dbContext.SaveChangesAsync();
                 }
             }
         }
