@@ -102,16 +102,16 @@ namespace Opuestos_por_el_Vertice.Data.Repository
             return newData;
         }
 
-        public async Task Create<TEntity>(BasePost post)where TEntity : BasePost
+        public async Task Create<TEntity>(BasePost post) where TEntity : BasePost
         {
             //_dbContext.Add(post); // pure TPT implementation
             switch (post)
             {
-                case Artist artist: _dbContext.Artists.AddAsync(artist); break;
-                case Album album: _dbContext.Albums.AddAsync(album); break;
-                case Genre genre: _dbContext.Genres.AddAsync(genre); break;
-                case Event @event: _dbContext.Events.AddAsync(@event); break;
-                case New @new: _dbContext.News.AddAsync(@new); break;
+                case Artist artist: await _dbContext.Artists.AddAsync(artist); break;
+                case Album album: await _dbContext.Albums.AddAsync(album); break;
+                case Genre genre: await _dbContext.Genres.AddAsync(genre); break;
+                case Event @event: await _dbContext.Events.AddAsync(@event); break;
+                case New @new: await _dbContext.News.AddAsync(@new); break;
                 default: break;
             }
             await _dbContext.SaveChangesAsync();
@@ -147,7 +147,16 @@ namespace Opuestos_por_el_Vertice.Data.Repository
 
         public List<BasePost> DetailAll(string category) => GetDbContent(category).ToList();
 
-        public async Task<BasePost> DetailOne(string category, int id) => await GetDbContent(category).FirstOrDefaultAsync(p => p.Id == id);
+        public async Task<BasePost> DetailOne(string category, int id) => await GetDbContent(category ?? "Default").FirstOrDefaultAsync(p => p.Id == id) ?? new BasePost();
+        private IQueryable<BasePost> GetDbContent(string category) => category switch
+        {
+            "Artist" => _dbContext.Artists.Include(p => p.Category).Cast<BasePost>(),
+            "Album" => _dbContext.Albums.Include(p => p.Category).Cast<BasePost>(),
+            "Genre" => _dbContext.Genres.Include(p => p.Category).Cast<BasePost>(),
+            "Event" => _dbContext.Events.Include(p => p.Category).Cast<BasePost>(),
+            "New" => _dbContext.News.Include(p => p.Category).Cast<BasePost>(),
+            "Default" => _dbContext.News.Include(p => p.Category).Cast<BasePost>()
+        };
 
         public List<Category> GetCategories() => _dbContext.Categories.ToList();
 
@@ -317,15 +326,5 @@ namespace Opuestos_por_el_Vertice.Data.Repository
                 }
             }
         }
-
-
-        private IQueryable<BasePost> GetDbContent(string category) => category switch
-        {
-            "Artist" => _dbContext.Artists.Include(p => p.Category).Cast<BasePost>(),
-            "Album" => _dbContext.Albums.Include(p => p.Category).Cast<BasePost>(),
-            "Genre" => _dbContext.Genres.Include(p => p.Category).Cast<BasePost>(),
-            "Event" => _dbContext.Events.Include(p => p.Category).Cast<BasePost>(),
-            "New" => _dbContext.News.Include(p => p.Category).Cast<BasePost>(),
-        };
     }
 }

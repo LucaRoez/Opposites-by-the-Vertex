@@ -20,16 +20,16 @@ namespace Opuestos_por_el_Vertice.Controllers
             _admin = admin;
         }
 
-        public async Task<IActionResult> Index(string message = "", string controllerInput = "Admin") => View(await _envelopment.GetModelEnvelopment(controllerInput, 0, message));
+        public async Task<IActionResult> Index(string message = "", string controllerInput = "Admin") => View(await _envelopment.GetViewEnvelopment(controllerInput, 0, ""));
 
-        public async Task<IActionResult> New(string controllerInput = "Admin") => View(await _envelopment.GetModelEnvelopment(controllerInput, 0, ""));
+        public async Task<IActionResult> New(string controllerInput = "Admin") => View(await _envelopment.GetViewEnvelopment(controllerInput, 0, ""));
 
-        public async Task<IActionResult> Modify(int id, string category, string controllerInput = "Admin") => View(await _envelopment.GetModelEnvelopment(controllerInput, id, category));
+        public async Task<IActionResult> Modify(int id, string category, string controllerInput = "Admin") => View(await _envelopment.GetViewEnvelopment(controllerInput, id, category));
 
-        public async Task<IActionResult> Delete(int id, string category, string controllerInput = "Admin") => View(await _envelopment.GetModelEnvelopment(controllerInput, id, category));
+        public async Task<IActionResult> Delete(int id, string category, string controllerInput = "Admin") => View(await _envelopment.GetViewEnvelopment(controllerInput, id, category));
 
         [HttpPost]
-        public async Task<IActionResult> DeleteAll(string identifier, int id = 0, string controllerInput = "Admin") => View(await _envelopment.GetModelEnvelopment(controllerInput, id, identifier));
+        public async Task<IActionResult> DeleteAll(string identifier, int id = 0, string controllerInput = "Admin") => View(await _envelopment.GetViewEnvelopment(controllerInput, id, identifier));
 
         [HttpPost]
         public async Task<IActionResult> Create(ViewKindViewModel webInfo)
@@ -37,7 +37,7 @@ namespace Opuestos_por_el_Vertice.Controllers
             ModelState.Remove("ObjectClass.CurrentPost.Body");
             if (ModelState.IsValid)
             {
-                var post = webInfo.ObjectClass.CurrentPost;
+                var post = webInfo.ObjectsClass.SelectedPost;
                 post.CategoryId = webInfo.AdminInfo.CategoryId;
                 post.PublicationDate = DateTime.Now;
 
@@ -46,7 +46,7 @@ namespace Opuestos_por_el_Vertice.Controllers
 
                 return RedirectToAction("Index");
             }
-            return View("New", await _envelopment.GetModelEnvelopment("Admin", 0, ""));
+            return View("New", await _envelopment.GetViewEnvelopment("Admin", 0, ""));
         }
 
         [HttpPost]
@@ -55,7 +55,7 @@ namespace Opuestos_por_el_Vertice.Controllers
             ModelState.Remove("ObjectClass.CurrentPost.Body");
             if (ModelState.IsValid)
             {
-                var post = webInfo.ObjectClass.CurrentPost;
+                var post = webInfo.ObjectsClass.SelectedPost;
                 int categoryId = webInfo.AdminInfo.CategoryId;
                 if (categoryId != 0) { post.CategoryId = categoryId; }
                 else { categoryId = post.CategoryId; }
@@ -65,7 +65,7 @@ namespace Opuestos_por_el_Vertice.Controllers
 
                 return RedirectToAction("Index");
             }
-            return View("Modify", await _envelopment.GetModelEnvelopment("Admin", 0, ""));
+            return View("Modify", await _envelopment.GetViewEnvelopment("Admin", 0, ""));
         }
 
         [HttpPost]

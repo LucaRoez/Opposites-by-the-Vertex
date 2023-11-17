@@ -4,7 +4,7 @@ using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.DataTranfer;
 
-namespace Opuestos_por_el_Vertice.Services.Searcher
+namespace Opuestos_por_el_Vertice.Services.Searcher.Searcher
 {
     public class DefaultSearcher : ISearcher
     {
@@ -30,8 +30,9 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
         // search mechanism
         public List<PostViewModel> GetSearch(string search, string category)
         {
+            search ??= "";
             List<BasePost> finalSearch = new();
-            if (search == "" || search == null)
+            if (search == "")
             {
                 if (category == "Index")
                 {
@@ -107,16 +108,8 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
         // asides info search
         public AsideViewModel GetAsideSearch(List<PostViewModel> pageList, string pageKind, PostViewModel model, SearchViewModel search)
         {
-            AsideViewModel finalAside = new();
+            AsideViewModel finalAside = new(GetFinalAsideTitle(AsideViewModel.AsideTitles, model.Category, pageKind), search);
             finalAside.AsidesList = SelectPostList(pageKind, finalAside.AsidesList, pageList);
-
-            finalAside.AsideTitles.Add("Artist or Bands More Popular");
-            finalAside.AsideTitles.Add("Shows and Concerts More Popular");
-            finalAside.AsideTitles.Add("Relevant Metal News");
-            finalAside.AsideTitles.Add("Albums More Popular");
-            finalAside.AsideTitles.Add("Genres or Subgenres More Popular");
-            finalAside.AsideTitle = GetFinalAsideTitle(finalAside.AsideTitles, model.Category, pageKind);
-
             finalAside.SearchData = GetActionView(pageKind, model.Category, search);
 
             return finalAside;
@@ -152,7 +145,7 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
 
             return asidesList;
         }
-        private string GetFinalAsideTitle(List<string> asideTitles, string modelCategory, string pageKind)
+        private string GetFinalAsideTitle(string[] asideTitles, string modelCategory, string pageKind)
         {
             string asideTitle = "";
             // this is for the Post path

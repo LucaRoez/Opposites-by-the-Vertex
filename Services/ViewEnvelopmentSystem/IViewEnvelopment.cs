@@ -10,8 +10,8 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
 
     public interface IViewEnvelopment
     {
-        Task<ViewKindViewModel> GetStandardEnvelopment(string controllerInput);
-        Task<ViewKindViewModel> GetModelEnvelopment(string controllerInput, int id, string extraData);
-        ViewKindViewModel GetSearchEnvelopment(string controllerInput, int page, SearchViewModel search, string postCategory);
+        Task<ViewKindViewModel> GetViewEnvelopment(string controllerInput);
+        Task<ViewKindViewModel> GetViewEnvelopment(string controllerInput, int id, string extraData);
+        ViewKindViewModel GetViewEnvelopment(string controllerInput, int page, SearchViewModel search, string postCategory);
     }
 }

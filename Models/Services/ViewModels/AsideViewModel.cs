@@ -6,15 +6,21 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
     {
         public List<List<PostViewModel>> AsidesList { get; set; }
         public string AsideTitle { get; set; }
-        public List<string> AsideTitles { get; set; }
+        public static string[] AsideTitles { get; set; } = new[]
+            {
+                "Artist or Bands More Popular",
+                "Shows and Concerts More Popular",
+                "Relevant Metal News",
+                "Albums More Popular",
+                "Genres or Subgenres More Popular"
+            };
         public SearchViewModel SearchData { get; set; }
 
-        public AsideViewModel()
+        public AsideViewModel(string title, SearchViewModel search)
         {
             AsidesList = new();
-            AsideTitles = new List<string>();
-            AsideTitle = "";
-            SearchData = new();
+            AsideTitle = title ?? "";
+            SearchData = search ?? new();
         }
     }
 }

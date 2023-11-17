@@ -65,7 +65,7 @@ namespace Opuestos_por_el_Vertice.Services.AdminManager
         private string GetCategoryName(int id)
         {
             List<Category> Categories = _repository.GetCategories();
-            string category = Categories.FirstOrDefault(c => c.Id == id).CategoryName;
+            string category = Categories.FirstOrDefault(c => c.Id == id)?.CategoryName ?? "Default";
 
             return category;
         }

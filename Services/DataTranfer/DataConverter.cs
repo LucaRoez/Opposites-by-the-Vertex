@@ -106,7 +106,6 @@ namespace Opuestos_por_el_Vertice.Services.DataTranfer
         private static PostViewModel GetModel(BasePost post)
         {
             post ??= new BasePost(); post.Category.CategoryName ??= new CategoryViewModel(post.CategoryId).Category;
-
             PostViewModel model = new()
             {
                 Id = post.Id,

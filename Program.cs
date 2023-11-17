@@ -18,8 +18,8 @@ service.AddDbContext<PostingDbContext>(op =>
     op.UseSqlServer(connectionString));
 
 service.AddTransient<IRepository, DefaultRepository>();
-service.AddTransient<IDataTruck, DataTruck>();
-service.AddTransient<ISearcher, DefaultSearcher>();
+//service.AddTransient<IDataTruck, DataTruck>();
+//service.AddTransient<ISearcher, DefaultSearcher>();
 service.AddTransient<IViewEnvelopment, DefaultViewEnvelopment>();
 service.AddTransient<IAdminManager, DefaultAdminManager>();
 
