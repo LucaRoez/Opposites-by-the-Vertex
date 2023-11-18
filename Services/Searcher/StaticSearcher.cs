@@ -26,13 +26,12 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
         };
 
         public static (string[] Categories, HeroViewModel Hero, AsideViewModel Aside, SearchViewModel Searcher, AdminPackage Admin)
-            Main(string controllerInput) => ViewConstructor(controllerInput);
-
-        private static (
-            string[] Categories, HeroViewModel Hero, AsideViewModel Aside,
-            SearchViewModel Searcher, AdminPackage Admin
-            )
-            ViewConstructor(string input) => (GetCategories(input), GetHero(input), GetAside(input), GetSearcher(input), GetAdmin(input));
+            Main(string controllerInput) =>
+            (
+            GetCategories(controllerInput),
+            GetHero(controllerInput), GetAside(controllerInput),
+            GetSearcher(controllerInput), GetAdmin(controllerInput)
+            );
 
 
         public static SearchViewModel FillSearcher(string search, string action, List<PostViewModel> avariableList)
@@ -43,8 +42,8 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
                 p.Title.ToLower() == search.Substring((search.Length / 2) - 1)
                 ).ToList();
             SearchViewModel childToFeed = new(search, action, searchList, GetPaginationData(searchList.Count));
-            var childFeeded = childToFeed;
-            return childFeeded;
+            var fedChild = childToFeed;
+            return fedChild;
         }
 
         private static List<int> GetPaginationData(int totalPosts)
@@ -71,6 +70,7 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
             public static readonly Predicate<string> isAlbum = (input) => input.Equals("Album");
             public static readonly Predicate<string> isGenre = (input) => input.Equals("Genre");
             public static readonly Predicate<int> isZero = (number) => number.Equals(0);
+            public static readonly Predicate<AsideViewModel> isOverall = (childToFeed) => childToFeed.AsideTitle.StartsWith("Overall");
         }
 
 
@@ -88,12 +88,12 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
         private static SearchViewModel GetSearcher(string refinedInput) => (Validator.isNew(refinedInput) || Validator.isEvent(refinedInput) ||
             Validator.isArtist(refinedInput) || Validator.isAlbum(refinedInput) || Validator.isGenre(refinedInput)) ?
             new(null, refinedInput, null, null) : new(null, null, null, null);
-        private static AsideViewModel GetAside(string input)
-        {
-        }
-        private static AdminPackage GetAdmin(string input)
-        {
-        }
+        private static AsideViewModel GetAside(string refinedInput) => (Validator.isNew(refinedInput) || Validator.isEvent(refinedInput) ||
+            Validator.isArtist(refinedInput) || Validator.isAlbum(refinedInput) || Validator.isGenre(refinedInput)) ?
+            AsideFunctions.GetAsideTitle(new(refinedInput, null)) : AsideFunctions.GetAsideTitle(new(null, null));
+        private static AdminPackage GetAdmin(string refinedInput) => (Validator.isNew(refinedInput) || Validator.isEvent(refinedInput) ||
+            Validator.isArtist(refinedInput) || Validator.isAlbum(refinedInput) || Validator.isGenre(refinedInput)) ?
+            new(null, AdminFunctions.GetCategoryId(refinedInput)) : new(null, null);
 
 
         private static class HeroFunctions
@@ -207,6 +207,34 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
 
                 HeroViewModel hero = new(1, imgSources, imgAlt, titles, subs);
                 return hero;
+            }
+        }
+
+        private static class AsideFunctions
+        {
+            public static AsideViewModel GetAsideTitle(AsideViewModel childToFeed)
+            {
+                childToFeed.AsideTitle = Validator.isOverall(childToFeed) ?
+                    childToFeed.AsideTitle : AsideViewModel.AsideTitles.Where(title => title.Contains(childToFeed.SearchData.Action))
+                    .ToString().Replace("[", "").Replace("]", "").Trim();   // in this particular case i could use a front-end variable data as a back-end one
+                var fedChild = childToFeed;
+                return fedChild;
+            }
+        }
+
+        private static class AdminFunctions
+        {
+            public static int GetCategoryId(string input)
+            {
+                int categoryId = 0;
+                categoryId = Validator.isNew(input) ? 1 :
+                  Validator.isZero(categoryId) ? (Validator.isEvent(input) ? 2 : 0) :
+                  Validator.isZero(categoryId) ? (Validator.isArtist(input) ? 3 : 0) :
+                  Validator.isZero(categoryId) ? (Validator.isAlbum(input) ? 4 : 0) :
+                  Validator.isZero(categoryId) ? (Validator.isGenre(input) ? 5 : 0) :
+                  0;
+
+                return categoryId;
             }
         }
     }

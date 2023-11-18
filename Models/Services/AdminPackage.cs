@@ -8,11 +8,11 @@ namespace Opuestos_por_el_Vertice.Models.Services
         public CategoriesViewModel Categories { get; set; }
         public int CategoryId { get; set; }
 
-        public AdminPackage()
+        public AdminPackage(string? adminMessage, int? categoryId)
         {
-            AdminMessage = "";
+            AdminMessage = adminMessage ?? "";
             Categories = new();
-            CategoryId = 0;
+            CategoryId = categoryId ?? 0;
         }
     }
 }
