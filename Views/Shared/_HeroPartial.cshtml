@@ -8,7 +8,7 @@
     List<string> labels = Model.HeroData.Titles;
     List<string> sublabels = Model.HeroData.SubTitles;
     string author = ""; string date = "";
-    if (Model.Kind.Equals("Post")) { author = Model.ObjectClass.CurrentPost.Author; date = Model.ObjectClass.CurrentPost.PublicationDate.Date.ToString(); }
+    if (Model.Kind.Equals("Post")) { author = Model.ObjectsClass.SelectedPost.Author; date = Model.ObjectsClass.SelectedPost.PublicationDate.Date.ToString(); }
 }
 <div class="container text-center">
     <div id="heroCarousel" class="carousel slide">

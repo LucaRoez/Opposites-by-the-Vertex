@@ -18,20 +18,22 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
         public async Task<ViewKindViewModel> GetViewEnvelopment(string controllerInput)
         {
             await _repository.UnbendDb();
+            string refinedInput = StaticSearcher.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
+            var centralInfo = StaticSearcher.Body(refinedInput);
 
-            /*   taking both objects needed, only one flow path for all functions   */
+            /*   only one object and flow path for all functions needed   */
             List<PostViewModel> posts = new();
-            StaticSearcher.Main(controllerInput).Categories.ToList()
+            centralInfo.Categories.ToList()
                 .ForEach(category => { posts.AddRange(DataConverter.GetAllViewModels(_repository.DetailAll(category))); });
 
             /*   aside settings   */
-            AsideViewModel aside = StaticSearcher.Main(controllerInput).Aside;
+            AsideViewModel aside = centralInfo.Aside;
             aside.AsidesList.Add(posts);
 
             var viewClass = new ViewKindViewModel(
                 posts, null,
-                StaticSearcher.Main(controllerInput).Hero, aside,
-                null, StaticSearcher.Main(controllerInput).Admin
+                centralInfo.Hero, aside,
+                null, centralInfo.Admin
                 );
 
             return viewClass;
@@ -39,68 +41,63 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
 
         public async Task<ViewKindViewModel> GetViewEnvelopment(string controllerInput, int id, string postCategory)
         {
-            /*   taking both objects needed with their heros, all features are unique by controller input variable   */
+            string refinedInput = StaticSearcher.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
+            var centralInfo = StaticSearcher.Body(refinedInput);
+
+            /*   taking both objects needed, with two flow paths   */
             List<PostViewModel> posts = new(); PostViewModel? post = null;
             if (!postCategory.Equals("")) { post = DataConverter.GetViewModel(await _repository.DetailOne(postCategory, id)); }
-            string[] categories = StaticSearcher.Main(controllerInput).Categories;
-            HeroViewModel? hero = StaticSearcher.Main(controllerInput).Hero;
-            if (categories[0] == "Post" || categories[0].Equals("Admin") && !postCategory.Equals(""))
-            {
-                categories = new string[1]; categories[0] = post.Category ?? postCategory;
-                /* this is for aside and admin settings */
-                controllerInput = post.Category ?? postCategory;
-                /* this is for hero settings */
-                if (categories[0] == "Post")
-                {
-                    hero.ImageSources.Add(post.Image); hero.ImageAltSources.Add(post.ImageAlt);
-                    hero.Titles.Add(post.Title); hero.SubTitles.Add(post.SubTitle);
-                }
-            }
-            else if (categories[0].Equals("Admin") && postCategory.Equals("")) { categories = StaticSearcher.Main("General").Categories; }
-
+            string[] categories = centralInfo.Categories;
             categories.ToList()
                 .ForEach(category => { posts.AddRange(DataConverter.GetAllViewModels(_repository.DetailAll(category))); });
 
+            /*   hero settings, all features are uniques according to controller input   */
+            HeroViewModel hero = StaticSearcher.Body(controllerInput).Hero;
+            if (controllerInput == "Post")
+            {
+                hero.ImageSources.Clear(); hero.ImageAltSources.Clear(); hero.Titles.Clear(); hero.SubTitles.Clear();
+                hero.ImageSources.Add(post.Image); hero.ImageAltSources.Add(post.ImageAlt);
+                hero.Titles.Add(post.Title); hero.SubTitles.Add(post.SubTitle);
+            }
+
             /*   aside settings   */
-            AsideViewModel aside = StaticSearcher.Main(controllerInput).Aside;
+            AsideViewModel aside = centralInfo.Aside;
             aside.AsidesList.Add(posts);
 
             var viewClass = new ViewKindViewModel(
                 posts, post,
                 hero, aside,
-                null, StaticSearcher.Main(controllerInput).Admin
+                null, centralInfo.Admin
                 );
 
             return viewClass;
         }
 
-        public ViewKindViewModel GetViewEnvelopment(string controllerInput, int page, SearchViewModel search, string postsCategory)
+        public ViewKindViewModel GetViewEnvelopment(string controllerInput, int page, SearchViewModel thisSearch, string postsCategory)
         {
-            /*   taking both objects needed, with two flow path   */
+            string refinedInput = StaticSearcher.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
+            var centralInfo = StaticSearcher.Body(refinedInput);
+
+            /*   taking posts needed   */
             List<PostViewModel> posts = new();
-            if (postsCategory.Equals(""))
-            {
-                StaticSearcher.Main(controllerInput).Categories.ToList()
-                    .ForEach(category => { posts.AddRange(DataConverter.GetAllViewModels(_repository.DetailAll(category))); });
-                /* this is for hero, aside and admin settings */
-                postsCategory = controllerInput;
-            }
-            else { posts.AddRange(DataConverter.GetAllViewModels(_repository.DetailAll(postsCategory))); }
+            string[] categories = centralInfo.Categories;
+            categories.ToList()
+                .ForEach(category => { posts.AddRange(DataConverter.GetAllViewModels(_repository.DetailAll(category))); });
 
             /*   search settings   */
-            SearchViewModel thisSearch = StaticSearcher.Main(postsCategory).Searcher;
-            thisSearch = StaticSearcher.FillSearcher(search.Search.Trim().ToLower(), thisSearch.Action, posts);
+            SearchViewModel search = centralInfo.Searcher;
+            search = StaticSearcher.SearchFunctions.FillSearcher(thisSearch.Search.Trim().ToLower(), search.Action, posts);
 
             /*   aside settings   */
-            AsideViewModel aside = StaticSearcher.Main(controllerInput).Aside;
-            aside.AsidesList.Add(posts); aside.SearchData = thisSearch;
+            AsideViewModel aside = centralInfo.Aside;
+            aside.AsidesList.Add(posts); aside.SearchData = search;
 
             var viewClass = new ViewKindViewModel(
                 posts, null,
-                StaticSearcher.Main(postsCategory).Hero,
+                centralInfo.Hero,
                 aside,
-                thisSearch,
-                StaticSearcher.Main(postsCategory).Admin
+                search,
+                centralInfo.Admin
                 );
 
             return viewClass;

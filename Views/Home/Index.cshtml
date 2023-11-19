@@ -2,13 +2,13 @@
 @model ViewKindViewModel
 @{
     ViewBag.WebTitle = Model.WebTitle;
-    var morePopularContent = Model.ObjectClass.CurrentPostList.Where(p => p.Category == "Artist" || p.Category == "Album" || p.Category == "Genre").ToList();
-    var lastNewsContent = Model.ObjectClass.CurrentPostList.Where(p => p.Category == "New" || p.Category == "Event").ToList();
+    var morePopularContent = Model.ObjectsClass.PresentedPostsList.Where(p => p.Category == "Artist" || p.Category == "Album" || p.Category == "Genre").ToList();
+    var lastNewsContent = Model.ObjectsClass.PresentedPostsList.Where(p => p.Category == "New" || p.Category == "Event").ToList();
 
-    int morePopularLenght;
-    if (morePopularContent.Count > 10) { morePopularLenght = 10; } else { morePopularLenght = morePopularContent.Count; }
-    int lastNewsLenght;
-    if (lastNewsContent.Count > 4) { lastNewsLenght = 4; } else { lastNewsLenght = lastNewsContent.Count; }
+    int morePopularLenght = morePopularContent.Count();
+    if (morePopularLenght > 10) { morePopularLenght = 10; }
+    int lastNewsLenght = lastNewsContent.Count();
+    if (lastNewsLenght > 4) { lastNewsLenght = 4; }
 }
 
 <div class="container text-center">

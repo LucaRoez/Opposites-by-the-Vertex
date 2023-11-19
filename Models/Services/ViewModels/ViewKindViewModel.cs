@@ -30,7 +30,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
             HeroData = hero;
             CurrentPage = 1;
             AdminInfo = admin;
-            SearchData = search ?? new("", "", new(), new());
+            SearchData = search ?? new("", "", new List<PostViewModel>(), new List<int>());
             AsideData = aside;
         }
     }

@@ -10,7 +10,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
             {
                 "Artists or Bands More Popular",
                 "Events and Concerts Most Visited",
-                "Relevant Metal News",
+                "Most Relevant Metal News",
                 "Albums More Popular",
                 "Genres or Subgenres More Popular"
             };
@@ -20,7 +20,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
         {
             AsidesList = new();
             AsideTitle = title ?? "Overall Information";
-            SearchData = search ?? new(null, title, null, null);
+            SearchData = search ?? new(null, title ?? "Index", null, null);
         }
     }
 }

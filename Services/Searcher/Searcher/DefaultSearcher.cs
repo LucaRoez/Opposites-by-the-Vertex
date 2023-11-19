@@ -3,7 +3,7 @@ using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.DataTranfer;
-
+/*
 namespace Opuestos_por_el_Vertice.Services.Searcher.Searcher
 {
     public class DefaultSearcher : ISearcher
@@ -189,3 +189,4 @@ namespace Opuestos_por_el_Vertice.Services.Searcher.Searcher
         }
     }
 }
+*/

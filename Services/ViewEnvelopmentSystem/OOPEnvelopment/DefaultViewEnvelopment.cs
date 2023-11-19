@@ -1,4 +1,5 @@
-﻿using Opuestos_por_el_Vertice.Data.Entities;
+﻿/*
+using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
@@ -6,7 +7,7 @@ using Opuestos_por_el_Vertice.Services.DataTranfer;
 using Opuestos_por_el_Vertice.Services.Searcher.Searcher;
 
 namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem.OOPEnvelopment
-{/*
+{
     // remember always the default web site value is the Home
     public class ExcludedViewEnvelopment : IViewEnvelopment
     {
@@ -208,5 +209,6 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem.OOPEnvel
 
             return viewClass;
         }
-    }*/
+    }
 }
+*/

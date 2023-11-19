@@ -3,8 +3,6 @@ using Opuestos_por_el_Vertice.Data;
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem;
 using Opuestos_por_el_Vertice.Services.AdminManager;
-using Opuestos_por_el_Vertice.Services.DataTranfer.DataTruck;
-using Opuestos_por_el_Vertice.Services.Searcher;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -18,8 +16,8 @@ service.AddDbContext<PostingDbContext>(op =>
     op.UseSqlServer(connectionString));
 
 service.AddTransient<IRepository, DefaultRepository>();
-//service.AddTransient<IDataTruck, DataTruck>();
-//service.AddTransient<ISearcher, DefaultSearcher>();
+//service.AddTransient<IDataTruck, DataTruck>();            //moving to functional approach
+//service.AddTransient<ISearcher, DefaultSearcher>();       //moving to functional approach
 service.AddTransient<IViewEnvelopment, DefaultViewEnvelopment>();
 service.AddTransient<IAdminManager, DefaultAdminManager>();
 

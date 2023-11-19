@@ -11,53 +11,53 @@
     </div>
     <div class="admin-body row">
         <form asp-action="Update" method="post">
-            @Html.HiddenFor(m => m.ObjectClass.CurrentPost.Id, new {@value=Model.ObjectClass.CurrentPost.Id})
-            @Html.HiddenFor(m => m.ObjectClass.CurrentPost.Category, new {@value=Model.ObjectClass.CurrentPost.Category})
+            @Html.HiddenFor(m => m.ObjectsClass.SelectedPost.Id, new {@value=Model.ObjectsClass.SelectedPost.Id})
+            @Html.HiddenFor(m => m.ObjectsClass.SelectedPost.Category, new {@value=Model.ObjectsClass.SelectedPost.Category})
 
             <div class="form-group">
                 <label for="post-title" class="form-label">Title</label>
-                @Html.TextBoxFor(m => m.ObjectClass.CurrentPost.Title,
-                    new {@class="form-control", id="post-title", type="text", value=Model.ObjectClass.CurrentPost.Title})
-                @Html.ValidationMessageFor(m => m.ObjectClass.CurrentPost.Title, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.ObjectsClass.SelectedPost.Title,
+                    new {@class="form-control", id="post-title", type="text", value=Model.ObjectsClass.SelectedPost.Title})
+                @Html.ValidationMessageFor(m => m.ObjectsClass.SelectedPost.Title, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 <label for="post-sub" class="form-label">Subtitle</label>
-                @Html.TextBoxFor(m => m.ObjectClass.CurrentPost.SubTitle,
-                    new {@class="form-control", id="post-sub", type="text", value=Model.ObjectClass.CurrentPost.SubTitle})
-                @Html.ValidationMessageFor(m => m.ObjectClass.CurrentPost.SubTitle, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.ObjectsClass.SelectedPost.SubTitle,
+                    new {@class="form-control", id="post-sub", type="text", value=Model.ObjectsClass.SelectedPost.SubTitle})
+                @Html.ValidationMessageFor(m => m.ObjectsClass.SelectedPost.SubTitle, "", new { @class = "text-danger" })
             </div>
             
             <div class="form-group">
                 <label for="front-img" class="form-label">Front Image file source</label>
-                @Html.TextBoxFor(m => m.ObjectClass.CurrentPost.Image,
-                    new {@class="form-control", id="front-img", type="text", value=Model.ObjectClass.CurrentPost.Image})
-                @Html.ValidationMessageFor(m => m.ObjectClass.CurrentPost.Image, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.ObjectsClass.SelectedPost.Image,
+                    new {@class="form-control", id="front-img", type="text", value=Model.ObjectsClass.SelectedPost.Image})
+                @Html.ValidationMessageFor(m => m.ObjectsClass.SelectedPost.Image, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 <label for="front-alt" class="form-label">Front Image description</label>
-                @Html.TextBoxFor(m => m.ObjectClass.CurrentPost.ImageAlt,
-                    new {@class="form-control", id="front-alt", type="text", value=Model.ObjectClass.CurrentPost.ImageAlt})
-                @Html.ValidationMessageFor(m => m.ObjectClass.CurrentPost.ImageAlt, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.ObjectsClass.SelectedPost.ImageAlt,
+                    new {@class="form-control", id="front-alt", type="text", value=Model.ObjectsClass.SelectedPost.ImageAlt})
+                @Html.ValidationMessageFor(m => m.ObjectsClass.SelectedPost.ImageAlt, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 <label for="author" class="form-label">Author Name</label>
-                @Html.TextBoxFor(m => m.ObjectClass.CurrentPost.Author,
-                    new {@class="form-control", id="author", type="text", value=Model.ObjectClass.CurrentPost.Author})
-                @Html.ValidationMessageFor(m => m.ObjectClass.CurrentPost.Author, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.ObjectsClass.SelectedPost.Author,
+                    new {@class="form-control", id="author", type="text", value=Model.ObjectsClass.SelectedPost.Author})
+                @Html.ValidationMessageFor(m => m.ObjectsClass.SelectedPost.Author, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 <label for="post-body" class="form-label">Post Body</label>
-                @Html.TextAreaFor(m => m.ObjectClass.CurrentPost.Body, 10, 1,
-                    new {@class="form-control", id="post-category", type="text", value=Model.ObjectClass.CurrentPost.Body})
+                @Html.TextAreaFor(m => m.ObjectsClass.SelectedPost.Body, 10, 1,
+                    new {@class="form-control", id="post-category", type="text", value=Model.ObjectsClass.SelectedPost.Body})
             </div>
 
             <div class="form-group">
                 <label for="post-category" class="form-label">Post Category</label>
-                @Html.DropDownListFor(m => m.ObjectClass.CurrentPost.CategoryId, new SelectList( Model.AdminInfo.Categories.Categories, "Id", "Category"),
+                @Html.DropDownListFor(m => m.ObjectsClass.SelectedPost.CategoryId, new SelectList( Model.AdminInfo.Categories.Categories, "Id", "Category"),
                     "Witch Class of Post is it?",
                     new {@class="form-control", id="post-category", type="text"})
             </div>
