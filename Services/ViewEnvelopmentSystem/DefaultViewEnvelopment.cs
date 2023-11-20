@@ -2,7 +2,7 @@
 using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.DataTranfer;
-using Opuestos_por_el_Vertice.Services.Searcher;
+using Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem;
 
 namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
 {
@@ -18,8 +18,8 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
         public async Task<ViewKindViewModel> GetViewEnvelopment(string controllerInput)
         {
             await _repository.UnbendDb();
-            string refinedInput = StaticSearcher.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
-            var centralInfo = StaticSearcher.Body(refinedInput);
+            string refinedInput = ViewOperationSystem.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
+            var centralInfo = ViewOperationSystem.Body(refinedInput);
 
             /*   only one object and flow path for all functions needed   */
             List<PostViewModel> posts = new();
@@ -41,8 +41,8 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
 
         public async Task<ViewKindViewModel> GetViewEnvelopment(string controllerInput, int id, string postCategory)
         {
-            string refinedInput = StaticSearcher.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
-            var centralInfo = StaticSearcher.Body(refinedInput);
+            string refinedInput = ViewOperationSystem.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
+            var centralInfo = ViewOperationSystem.Body(refinedInput);
 
             /*   taking both objects needed, with two flow paths   */
             List<PostViewModel> posts = new(); PostViewModel? post = null;
@@ -52,7 +52,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                 .ForEach(category => { posts.AddRange(DataConverter.GetAllViewModels(_repository.DetailAll(category))); });
 
             /*   hero settings, all features are uniques according to controller input   */
-            HeroViewModel hero = StaticSearcher.Body(controllerInput).Hero;
+            HeroViewModel hero = ViewOperationSystem.Body(controllerInput).Hero;
             if (controllerInput == "Post")
             {
                 hero.ImageSources.Clear(); hero.ImageAltSources.Clear(); hero.Titles.Clear(); hero.SubTitles.Clear();
@@ -75,8 +75,8 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
 
         public ViewKindViewModel GetViewEnvelopment(string controllerInput, int page, SearchViewModel thisSearch, string postsCategory)
         {
-            string refinedInput = StaticSearcher.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
-            var centralInfo = StaticSearcher.Body(refinedInput);
+            string refinedInput = ViewOperationSystem.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
+            var centralInfo = ViewOperationSystem.Body(refinedInput);
 
             /*   taking posts needed   */
             List<PostViewModel> posts = new();
@@ -86,7 +86,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
 
             /*   search settings   */
             SearchViewModel search = centralInfo.Searcher;
-            search = StaticSearcher.SearchFunctions.FillSearcher(thisSearch.Search.Trim().ToLower(), search.Action, posts);
+            search = ViewOperationSystem.SearchFunctions.FillSearcher(thisSearch.Search.Trim().ToLower(), search.Action, posts);
 
             /*   aside settings   */
             AsideViewModel aside = centralInfo.Aside;

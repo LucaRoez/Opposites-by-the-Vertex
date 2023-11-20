@@ -2,9 +2,9 @@
 using Opuestos_por_el_Vertice.Models.Services;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 
-namespace Opuestos_por_el_Vertice.Services.Searcher
+namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
 {
-    public static class StaticSearcher
+    public static class ViewOperationSystem
     {
         public static readonly string[] categories = new[] { "New", "Event", "Artist", "Album", "Genre" };
         private static readonly Dictionary<string, Func<List<string>, List<string>, List<string>, List<string>, HeroViewModel>>
@@ -211,10 +211,10 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
                 searchList = Validator.Validations.isZero(search.Length) ? searchList : avariableList.Where(
                     p => p.Title.ToLower() == search ||
                     p.Title.ToLower() == search.Remove(search.Length / 2) ||
-                    p.Title.ToLower() == search.Substring((search.Length / 2) - 1)
+                    p.Title.ToLower() == search.Substring(search.Length / 2 - 1)
                     ).ToList();
                 SearchViewModel childToFeed = Validator.Validations.endsWithS(action) ?
-                    new(search, action.Remove(action.Length-1), searchList, GetPaginationData(searchList.Count)) :
+                    new(search, action.Remove(action.Length - 1), searchList, GetPaginationData(searchList.Count)) :
                     new(search, action, searchList, GetPaginationData(searchList.Count));
                 var fedChild = childToFeed;
                 return fedChild;
@@ -251,10 +251,10 @@ namespace Opuestos_por_el_Vertice.Services.Searcher
             {
                 int categoryId = 0;
                 categoryId = Validator.Validations.isNew(input) ? 1 :
-                  Validator.Validations.isZero(categoryId) ? (Validator.Validations.isEvent(input) ? 2 : 0) :
-                  Validator.Validations.isZero(categoryId) ? (Validator.Validations.isArtist(input) ? 3 : 0) :
-                  Validator.Validations.isZero(categoryId) ? (Validator.Validations.isAlbum(input) ? 4 : 0) :
-                  Validator.Validations.isZero(categoryId) ? (Validator.Validations.isGenre(input) ? 5 : 0) :
+                  Validator.Validations.isZero(categoryId) ? Validator.Validations.isEvent(input) ? 2 : 0 :
+                  Validator.Validations.isZero(categoryId) ? Validator.Validations.isArtist(input) ? 3 : 0 :
+                  Validator.Validations.isZero(categoryId) ? Validator.Validations.isAlbum(input) ? 4 : 0 :
+                  Validator.Validations.isZero(categoryId) ? Validator.Validations.isGenre(input) ? 5 : 0 :
                   0;
 
                 return categoryId;

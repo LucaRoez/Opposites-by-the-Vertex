@@ -1,6 +1,6 @@
 ﻿using Opuestos_por_el_Vertice.Models.Services.ViewModels;
 using Opuestos_por_el_Vertice.Models.ViewModels;
-/*
+
 namespace Opuestos_por_el_Vertice.Services.Searcher.Searcher
 {
     public interface ISearcher
@@ -12,4 +12,3 @@ namespace Opuestos_por_el_Vertice.Services.Searcher.Searcher
         AsideViewModel GetAsideSearch(List<PostViewModel> pageList, string pageKind, PostViewModel model, SearchViewModel search);
     }
 }
-*/
