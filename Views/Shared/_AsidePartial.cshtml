@@ -8,22 +8,22 @@
     string asideTitle = Model.AsideData.AsideTitle;
 }
 
-<div class="container text-center">
+<div class="container">
     <div class="search-bar row">
         <partial name="../Shared/_SearchBarFormPartial.cshtml" model="@searchViewModel" />
     </div>
     <div class="more-popular-aside row">
         <div class="col">
-            @for (int asides = 0; asides < asidesList.Count; asides++)          @* Here we mix the asidesList and the asideTitles list to get amount and order info *@
+            @for (int asides = 0; asides < asidesList.Count; asides++)  @* Here we mix the asidesList and the asideTitles list to get amount and order info *@
             {
-                <div class="block-title row">
+                <div class="block-title row text-center">
                     @if (asidesList.Count > 1)
                     {
-                        <h5 class="aside-title">@asideTitles[asides]</h5>
+                        <h4 class="aside-title">@asideTitles[asides]</h4>
                     }
                     else if (asideTitle.Length > 0)
                     {
-                        <h5 class="aside-title">@asideTitle</h5>
+                        <h4 class="aside-title">@asideTitle</h4>
                     }
                 </div>
                 <div class="more-popular-aside-body row">

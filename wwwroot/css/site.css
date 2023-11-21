@@ -14,5 +14,144 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  background-color: #000;
+  color: #f00;
+}
+
+footer {
+  margin-top: .2rem;
+  padding: .5rem;
+}
+
+a {
+  color: #f00;
+}
+
+.container, .container-fluid {
+  padding: 0;
+  margin: 0;
+}
+
+.row, .col, .col-1, .col-2,
+.col-3, .col-4, .col-5, .col-6,
+.col-7, .col-8, .col-9, .col-10,
+.col-11, .col-12 {
+  padding: 0;
+  margin: 0;
+}
+
+.body-container ul {
+  list-style-type: none;
+}
+
+.navbar-container {
+  padding: 0 1rem;
+  background-color: #000;
+  color: #f00;
+}
+
+.body-container {
+  margin-top: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.aside-container {
+  padding: 0 1rem 0 2rem;
+}
+
+a .navbar-brand,
+a .nav-link,
+.carousel-caption,
+.search-bar-form-button {
+  color: #f00;
+}
+
+.card,
+li.list-group-item {
+  background-color: #000;
+}
+
+.alert {
+  margin: .5rem 4rem 2rem 4rem;
+  font-size: .8em;
+}
+
+div .card {
+  padding: .5rem;
+}
+
+div .card-body img {
+  margin-bottom: 1rem;
+}
+
+.search-bar {
+  margin-bottom: 2rem;
+}
+
+.block-title {
+  padding-bottom: 1rem;
+}
+
+.more-popular-body li {
+  padding-bottom: .3rem;
+}
+
+.more-popular-aside-body {
+  margin: 0 2rem;
+}
+
+.more-popular-aside-body li {
+  padding: .2rem 0;
+}
+
+.search-head {
+  padding-left: 2rem;
+  padding-bottom: 2rem;
+}
+
+.search-body ul li,
+.search-body-content {
+  padding: 1rem;
+}
+
+.search-body {
+  margin-bottom: 1.2rem;
+}
+
+.search-body-admin {
+    padding-top: 1rem;
+}
+
+.admin-button {
+  padding: .5rem;
+}
+
+.admin-button-content {
+  padding: .5rem;
+}
+
+.admin-title
+{
+  padding: 1rem 0;
+}
+
+.admin-body {
+  padding: 1rem 2rem;
+}
+
+.admin-body .form-group {
+  padding: 0 .5rem 1rem .5rem;
+}
+
+.admin-body .form-label {
+  padding-bottom: .5rem;
+  font-size: 1.5rem;
+}
+
+.admin-options {
+  margin: 2rem;
+}
+
+.admin-send {
+  margin-top: 1.2rem;
 }

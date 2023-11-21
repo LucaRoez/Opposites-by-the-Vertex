@@ -53,13 +53,15 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             categories.ToList()
                 .ForEach(category => { posts.AddRange(DataConverter.GetAllViewModels(_repository.DetailAll(category))); });
 
-            /*   hero settings, all features are uniques according to controller input   */
+            /*   hero and page data settings, all features are uniques according to controller input   */
             HeroViewModel hero = ViewOperationSystem.Body(controllerInput).Hero;
+            string pageTitle = ViewOperationSystem.ControllerFunctionsIdentifier.GetPageTitle(controllerInput);
             if (controllerInput == "Post")
             {
                 hero.ImageSources.Clear(); hero.ImageAltSources.Clear(); hero.Titles.Clear(); hero.SubTitles.Clear();
                 hero.ImageSources.Add(post.Image); hero.ImageAltSources.Add(post.ImageAlt);
                 hero.Titles.Add(post.Title); hero.SubTitles.Add(post.SubTitle);
+                pageTitle = String.Format("{0} - {1}", post.Title, post.Category);
             }
 
             /*   aside settings   */
@@ -67,8 +69,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             aside.AsidesList.Add(posts);
 
             var viewClass = new ViewKindViewModel(
-                ViewOperationSystem.ControllerFunctionsIdentifier.GetPageKind(controllerInput),
-                ViewOperationSystem.ControllerFunctionsIdentifier.GetPageTitle(controllerInput),
+                ViewOperationSystem.ControllerFunctionsIdentifier.GetPageKind(controllerInput), pageTitle,
                 posts, post,
                 hero, aside,
                 null, centralInfo.Admin

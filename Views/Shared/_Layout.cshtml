@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="~/Opuestos_por_el_Vertice.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <header class="navbar-container">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-black box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index">Opposites by the Vertex</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -22,41 +22,41 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="About">About us</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="About">About us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Search" asp-action="Events">Events</a>
+                            <a class="nav-link" asp-controller="Search" asp-action="Events">Events</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Search" asp-action="News">News</a>
+                            <a class="nav-link" asp-controller="Search" asp-action="News">News</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Search" asp-action="Artists">Artists</a>
+                            <a class="nav-link" asp-controller="Search" asp-action="Artists">Artists</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Search" asp-action="Albums">Albums</a>
+                            <a class="nav-link" asp-controller="Search" asp-action="Albums">Albums</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Search" asp-action="Genres">Genres</a>
+                            <a class="nav-link" asp-controller="Search" asp-action="Genres">Genres</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin</a>
+                            <a class="nav-link" asp-controller="Admin" asp-action="Index">Admin</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            <div class="row">
-                <div class="col-8">
+    <div class="container-fluid">
+        <main role="main">
+            <div class="row main">
+                <div class="col-9">
                     <div class="row">
                         <div class="hero-container col">
                             <partial name="../Shared/_HeroPartial.cshtml" model="@Model" />
@@ -68,14 +68,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="aside-container col-4">
+                <div class="aside-container col-3">
                     <partial name="../Shared/_AsidePartial.cshtml" model="@Model"></partial>
                 </div>
             </div>
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer text-muted">
         <div class="container">
             &copy; 2023 - Opposites by the Vertex - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

@@ -28,13 +28,20 @@
         <h3>Posting Administration Hub</h3>
     </div>
     <div class="admin-body row">
-        @for (int i = 0; i < 3; i++)
-        {
-            <div class="admin-options col">
-                <form asp-controller="@aspControl[i]" asp-action="@aspAction[i]" method="post">
-                    <button type="submit" class="">@buttons[i]</button>
-                </form>
-            </div>
-        }
+        <div class="admin-options col">
+            <form asp-controller="@aspControl[0]" asp-action="@aspAction[0]" method="post">
+                <button type="submit" class="btn btn-success">@buttons[0]</button>
+            </form>
+        </div>
+        <div class="admin-options col">
+            <form asp-controller="@aspControl[1]" asp-action="@aspAction[1]" method="post">
+                <button type="submit" class="btn btn-warning">@buttons[1]</button>
+            </form>
+        </div>
+        <div class="admin-options col">
+            <form asp-controller="@aspControl[2]" asp-action="@aspAction[2]" method="post">
+                <button type="submit" class="btn btn-danger">@buttons[2]</button>
+            </form>
+        </div>
     </div>
 </div>
