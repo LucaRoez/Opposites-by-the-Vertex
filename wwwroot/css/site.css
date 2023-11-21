@@ -1,3 +1,6 @@
+@import "fonts.css";
+
+
 html {
   font-size: 14px;
 }
@@ -21,6 +24,35 @@ body {
 footer {
   margin-top: .2rem;
   padding: .5rem;
+}
+
+li, input, button, a  {
+  font-family: 'Plain Germanica';
+}
+
+h1 {
+  font-family: 'Who Asks Satan';
+  font-size: 3em;
+}
+
+h2 {
+  font-family: 'Walk Da Walk Heavier';
+  font-size: 1.8em;
+}
+
+h3 {
+  font-family: 'Walk Da Walk';
+  font-size: 1.5em;
+}
+
+h4 {
+  font-family: 'Squealer Embossed';
+}
+
+h5, h6, p {
+  font-size: 1.2em;
+  font-family: 'Olipsso Script';
+  font-weight: 700;
 }
 
 a {
@@ -64,6 +96,21 @@ a .nav-link,
 .carousel-caption,
 .search-bar-form-button {
   color: #f00;
+  font-family: 'PentaGrams Malefissent';
+}
+
+.carousel-caption h1 {
+  font-family: 'Burn The Witch';
+  font-size 3.5em;
+}
+
+.carousel-caption h3 {
+  font-family: 'A Charming Font Expanded';
+  font-size: 3.2em;
+}
+
+.carousel-caption h5 {
+  font-family: Screter;
 }
 
 .card,
@@ -88,6 +135,11 @@ div .card-body img {
   margin-bottom: 2rem;
 }
 
+.search-bar-form {
+  font-family: 'Squealer Embossed';
+  font-weight: 700;
+}
+
 .block-title {
   padding-bottom: 1rem;
 }
@@ -101,6 +153,7 @@ div .card-body img {
 }
 
 .more-popular-aside-body li {
+  list-style-type: upper-roman;
   padding: .2rem 0;
 }
 
@@ -119,7 +172,7 @@ div .card-body img {
 }
 
 .search-body-admin {
-    padding-top: 1rem;
+  padding-top: 1rem;
 }
 
 .admin-button {

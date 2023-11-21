@@ -1,0 +1,41 @@
+/* fonts uploaded */
+@font-face {
+    font-family: 'PentaGrams Malefissent';
+    src: url("fonts/PentaGrams-Malefissent.ttf");
+  }
+  @font-face {
+    font-family: 'Plain Germanica';
+    src: url("fonts/Germanica-Plain.ttf");
+  }
+  @font-face {
+    font-family: 'A Charming Font Expanded';
+    src: url("fonts/Achafexp.ttf");
+  }
+  @font-face {
+    font-family: Screter;
+    src: url("fonts/Screter.otf");
+  }
+  @font-face {
+    font-family: 'Burn The Witch';
+    src: url("fonts/Burn-The-Witch_personal_use_only.ttf");
+  }
+  @font-face {
+    font-family: 'Walk Da Walk';
+    src: url("fonts/WalkDaWalkOne.ttf");
+  }
+  @font-face {
+    font-family: 'Walk Da Walk Heavier';
+    src: url("fonts/WalkDaWalkThree.ttf");
+  }
+  @font-face {
+    font-family: 'Who Asks Satan';
+    src: url("fonts/who-asks-satan.ttf");
+  }
+  @font-face {
+    font-family: 'Squealer Embossed';
+    src: url("fonts/Squealer-Embossed.ttf");
+  }
+  @font-face {
+    font-family: 'Olipsso Script';
+    src: url("fonts/Olissipo-Script.ttf");
+  }
