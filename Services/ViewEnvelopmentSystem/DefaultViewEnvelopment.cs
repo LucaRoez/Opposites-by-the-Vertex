@@ -31,6 +31,8 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             aside.AsidesList.Add(posts);
 
             var viewClass = new ViewKindViewModel(
+                ViewOperationSystem.ControllerFunctionsIdentifier.GetPageKind(controllerInput),
+                ViewOperationSystem.ControllerFunctionsIdentifier.GetPageTitle(controllerInput),
                 posts, null,
                 centralInfo.Hero, aside,
                 null, centralInfo.Admin
@@ -65,6 +67,8 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             aside.AsidesList.Add(posts);
 
             var viewClass = new ViewKindViewModel(
+                ViewOperationSystem.ControllerFunctionsIdentifier.GetPageKind(controllerInput),
+                ViewOperationSystem.ControllerFunctionsIdentifier.GetPageTitle(controllerInput),
                 posts, post,
                 hero, aside,
                 null, centralInfo.Admin
@@ -73,7 +77,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             return viewClass;
         }
 
-        public ViewKindViewModel GetViewEnvelopment(string controllerInput, int page, SearchViewModel thisSearch, string postsCategory)
+        public ViewKindViewModel GetViewEnvelopment(string controllerInput, int page, string thisSearch, string postsCategory)
         {
             string refinedInput = ViewOperationSystem.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
             var centralInfo = ViewOperationSystem.Body(refinedInput);
@@ -85,19 +89,19 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                 .ForEach(category => { posts.AddRange(DataConverter.GetAllViewModels(_repository.DetailAll(category))); });
 
             /*   search settings   */
-            SearchViewModel search = centralInfo.Searcher;
-            search = ViewOperationSystem.SearchFunctions.FillSearcher(thisSearch.Search.Trim().ToLower(), search.Action, posts);
+            SearchViewModel search = centralInfo.Searcher; if(string.IsNullOrEmpty(thisSearch)) { thisSearch = ""; }
+            search = ViewOperationSystem.SearchFunctions.FillSearcher(thisSearch.Trim().ToLower(), search.Action, posts, page);
 
             /*   aside settings   */
             AsideViewModel aside = centralInfo.Aside;
             aside.AsidesList.Add(posts); aside.SearchData = search;
 
             var viewClass = new ViewKindViewModel(
+                ViewOperationSystem.ControllerFunctionsIdentifier.GetPageKind(controllerInput),
+                ViewOperationSystem.ControllerFunctionsIdentifier.GetPageTitle(controllerInput),
                 posts, null,
-                centralInfo.Hero,
-                aside,
-                search,
-                centralInfo.Admin
+                centralInfo.Hero, aside,
+                search, centralInfo.Admin
                 );
 
             return viewClass;

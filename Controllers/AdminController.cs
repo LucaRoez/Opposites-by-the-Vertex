@@ -34,7 +34,7 @@ namespace Opuestos_por_el_Vertice.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ViewKindViewModel webInfo)
         {
-            ModelState.Remove("ObjectClass.CurrentPost.Body");
+            ModelState.Remove("ObjectsClass.SelectedPost.Body");
             if (ModelState.IsValid)
             {
                 var post = webInfo.ObjectsClass.SelectedPost;
@@ -52,7 +52,7 @@ namespace Opuestos_por_el_Vertice.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(ViewKindViewModel webInfo)
         {
-            ModelState.Remove("ObjectClass.CurrentPost.Body");
+            ModelState.Remove("ObjectsClass.SelectedPost.Body");
             if (ModelState.IsValid)
             {
                 var post = webInfo.ObjectsClass.SelectedPost;

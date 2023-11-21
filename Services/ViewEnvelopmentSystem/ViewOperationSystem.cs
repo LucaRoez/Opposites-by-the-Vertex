@@ -6,7 +6,7 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
 {
     public static class ViewOperationSystem
     {
-        public static readonly string[] categories = new[] { "New", "Event", "Artist", "Album", "Genre" };
+        private static readonly string[] _categories = new[] { "New", "Event", "Artist", "Album", "Genre" };
         private static readonly Dictionary<string, Func<List<string>, List<string>, List<string>, List<string>, HeroViewModel>>
             _heroFuncs = new()
         {
@@ -26,7 +26,22 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
             { "Event", HeroFunctions.GetEventsHero },
             { "Artist", HeroFunctions.GetArtistsHero },
             { "Album", HeroFunctions.GetAlbumsHero },
-            { "Genre", HeroFunctions.GetGenresHero },
+            { "Genre", HeroFunctions.GetGenresHero }
+        };
+        private static readonly Dictionary<string, string[]> _pageInfo = new()
+        {
+            { "Home", new[]{ "Home", "Home Page" } },
+            { "Privacy", new[]{ "Privacy", "Privacy Policies Page" } },
+            { "About", new[]{ "About", "About us" } },
+            { "IndexSearch", new[]{ "IndexSearch", "Main Search Page" } },
+            { "NewsSearch", new[]{ "NewsSearch", "News Search Page" } },
+            { "EventsSearch", new[]{ "EventsSearch", "Events Search Page" } },
+            { "ArtistsSearch", new[]{ "ArtistsSearch", "Artists Search Page" } },
+            { "AlbumsSearch", new[]{ "AlbumsSearch", "Albums Search Page" } },
+            { "GenresSearch", new[]{ "GenresSearch", "Genres Search Page" } },
+            { "Post", new[]{ "Post", "" } },
+            { "General", new[]{ "General", "" } },
+            { "Admin", new[]{ "Admin", "Admin Page" } }
         };
 
         public static (string[] Categories, HeroViewModel Hero, AsideViewModel Aside, SearchViewModel Searcher, AdminPackage Admin)
@@ -57,6 +72,8 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
 
         public static class ControllerFunctionsIdentifier
         {
+            public static string GetPageKind(string controllerInput) => _pageInfo[controllerInput][0];
+            public static string GetPageTitle(string controllerInput) => _pageInfo[controllerInput][1];
             public static string RefineControllerInput(string controllerInput)
             {
                 string refinedInput = Validator.Validations.isNew(controllerInput) ? "New" :
@@ -69,7 +86,7 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
         }
 
 
-        private static string[] GetCategories(string input) => Validator.Validations.isGeneral(input) ? categories : new[] { input };
+        private static string[] GetCategories(string input) => Validator.Validations.isGeneral(input) ? _categories : new[] { input };
         private static HeroViewModel GetHero(string input)
         {
             List<string> imgSources = new();
@@ -81,7 +98,7 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
             return hero;
         }
         private static SearchViewModel GetSearcher(string input) => !Validator.Validations.isGeneral(input) ?
-            new(null, input, null, null) : new(null, null, null, null);
+            new(null, input, null, null, null) : new(null, null, null, null, null);
         private static AsideViewModel GetAside(string input) => !Validator.Validations.isGeneral(input) ?
             AsideFunctions.GetAsideTitle(new(input, null)) : AsideFunctions.GetAsideTitle(new(null, null));
         private static AdminPackage GetAdmin(string input) => !Validator.Validations.isGeneral(input) ?
@@ -205,17 +222,18 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
 
         public static class SearchFunctions
         {
-            public static SearchViewModel FillSearcher(string search, string action, List<PostViewModel> avariableList)
+            public static SearchViewModel FillSearcher(string search, string action, List<PostViewModel> avariableList, int currentPage)
             {
                 List<PostViewModel> searchList = new();
-                searchList = Validator.Validations.isZero(search.Length) ? searchList : avariableList.Where(
-                    p => p.Title.ToLower() == search ||
-                    p.Title.ToLower() == search.Remove(search.Length / 2) ||
-                    p.Title.ToLower() == search.Substring(search.Length / 2 - 1)
+                searchList = Validator.Validations.isZero(search.Length) || search.Length.Equals(1) ?
+                    avariableList.Where( p => p.Title.ToLower().Contains(search)).ToList() :
+                    avariableList.Where( p => p.Title.ToLower().Contains(search) ||
+                    p.Title.ToLower().Contains(search.Remove(search.Length / 2)) ||
+                    p.Title.ToLower().Contains(search.Substring(search.Length / 2 - 1))
                     ).ToList();
                 SearchViewModel childToFeed = Validator.Validations.endsWithS(action) ?
-                    new(search, action.Remove(action.Length - 1), searchList, GetPaginationData(searchList.Count)) :
-                    new(search, action, searchList, GetPaginationData(searchList.Count));
+                    new(search, action.Remove(action.Length - 1), searchList, GetPaginationData(searchList.Count), currentPage) :
+                    new(search, action, searchList, GetPaginationData(searchList.Count), currentPage);
                 var fedChild = childToFeed;
                 return fedChild;
             }
@@ -225,8 +243,8 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
                 totalPosts += !Validator.Validations.isZero(totalPosts) ? 0 : 1;
                 int divider = 10;
                 int totalPages = totalPosts / divider;
-                var rest = totalPages % divider;
-                rest += Validator.Validations.isZero(rest) ? 0 : 1;
+                var rest = totalPosts % divider;
+                totalPages += Validator.Validations.isZero(rest) ? 0 : 1;
 
                 paginationData.Add(totalPosts); paginationData.Add(totalPages); paginationData.Add(rest);
                 return paginationData;

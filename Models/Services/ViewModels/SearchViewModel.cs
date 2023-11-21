@@ -1,4 +1,5 @@
-﻿using Opuestos_por_el_Vertice.Models.ViewModels;
+﻿using Microsoft.IdentityModel.Tokens;
+using Opuestos_por_el_Vertice.Models.ViewModels;
 
 namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
 {
@@ -8,17 +9,19 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
         public string Action { get; set; }
         public List<PostViewModel> SearchList { get; set; }
         public List<int> PaginationData { get; set; }
+        public int CurrentPage { get; set; }
 
         public SearchViewModel()
-            : this("", "Index", new List<PostViewModel>(), new List<int>() { 0, 1 })
+            : this("", "Index", new List<PostViewModel>(), new List<int>() { 0, 1 }, 1)
         {
         }
-        public SearchViewModel(string? search, string? action, List<PostViewModel>? searchList, List<int>? pagData)
+        public SearchViewModel(string? search, string? action, List<PostViewModel>? searchList, List<int>? pagData, int? currentPage)
         {
             Search = search ?? "";
-            Action = action+"s" ?? "Index";
-            SearchList = searchList ?? new List<PostViewModel>();
-            PaginationData = pagData ?? new List<int>() { 0, 1 };
+            Action = (action != null && action != "Index") ? action+"s" : "Index";
+            SearchList = searchList ?? new();
+            PaginationData = pagData ?? new() { 0, 1 };
+            CurrentPage = currentPage ?? 1;
         }
     }
 }

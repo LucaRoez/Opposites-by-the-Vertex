@@ -1,6 +1,7 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels
 @model ViewKindViewModel
 @{
+    ViewBag.WebTitle = Model.PageTitle;
     string dbContextToErase = "";
     string action = Model.AsideData.SearchData.Action;
     switch (action)

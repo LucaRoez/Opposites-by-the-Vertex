@@ -12,25 +12,36 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
     {
         public ViewObjects ObjectsClass { get; set; }
         public string Kind { get; set; }
-        public string WebTitle { get; set; }
+        public string PageTitle { get; set; }
         public HeroViewModel HeroData { get; set; }
-        public int CurrentPage { get; set; }
         public AdminPackage AdminInfo { get; set; }
         public SearchViewModel SearchData { get; set; }
         public AsideViewModel AsideData { get; set; }
+
+        public ViewKindViewModel()
+        {
+            ObjectsClass = new(new(), new());
+            Kind = "Home";
+            PageTitle = "The Next Best Metal Page Ever!";
+            HeroData = new(null, null, null, null, null);
+            AdminInfo = new(null, null);
+            SearchData = new();
+            AsideData = new(null, null);
+        }
+
         public ViewKindViewModel(
+            string? kind, string? title,
             List<PostViewModel> posts, PostViewModel? post,
             HeroViewModel hero, AsideViewModel aside,
             SearchViewModel? search, AdminPackage admin
             )
         {
             ObjectsClass = new(posts?? new(), post?? new());
-            Kind = "";
-            WebTitle = "";
+            Kind = kind ?? "";
+            PageTitle = title ?? "";
             HeroData = hero;
-            CurrentPage = 1;
             AdminInfo = admin;
-            SearchData = search ?? new("", "", new List<PostViewModel>(), new List<int>());
+            SearchData = search ?? new();
             AsideData = aside;
         }
     }

@@ -20,7 +20,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
         {
             AsidesList = new();
             AsideTitle = title ?? "Overall Information";
-            SearchData = search ?? new(null, title ?? "Index", null, null);
+            SearchData = search ?? new(null, title, null, null, null);
         }
     }
 }
