@@ -1,6 +1,6 @@
 ﻿using Opuestos_por_el_Vertice.Models.ViewModels;
 
-namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
+namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
 {
     public class HeroViewModel
     {

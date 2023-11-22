@@ -1,6 +1,6 @@
 ﻿using Opuestos_por_el_Vertice.Models.ViewModels;
 
-namespace Opuestos_por_el_Vertice.Models.Services
+namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopment
 {
     public class ViewObjects
     {

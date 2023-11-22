@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
+namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
 {
     /*
      * This model isolate the correct view model from his own layer, to facilitate their handling.

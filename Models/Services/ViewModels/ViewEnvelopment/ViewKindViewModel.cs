@@ -1,6 +1,7 @@
-﻿using Opuestos_por_el_Vertice.Models.ViewModels;
+﻿using Opuestos_por_el_Vertice.Models.Services.ViewEnvelopment;
+using Opuestos_por_el_Vertice.Models.ViewModels;
 
-namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
+namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
 {
     /*
      * Because of my personal View Envelopment Service, it need to centralize all the View final data here, in this final view model, that
@@ -36,7 +37,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
             SearchViewModel? search, AdminPackage admin
             )
         {
-            ObjectsClass = new(posts?? new(), post?? new());
+            ObjectsClass = new(posts ?? new(), post ?? new());
             Kind = kind ?? "";
             PageTitle = title ?? "";
             HeroData = hero;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 
-namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
+namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
 {
     public class SearchViewModel
     {
@@ -18,7 +18,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels
         public SearchViewModel(string? search, string? action, List<PostViewModel>? searchList, List<int>? pagData, int? currentPage)
         {
             Search = search ?? "";
-            Action = (action != null && action != "Index") ? action+"s" : "Index";
+            Action = action != null && action != "Index" ? action + "s" : "Index";
             SearchList = searchList ?? new();
             PaginationData = pagData ?? new() { 0, 1 };
             CurrentPage = currentPage ?? 1;

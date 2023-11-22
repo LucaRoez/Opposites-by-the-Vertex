@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem;
-using Opuestos_por_el_Vertice.Models.Services.ViewModels;
+using Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.AdminManager;
 

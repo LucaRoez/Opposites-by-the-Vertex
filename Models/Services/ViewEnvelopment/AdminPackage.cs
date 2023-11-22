@@ -1,6 +1,6 @@
-﻿using Opuestos_por_el_Vertice.Models.Services.ViewModels;
+﻿using Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment;
 
-namespace Opuestos_por_el_Vertice.Models.Services
+namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopment
 {
     public class AdminPackage
     {

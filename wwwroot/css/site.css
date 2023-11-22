@@ -28,6 +28,21 @@ footer {
 
 li, input, button, a  {
   font-family: 'Plain Germanica';
+  color: #ba0202;
+  text-shadow: 
+    -1px -1px 0 #ff4343,  
+    1px -1px 0 #ff4343,
+    -1px 1px 0 #ff4343,
+    1px 1px 0 #ff4343;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  color: #ba0202;
+  text-shadow: 
+    -1px -1px 0 #ff4343,  
+    1px -1px 0 #ff4343,
+    -1px 1px 0 #ff4343,
+    1px 1px 0 #ff4343;
 }
 
 h1 {
@@ -55,8 +70,8 @@ h5, h6, p {
   font-weight: 700;
 }
 
-a {
-  color: #f00;
+input {
+  opacity: .9;
 }
 
 .container, .container-fluid {
@@ -79,12 +94,10 @@ a {
 .navbar-container {
   padding: 0 1rem;
   background-color: #000;
-  color: #f00;
 }
 
 .body-container {
-  margin-top: 2.5rem;
-  padding-right: 2.5rem;
+  margin: 1.5rem;
 }
 
 .aside-container {
@@ -95,7 +108,6 @@ a .navbar-brand,
 a .nav-link,
 .carousel-caption,
 .search-bar-form-button {
-  color: #f00;
   font-family: 'PentaGrams Malefissent';
 }
 
@@ -120,7 +132,9 @@ li.list-group-item {
 
 .alert {
   margin: .5rem 4rem 2rem 4rem;
-  font-size: .8em;
+  font-family: 'Squealer Embossed';
+  font-weight: 500;
+  font-size: .9em;
 }
 
 div .card {

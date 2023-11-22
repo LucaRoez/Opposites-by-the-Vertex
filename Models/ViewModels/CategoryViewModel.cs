@@ -11,7 +11,8 @@
                 case 3: Category = "Artist"; Id = id; break;
                 case 4: Category = "Album"; Id = id; break;
                 case 5: Category = "Genre"; Id = id; break;
-                default: Category = "New"; Id = id; break;
+                case 1: Category = "New"; Id = id; break;
+                default: Category = "Genre"; Id = 5; break;
             }
         }
     }
