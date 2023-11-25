@@ -222,3 +222,15 @@ div .card-body img {
 .admin-send {
   margin-top: 1.2rem;
 }
+
+.confirmation-title {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.confirmation-buttons .col {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+}

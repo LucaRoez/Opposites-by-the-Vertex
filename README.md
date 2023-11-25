@@ -22,7 +22,9 @@
 - Dependencies Injection design pattern besides  :heavy_check_mark:
 
 > [!IMPORTANT]
-> for use the creation admin resource, in the body follow this reference symbols for html tags applying:
+> for the usage of the Postings creation admin resource, within the body follow this reference symbols to applying corresponded html tags:
 1. "<..>" => add another paragraph
 1. "<title>" => add a header opening tag && "</title>" => and finish with a header closing tag
 1. "<litle>" => add same header but smaller && "</litle>" => and remember close the smaller header
+
+###### To upload an image remember always begin to write the route address with an "/" to select the server root

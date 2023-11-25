@@ -48,7 +48,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
 
             /*   taking both objects needed, with two flow paths   */
             List<PostViewModel> posts = new(); PostViewModel? post = null;
-            if (!postCategory.Equals("")) { post = DataConverter.GetViewModel(await _repository.DetailOne(postCategory, id)); }
+            if (!postCategory.Equals("") && !id.Equals(0)) { post = DataConverter.GetViewModel(await _repository.DetailOne(postCategory, id)); }
             string[] categories = centralInfo.Categories;
             categories.ToList()
                 .ForEach(category => { posts.AddRange(DataConverter.GetAllViewModels(_repository.DetailAll(category))); });
