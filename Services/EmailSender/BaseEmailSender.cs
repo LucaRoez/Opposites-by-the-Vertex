@@ -19,7 +19,7 @@ namespace Opuestos_por_el_Vertice.Services.EmailSender
         private static string _Email = "luca.ezequiel.rodriguez@gmail.com";
         private static string _EmailKey = "";
 
-        public static bool Send(EmailBase emailModel)
+        private static bool Send(EmailBase emailModel)
         {
             try
             {
@@ -44,6 +44,18 @@ namespace Opuestos_por_el_Vertice.Services.EmailSender
             {
                 return false;
             }
+        }
+
+        public static bool Send(string to, string body)
+        {
+            EmailBase emailModel = new()
+            {
+                To = to,
+                Subject = "Opposites by the Vertex - Confirmation Email",
+                Body = body
+            };
+
+            return Send(emailModel);
         }
     }
 }

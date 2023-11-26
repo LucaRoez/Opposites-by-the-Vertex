@@ -1,7 +1,11 @@
-﻿using Opuestos_por_el_Vertice.Data.Entities;
+﻿using Microsoft.AspNetCore.Hosting;
+using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels.Account;
+using Opuestos_por_el_Vertice.Services.DataTranfer;
 using Opuestos_por_el_Vertice.Services.EmailSender;
+using Org.BouncyCastle.Asn1.Ocsp;
+using System;
 
 namespace Opuestos_por_el_Vertice.Services.Account
 {
@@ -15,7 +19,7 @@ namespace Opuestos_por_el_Vertice.Services.Account
 
         public async Task<string> RegisterUser(UserViewModel user)
         {
-            if (user.Password == user.ConfirmationPassword)
+            if (_repository.GetUser(user.Email) == null)
             {
                 try
                 {
@@ -27,12 +31,11 @@ namespace Opuestos_por_el_Vertice.Services.Account
                         Email = user.Email,
                         Password = EmailSenderUtilities.ConvertSHA256(user.Password),
                         Phone = user.Phone,
-                        IsEmailConfirmed = user.IsEmailConfirmed,
-                        IsAccountRestored = user.IsAccountRestored,
+                        IsEmailConfirmed = false,
+                        IsAccountRestored = false,
                         Created = user.Created,
-                        Token = user.Token
+                        Token = EmailSenderUtilities.CreateToken()
                     };
-
                     await _repository.Register(User);
                     return "true";
                 }
@@ -41,49 +44,64 @@ namespace Opuestos_por_el_Vertice.Services.Account
                     return ex.Message;
                 }
             }
-            else { return "Passwords Unmatched"; }
+            else if (user.Password != user.ConfirmationPassword)
+            {
+                return "Passwords Unmatched";
+            }
+            else
+            {
+                return "The user is already registered in our data base";
+            }
         }
 
-        public string LoginUser(string email, string password)
+        public string LoginUser(string input, string password)
         {
-            User? user = _repository.GetUser(email);
+            User? user = _repository.GetUser(input);
             if (user == null) { return "User doesn't exist"; }
-            if (user.Password != password) { return "Password didn't match"; }
+            else if (user.Password != password) { return "Password didn't match"; }
+            else if (user.IsEmailConfirmed!) { return "The confirmation email was sent, please confirm your account first coming into your email inboxand lock for our email"; }
+            else if (user.IsAccountRestored!) { return "Your account was requested to be re-established and wasn't confirmed yet, please go to your email inbox to confirm your account restored first"; }
             return "User logged successfully";
-        }
-
-        public Task<bool> DeleteUser(int id)
-        {
-            throw new NotImplementedException();
         }
 
         public UserViewModel GetUser(string email)
         {
             User? User = _repository.GetUser(email);
-            UserViewModel user = new()
-            {
-                Id = User.Id,
-                UserName = User.UserName,
-                FirstName = User.FirstName,
-                LastName = User.LastName,
-                Email = User.Email,
-                Password = User.Password,
-                Phone = User.Phone,
-                IsEmailConfirmed = User.IsEmailConfirmed,
-                IsAccountRestored = User.IsAccountRestored,
-                Created = User.Created,
-                Token = User.Token
-            };
 
-            return user;
+            return DataConverter.GetUserModel(User);
         }
 
-        public Task<UserViewModel> RestoreUser(UserViewModel newUser)
+        public bool ConfirmUser(string token)
+        {
+            if (_repository.ConfirmUser(token))
+            {
+                User user = _repository.GetUserByToken(token);
+                user.IsEmailConfirmed = true;
+                _repository.UpdateUser(user);
+
+                return true;
+            }
+            else { return false; }
+        }
+
+        public string ReestablishUser(string token, string password)
+        {
+            User user = _repository.GetUserByToken(token);
+            if (user == null) { return "The user doesn't exist"; }
+            else
+            {
+                user.Password = password;
+                _repository.UpdateUser(user);
+            }
+            return "The user was re-established successfully";
+        }
+
+        public Task<UserViewModel> UpdateUser(UserViewModel newUser)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> ConfirmUser(string token)
+        public Task<bool> DeleteUser(int id)
         {
             throw new NotImplementedException();
         }

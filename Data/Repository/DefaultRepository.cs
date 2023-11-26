@@ -333,6 +333,16 @@ namespace Opuestos_por_el_Vertice.Data.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public User GetUser(string email) =>_dbContext.Users_Security.FirstOrDefault(u => u.Email == email);
+        public User GetUser(string input) =>_dbContext.Users_Security.FirstOrDefault(u => u.Email == input || u.UserName == input);
+
+        public bool ConfirmUser(string token) => _dbContext.Users_Security.Any(u => u.Token == token);
+
+        public User GetUserByToken(string token) => _dbContext.Users_Security.FirstOrDefault(u => u.Token == token);
+
+        async Task UpdateUser(User user)
+        {
+            _dbContext.Users_Security.Update(user);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -5,7 +5,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
 {
     /*
      * Because of my personal View Envelopment Service, it need to centralize all the View final data here, in this final view model, that
-     *  gets the current post or post collection, there into the ObjectClass attribute, the web site name and his idemtifier, into the Kind
+     *  gets the current post or post collection, there into the ObjectClass attribute, the web site name and his identifier, into the Kind
      *  attribute.
     */
 

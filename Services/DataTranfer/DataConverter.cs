@@ -1,4 +1,5 @@
 ﻿using Opuestos_por_el_Vertice.Data.Entities;
+using Opuestos_por_el_Vertice.Models.Services.ViewModels.Account;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 
 namespace Opuestos_por_el_Vertice.Services.DataTranfer
@@ -122,6 +123,26 @@ namespace Opuestos_por_el_Vertice.Services.DataTranfer
             };
 
             return model;
+        }
+
+        public static UserViewModel GetUserModel(User User)
+        {
+            UserViewModel user = new()
+            {
+                Id = User.Id,
+                UserName = User.UserName,
+                FirstName = User.FirstName,
+                LastName = User.LastName,
+                Email = User.Email,
+                Password = User.Password,
+                Phone = User.Phone,
+                IsEmailConfirmed = User.IsEmailConfirmed,
+                IsAccountRestored = User.IsAccountRestored,
+                Created = User.Created,
+                Token = User.Token
+            };
+
+            return user;
         }
     }
 }
