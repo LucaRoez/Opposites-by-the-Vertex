@@ -15,5 +15,12 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.Account
         public bool IsAccountRestored { get; set; }
         public DateTime Created { get; set; }
         public string Token { get; set; }
+
+        public UserViewModel()
+        {
+            IsEmailConfirmed = false;
+            IsAccountRestored = false;
+            Created = DateTime.Now;
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace Opuestos_por_el_Vertice.Services.Account
                         Phone = user.Phone,
                         IsEmailConfirmed = false,
                         IsAccountRestored = false,
-                        Created = user.Created,
+                        Created = DateTime.Now,
                         Token = EmailSenderUtilities.CreateToken()
                     };
                     await _repository.Register(User);
@@ -60,7 +60,7 @@ namespace Opuestos_por_el_Vertice.Services.Account
             if (user == null) { return "User doesn't exist"; }
             else if (user.Password != password) { return "Password didn't match"; }
             else if (user.IsEmailConfirmed!) { return "The confirmation email was sent, please confirm your account first coming into your email inboxand lock for our email"; }
-            else if (user.IsAccountRestored!) { return "Your account was requested to be re-established and wasn't confirmed yet, please go to your email inbox to confirm your account restored first"; }
+            else if (user.IsAccountRestored) { return "Your account was requested to be re-established and wasn't confirmed yet, please go to your email inbox to confirm your account restored first"; }
             return "User logged successfully";
         }
 

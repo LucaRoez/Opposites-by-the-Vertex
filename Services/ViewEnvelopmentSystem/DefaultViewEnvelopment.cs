@@ -1,4 +1,7 @@
-﻿using Opuestos_por_el_Vertice.Data.Repository;
+﻿using Opuestos_por_el_Vertice.Data.Entities;
+using Opuestos_por_el_Vertice.Data.Repository;
+using Opuestos_por_el_Vertice.Models.Services.ViewEnvelopment;
+using Opuestos_por_el_Vertice.Models.Services.ViewModels.Account;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 using Opuestos_por_el_Vertice.Services.DataTranfer;
@@ -10,9 +13,11 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
     public class DefaultViewEnvelopment : IViewEnvelopment
     {
         private readonly IRepository _repository;
-        public DefaultViewEnvelopment(IRepository repository)
+        private readonly UserViewModel _user;
+        public DefaultViewEnvelopment(IRepository repository, UserViewModel user)
         {
             _repository = repository;
+            _user = user;
         }
 
         public async Task<ViewKindViewModel> GetViewEnvelopment(string controllerInput)
@@ -30,12 +35,17 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             AsideViewModel aside = centralInfo.Aside;
             aside.AsidesList.Add(posts);
 
+            /*  account settings  */
+            AccountPackage account = centralInfo.Account;
+            account.User = _user;
+
             var viewClass = new ViewKindViewModel(
                 ViewOperationSystem.ControllerFunctionsIdentifier.GetPageKind(controllerInput),
                 ViewOperationSystem.ControllerFunctionsIdentifier.GetPageTitle(controllerInput),
                 posts, null,
                 centralInfo.Hero, aside,
-                null, centralInfo.Admin
+                null, centralInfo.Admin,
+                account
                 );
 
             return viewClass;
@@ -68,11 +78,16 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             AsideViewModel aside = centralInfo.Aside;
             aside.AsidesList.Add(posts);
 
+            /*  account settings  */
+            AccountPackage account = centralInfo.Account;
+            account.User = _user;
+
             var viewClass = new ViewKindViewModel(
                 ViewOperationSystem.ControllerFunctionsIdentifier.GetPageKind(controllerInput), pageTitle,
                 posts, post,
                 hero, aside,
-                null, centralInfo.Admin
+                null, centralInfo.Admin,
+                account
                 );
 
             return viewClass;
@@ -97,12 +112,17 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             AsideViewModel aside = centralInfo.Aside;
             aside.AsidesList.Add(posts); aside.SearchData = search;
 
+            /*  account settings  */
+            AccountPackage account = centralInfo.Account;
+            account.User = _user;
+
             var viewClass = new ViewKindViewModel(
                 ViewOperationSystem.ControllerFunctionsIdentifier.GetPageKind(controllerInput),
                 ViewOperationSystem.ControllerFunctionsIdentifier.GetPageTitle(controllerInput),
                 posts, null,
                 centralInfo.Hero, aside,
-                search, centralInfo.Admin
+                search, centralInfo.Admin,
+                account
                 );
 
             return viewClass;

@@ -25,7 +25,7 @@ namespace Opuestos_por_el_Vertice.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Register() => View();
+        public IActionResult Register() => View(_envelopment.GetViewEnvelopment("Account"));
 
         [HttpPost]
         public async Task<IActionResult> Register(ViewKindViewModel webInfo)
@@ -62,18 +62,18 @@ namespace Opuestos_por_el_Vertice.Controllers
                 }
 
                 ViewData["Message"] = response;
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", _envelopment.GetViewEnvelopment("Home"));
             }
             return View(webInfo);
         }
 
-        public IActionResult Login() => View();
+        public IActionResult Login() => View(_envelopment.GetViewEnvelopment("Account"));
 
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
             ViewData["Message"] = _account.LoginUser(email, password);
-            return View();
+            return View(_envelopment.GetViewEnvelopment("Account"));
         }
 
         public IActionResult Confirm(string token)
@@ -86,7 +86,14 @@ namespace Opuestos_por_el_Vertice.Controllers
             {
                 ViewData["Message"] = "There's no email registered in our data base";
             }
-            return View();
+            return View(_envelopment.GetViewEnvelopment("Account"));
+        }
+
+        public IActionResult Restore(string token, string password)
+        {
+            string response = _account.ReestablishUser(token, password);
+            ViewData["Message"] = response;
+            return View(_envelopment.GetViewEnvelopment("Account"));
         }
     }
 }

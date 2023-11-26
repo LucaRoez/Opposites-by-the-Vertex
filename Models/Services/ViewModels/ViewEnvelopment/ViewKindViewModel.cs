@@ -36,7 +36,8 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
             string? kind, string? title,
             List<PostViewModel> posts, PostViewModel? post,
             HeroViewModel hero, AsideViewModel aside,
-            SearchViewModel? search, AdminPackage admin
+            SearchViewModel? search, AdminPackage admin,
+            AccountPackage account
             )
         {
             ObjectsClass = new(posts ?? new(), post ?? new());
@@ -46,6 +47,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
             AdminInfo = admin;
             SearchData = search ?? new();
             AsideData = aside;
+            AccountInfo = account;
         }
     }
 }

@@ -44,12 +44,15 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
             { "Admin", new[]{ "Admin", "Admin Page" } }
         };
 
-        public static (string[] Categories, HeroViewModel Hero, AsideViewModel Aside, SearchViewModel Searcher, AdminPackage Admin)
+        public static (
+            string[] Categories, HeroViewModel Hero, AsideViewModel Aside,
+            SearchViewModel Searcher, AdminPackage Admin, AccountPackage Account)
             Body(string refinedInput) =>
             (
             GetCategories(refinedInput),
             GetHero(refinedInput), GetAside(refinedInput),
-            GetSearcher(refinedInput), GetAdmin(refinedInput)
+            GetSearcher(refinedInput), GetAdmin(refinedInput),
+            GetAccount(refinedInput)
             );
 
 
@@ -103,6 +106,8 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
             AsideFunctions.GetAsideTitle(new(input, null)) : AsideFunctions.GetAsideTitle(new(null, null));
         private static AdminPackage GetAdmin(string input) => !Validator.Validations.isGeneral(input) ?
             new(null, AdminFunctions.GetCategoryId(input)) : new(null, null);
+        private static AccountPackage GetAccount(string input) => !Validator.Validations.isGeneral(input) ?
+            new(new(), null) : new(null, null);
 
 
         private static class HeroFunctions

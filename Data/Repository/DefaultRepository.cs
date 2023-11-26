@@ -339,7 +339,7 @@ namespace Opuestos_por_el_Vertice.Data.Repository
 
         public User GetUserByToken(string token) => _dbContext.Users_Security.FirstOrDefault(u => u.Token == token);
 
-        async Task UpdateUser(User user)
+        public async Task UpdateUser(User user)
         {
             _dbContext.Users_Security.Update(user);
             await _dbContext.SaveChangesAsync();
