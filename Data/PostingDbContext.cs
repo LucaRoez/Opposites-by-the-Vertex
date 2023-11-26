@@ -18,6 +18,7 @@ namespace Opuestos_por_el_Vertice.Data
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<New> News { get; set; }
+        public DbSet<User> Users_Security { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

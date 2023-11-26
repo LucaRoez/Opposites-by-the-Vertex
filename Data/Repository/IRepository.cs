@@ -16,5 +16,7 @@ namespace Opuestos_por_el_Vertice.Data.Repository
         List<BasePost> DetailAll(string category);
         List<Category> GetCategories();
         Task UnbendDb();
+        Task Register(User user);
+        User GetUser(string email);
     }
 }

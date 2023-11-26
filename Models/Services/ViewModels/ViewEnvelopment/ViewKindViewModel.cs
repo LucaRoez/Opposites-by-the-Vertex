@@ -18,6 +18,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
         public AdminPackage AdminInfo { get; set; }
         public SearchViewModel SearchData { get; set; }
         public AsideViewModel AsideData { get; set; }
+        public AccountPackage AccountInfo { get; set; }
 
         public ViewKindViewModel()
         {
@@ -28,6 +29,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
             AdminInfo = new(null, null);
             SearchData = new();
             AsideData = new(null, null);
+            AccountInfo = new();
         }
 
         public ViewKindViewModel(

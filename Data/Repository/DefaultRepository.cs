@@ -326,5 +326,13 @@ namespace Opuestos_por_el_Vertice.Data.Repository
                 }
             }
         }
+
+        public async Task Register(User user)
+        {
+            _dbContext.Users_Security.Add(user);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public User GetUser(string email) =>_dbContext.Users_Security.FirstOrDefault(u => u.Email == email);
     }
 }
