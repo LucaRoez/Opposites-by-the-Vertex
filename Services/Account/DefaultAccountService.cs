@@ -46,7 +46,7 @@ namespace Opuestos_por_el_Vertice.Services.Account
             }
             else if (user.Password != user.ConfirmationPassword)
             {
-                return "Passwords Unmatched";
+                return "Unmatched entered passwords";
             }
             else
             {
@@ -57,10 +57,12 @@ namespace Opuestos_por_el_Vertice.Services.Account
         public string LoginUser(string input, string password)
         {
             User? user = _repository.GetUser(input);
-            if (user == null) { return "User doesn't exist"; }
-            else if (user.Password != password) { return "Password didn't match"; }
-            else if (user.IsEmailConfirmed!) { return "The confirmation email was sent, please confirm your account first coming into your email inboxand lock for our email"; }
-            else if (user.IsAccountRestored) { return "Your account was requested to be re-established and wasn't confirmed yet, please go to your email inbox to confirm your account restored first"; }
+            if (user == null) { return "Searched user doesn't exist"; }
+            else if (user.Password != password) { return "Incorrect entered password"; }
+            else if (user.IsEmailConfirmed!) { return @"The confirmation email was sent, please confirm your account first coming " +
+                    "into your email inboxand lock for our email"; }
+            else if (user.IsAccountRestored) { return @"Your account was requested to be re-established and wasn't confirmed yet, " +
+                    "please go to your email inbox to confirm your account restored first"; }
             return "User logged successfully";
         }
 

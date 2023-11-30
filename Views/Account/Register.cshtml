@@ -1,0 +1,59 @@
+﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
+@model ViewKindViewModel
+@{
+}
+
+<div class="col">
+    <form asp-action="Register" class="" method="post">
+        <div class="form-group">
+            <label for="username" class="form-label">Username</label>
+            @Html.TextBoxFor(m => m.User.UserName,
+                new {@class="form-control", id="username", type="text"})
+            @Html.ValidationMessageFor(m => m.User.UserName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label for="firstName" class="form-label">First Name </label>(optional)
+            @Html.TextBoxFor(m => m.User.FirstName,
+                new {@class="form-control", id="firstName", type="text"})
+            @Html.ValidationMessageFor(m => m.User.FirstName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label for="lastName" class="form-label">Last Name </label>(optional)
+            @Html.TextBoxFor(m => m.User.LastName,
+                new {@class="form-control", id="lastName", type="text"})
+            @Html.ValidationMessageFor(m => m.User.LastName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            @Html.TextBoxFor(m => m.User.Email,
+                new {@class="form-control", id="email", type="text"})
+            @Html.ValidationMessageFor(m => m.User.Email, "", new { @class = "text-danger" })
+        </div>
+        
+        <div class="form-group">
+            <label for="pass" class="form-label">Password</label>
+            @Html.TextBoxFor(m => m.User.Password,
+                new {@class="form-control", id="pass", type="text"})
+            @Html.ValidationMessageFor(m => m.User.Password, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label for="confirmationPass" class="form-label">Repeat Password</label>
+            @Html.TextBoxFor(m => m.User.ConfirmationPassword,
+                new {@class="form-control", id="confirmationPass", type="text"})
+            @Html.ValidationMessageFor(m => m.User.ConfirmationPassword, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label for="phone" class="form-label">Phone </label>(optional)
+            @Html.TextBoxFor(m => m.User.Phone,
+                new {@class="form-control", id="phone", type="text"})
+            @Html.ValidationMessageFor(m => m.User.Phone, "", new { @class = "text-danger" })
+        </div>
+
+        <button type="submit" class="btn btn-dark admin-send">Sign Up</button>
+    </form>
+</div>

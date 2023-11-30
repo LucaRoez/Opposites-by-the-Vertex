@@ -1,4 +1,5 @@
 ﻿using Opuestos_por_el_Vertice.Models.Services.ViewEnvelopment;
+using Opuestos_por_el_Vertice.Models.Services.ViewModels.Account;
 using Opuestos_por_el_Vertice.Models.ViewModels;
 
 namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
@@ -18,7 +19,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
         public AdminPackage AdminInfo { get; set; }
         public SearchViewModel SearchData { get; set; }
         public AsideViewModel AsideData { get; set; }
-        public AccountPackage AccountInfo { get; set; }
+        public UserViewModel? User { get; set; }
 
         public ViewKindViewModel()
         {
@@ -29,7 +30,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
             AdminInfo = new(null, null);
             SearchData = new();
             AsideData = new(null, null);
-            AccountInfo = new();
+            User = null;
         }
 
         public ViewKindViewModel(
@@ -37,7 +38,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
             List<PostViewModel> posts, PostViewModel? post,
             HeroViewModel hero, AsideViewModel aside,
             SearchViewModel? search, AdminPackage admin,
-            AccountPackage account
+            UserViewModel? user
             )
         {
             ObjectsClass = new(posts ?? new(), post ?? new());
@@ -47,7 +48,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
             AdminInfo = admin;
             SearchData = search ?? new();
             AsideData = aside;
-            AccountInfo = account;
+            User = user;
         }
     }
 }

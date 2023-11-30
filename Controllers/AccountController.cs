@@ -25,16 +25,17 @@ namespace Opuestos_por_el_Vertice.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Register() => View(_envelopment.GetViewEnvelopment("Account"));
+        public async Task<IActionResult> Register() => View(await _envelopment.GetViewEnvelopment("Account"));
 
         [HttpPost]
         public async Task<IActionResult> Register(ViewKindViewModel webInfo)
         {
             if (ModelState.IsValid)
             {
-                UserViewModel user = webInfo.AccountInfo.User;
+                UserViewModel user = webInfo.User;
 
                 string response = await _account.RegisterUser(user);
+                ViewData["Message"] = response;
                 if (response == "true")
                 {
                     string path = Path.Combine(_webHostEnvironment.ContentRootPath,
@@ -57,23 +58,26 @@ namespace Opuestos_por_el_Vertice.Controllers
                 }
                 else if (response == "Passwords Unmatched")
                 {
-                    ViewData["Message"] = response;
                     return View(webInfo);
                 }
 
-                ViewData["Message"] = response;
-                return RedirectToAction("Index", "Home", _envelopment.GetViewEnvelopment("Home"));
+                return RedirectToAction("Index", "Home", await _envelopment.GetViewEnvelopment("Home"));
             }
             return View(webInfo);
         }
 
-        public IActionResult Login() => View(_envelopment.GetViewEnvelopment("Account"));
+        public async Task<IActionResult> Login() => View(await _envelopment.GetViewEnvelopment("Account"));
 
         [HttpPost]
-        public IActionResult Login(string email, string password)
+        public async Task<IActionResult> Login(string email, string password)
         {
-            ViewData["Message"] = _account.LoginUser(email, password);
-            return View(_envelopment.GetViewEnvelopment("Account"));
+            string loginMessage = _account.LoginUser(email, password);
+            ViewData["Message"] = loginMessage;
+            if (loginMessage == "User logged successfully")
+            {
+                return RedirectToAction("Index", "Home", await _envelopment.GetViewEnvelopment("Account"));
+            }
+            return View(await _envelopment.GetViewEnvelopment("Account"));
         }
 
         public IActionResult Confirm(string token)

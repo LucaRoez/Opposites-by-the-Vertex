@@ -22,9 +22,9 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
 
         public async Task<ViewKindViewModel> GetViewEnvelopment(string controllerInput)
         {
-            await _repository.UnbendDb();
+            if (controllerInput == "Home") { await _repository.UnbendDb(); }
             string refinedInput = ViewOperationSystem.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
-            var centralInfo = ViewOperationSystem.Body(refinedInput);
+            var centralInfo = ViewOperationSystem.GetBody(refinedInput);
 
             /*   only one object and flow path for all functions needed   */
             List<PostViewModel> posts = new();
@@ -35,17 +35,12 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             AsideViewModel aside = centralInfo.Aside;
             aside.AsidesList.Add(posts);
 
-            /*  account settings  */
-            AccountPackage account = centralInfo.Account;
-            account.User = _user;
-
             var viewClass = new ViewKindViewModel(
                 ViewOperationSystem.ControllerFunctionsIdentifier.GetPageKind(controllerInput),
                 ViewOperationSystem.ControllerFunctionsIdentifier.GetPageTitle(controllerInput),
                 posts, null,
                 centralInfo.Hero, aside,
-                null, centralInfo.Admin,
-                account
+                null, centralInfo.Admin, _user
                 );
 
             return viewClass;
@@ -54,7 +49,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
         public async Task<ViewKindViewModel> GetViewEnvelopment(string controllerInput, int id, string postCategory)
         {
             string refinedInput = ViewOperationSystem.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
-            var centralInfo = ViewOperationSystem.Body(refinedInput);
+            var centralInfo = ViewOperationSystem.GetBody(refinedInput);
 
             /*   taking both objects needed, with two flow paths   */
             List<PostViewModel> posts = new(); PostViewModel? post = null;
@@ -64,7 +59,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                 .ForEach(category => { posts.AddRange(DataConverter.GetAllViewModels(_repository.DetailAll(category))); });
 
             /*   hero and page data settings, all features are uniques according to controller input   */
-            HeroViewModel hero = ViewOperationSystem.Body(controllerInput).Hero;
+            HeroViewModel hero = ViewOperationSystem.GetBody(controllerInput).Hero;
             string pageTitle = ViewOperationSystem.ControllerFunctionsIdentifier.GetPageTitle(controllerInput);
             if (controllerInput == "Post")
             {
@@ -78,16 +73,11 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             AsideViewModel aside = centralInfo.Aside;
             aside.AsidesList.Add(posts);
 
-            /*  account settings  */
-            AccountPackage account = centralInfo.Account;
-            account.User = _user;
-
             var viewClass = new ViewKindViewModel(
                 ViewOperationSystem.ControllerFunctionsIdentifier.GetPageKind(controllerInput), pageTitle,
                 posts, post,
                 hero, aside,
-                null, centralInfo.Admin,
-                account
+                null, centralInfo.Admin, _user
                 );
 
             return viewClass;
@@ -96,7 +86,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
         public ViewKindViewModel GetViewEnvelopment(string controllerInput, int page, string thisSearch, string postsCategory)
         {
             string refinedInput = ViewOperationSystem.ControllerFunctionsIdentifier.RefineControllerInput(controllerInput);
-            var centralInfo = ViewOperationSystem.Body(refinedInput);
+            var centralInfo = ViewOperationSystem.GetBody(refinedInput);
 
             /*   taking posts needed   */
             List<PostViewModel> posts = new();
@@ -112,17 +102,12 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
             AsideViewModel aside = centralInfo.Aside;
             aside.AsidesList.Add(posts); aside.SearchData = search;
 
-            /*  account settings  */
-            AccountPackage account = centralInfo.Account;
-            account.User = _user;
-
             var viewClass = new ViewKindViewModel(
                 ViewOperationSystem.ControllerFunctionsIdentifier.GetPageKind(controllerInput),
                 ViewOperationSystem.ControllerFunctionsIdentifier.GetPageTitle(controllerInput),
                 posts, null,
                 centralInfo.Hero, aside,
-                search, centralInfo.Admin,
-                account
+                search, centralInfo.Admin, _user
                 );
 
             return viewClass;

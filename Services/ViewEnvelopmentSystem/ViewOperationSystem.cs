@@ -13,6 +13,7 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
             { "Home", HeroFunctions.GetHomeHero },
             { "Privacy", HeroFunctions.GetPrivacyHero },
             { "About", HeroFunctions.GetAboutHero },
+            { "Account", HeroFunctions.GetAccountHero },
             { "IndexSearch", HeroFunctions.GetSearchHero },
             { "NewsSearch", HeroFunctions.GetNewsHero },
             { "EventsSearch", HeroFunctions.GetEventsHero },
@@ -33,6 +34,7 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
             { "Home", new[]{ "Home", "Home Page" } },
             { "Privacy", new[]{ "Privacy", "Privacy Policies Page" } },
             { "About", new[]{ "About", "About us" } },
+            { "Account", new[]{ "Logging", "Account Page" } },
             { "IndexSearch", new[]{ "IndexSearch", "Main Search Page" } },
             { "NewsSearch", new[]{ "NewsSearch", "News Search Page" } },
             { "EventsSearch", new[]{ "EventsSearch", "Events Search Page" } },
@@ -46,13 +48,12 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
 
         public static (
             string[] Categories, HeroViewModel Hero, AsideViewModel Aside,
-            SearchViewModel Searcher, AdminPackage Admin, AccountPackage Account)
-            Body(string refinedInput) =>
+            SearchViewModel Searcher, AdminPackage Admin)
+            GetBody(string refinedInput) =>
             (
             GetCategories(refinedInput),
             GetHero(refinedInput), GetAside(refinedInput),
-            GetSearcher(refinedInput), GetAdmin(refinedInput),
-            GetAccount(refinedInput)
+            GetSearcher(refinedInput), GetAdmin(refinedInput)
             );
 
 
@@ -106,8 +107,6 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
             AsideFunctions.GetAsideTitle(new(input, null)) : AsideFunctions.GetAsideTitle(new(null, null));
         private static AdminPackage GetAdmin(string input) => !Validator.Validations.isGeneral(input) ?
             new(null, AdminFunctions.GetCategoryId(input)) : new(null, null);
-        private static AccountPackage GetAccount(string input) => !Validator.Validations.isGeneral(input) ?
-            new(new(), null) : new(null, null);
 
 
         private static class HeroFunctions
@@ -138,6 +137,16 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
                 imgAlt.Add("");
                 titles.Add("Who are we?");
                 subs.Add("HEEEERE!!!");
+
+                HeroViewModel hero = new(1, imgSources, imgAlt, titles, subs);
+                return hero;
+            }
+            public static HeroViewModel GetAccountHero(List<string> imgSources, List<string> imgAlt, List<string> titles, List<string> subs)
+            {
+                imgSources.Add("/img/testing/account.jpg");
+                imgAlt.Add("");
+                titles.Add("User Logging");
+                subs.Add("All of the Account Settings");
 
                 HeroViewModel hero = new(1, imgSources, imgAlt, titles, subs);
                 return hero;
