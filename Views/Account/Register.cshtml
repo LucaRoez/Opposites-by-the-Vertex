@@ -1,6 +1,7 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
 @model ViewKindViewModel
 @{
+    if (Model.User == null) { Model.User = new(); }
 }
 
 <div class="col">

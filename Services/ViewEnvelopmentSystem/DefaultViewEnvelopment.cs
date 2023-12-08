@@ -1,6 +1,4 @@
-﻿using Opuestos_por_el_Vertice.Data.Entities;
-using Opuestos_por_el_Vertice.Data.Repository;
-using Opuestos_por_el_Vertice.Models.Services.ViewEnvelopment;
+﻿using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels.Account;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment;
 using Opuestos_por_el_Vertice.Models.ViewModels;
@@ -39,7 +37,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
                 ViewOperationSystem.ControllerFunctionsIdentifier.GetPageKind(controllerInput),
                 ViewOperationSystem.ControllerFunctionsIdentifier.GetPageTitle(controllerInput),
                 posts, null,
-                centralInfo.Hero, aside,
+                ViewOperationSystem.GetBody(controllerInput).Hero, aside,
                 null, centralInfo.Admin, _user
                 );
 

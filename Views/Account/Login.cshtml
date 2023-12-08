@@ -1,10 +1,11 @@
 ﻿@using Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment
 @model ViewKindViewModel
 @{
+    if (Model.User == null) { Model.User = new(); }
 }
 
 <div class="col">
-    <form asp-action="Login" method="post">
+    <form asp-action="Login" asp-route-email="@Model.User.Email" asp-route-password="@Model.User.Password" method="post">
         <div class="form-group">
             <label for="email" class="form-label"></label>
             @Html.TextBoxFor(m => m.User.Email,

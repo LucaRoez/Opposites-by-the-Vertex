@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Opuestos_por_el_Vertice.Data.Entities;
+﻿using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels.Account;
 using Opuestos_por_el_Vertice.Services.DataTranfer;
 using Opuestos_por_el_Vertice.Services.EmailSender;
-using Org.BouncyCastle.Asn1.Ocsp;
-using System;
 
 namespace Opuestos_por_el_Vertice.Services.Account
 {

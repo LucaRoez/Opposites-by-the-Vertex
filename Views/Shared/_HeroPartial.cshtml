@@ -10,6 +10,7 @@
     string author = ""; string date = "";
     if (Model.Kind.Equals("Post")) { author = Model.ObjectsClass.SelectedPost.Author; date = Model.ObjectsClass.SelectedPost.PublicationDate.Date.ToString(); }
 }
+
 <div class="container text-center">
     <div id="heroCarousel" class="carousel slide">
         @if (imagesAmount > 1)

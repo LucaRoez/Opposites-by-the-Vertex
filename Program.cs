@@ -12,6 +12,7 @@ var service = builder.Services;
 
 // Add services to the container.
 service.AddControllersWithViews();
+service.AddRouting(config => config.LowercaseUrls = true);
 
 string connectionString = config.GetConnectionString("DefaultConnection");
 service.AddDbContext<PostingDbContext>(op =>

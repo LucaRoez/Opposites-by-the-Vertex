@@ -30,6 +30,8 @@ namespace Opuestos_por_el_Vertice.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(ViewKindViewModel webInfo)
         {
+            ModelState.Remove("User.FirstName"); ModelState.Remove("User.LastName");
+            ModelState.Remove("User.Phone"); ModelState.Remove("User.Token");
             if (ModelState.IsValid)
             {
                 UserViewModel user = webInfo.User;
@@ -63,7 +65,7 @@ namespace Opuestos_por_el_Vertice.Controllers
 
                 return RedirectToAction("Index", "Home", await _envelopment.GetViewEnvelopment("Home"));
             }
-            return View(webInfo);
+            return View(await _envelopment.GetViewEnvelopment("Account"));
         }
 
         public async Task<IActionResult> Login() => View(await _envelopment.GetViewEnvelopment("Account"));

@@ -1,4 +1,5 @@
 ﻿using Opuestos_por_el_Vertice.Models.ViewModels;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.Account
@@ -19,11 +20,11 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.Account
         public string Email { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 6)]
-        [DataType(DataType.Password)]
+        [PasswordPropertyText]
         public string Password { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 6)]
-        [DataType(DataType.Password)]
+        [PasswordPropertyText]
         public string ConfirmationPassword { get; set; }
         [StringLength(100, MinimumLength = 4)]
         [DataType(DataType.PhoneNumber)]

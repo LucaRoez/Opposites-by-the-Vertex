@@ -145,8 +145,8 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
             {
                 imgSources.Add("/img/testing/account.jpg");
                 imgAlt.Add("");
-                titles.Add("User Logging");
-                subs.Add("All of the Account Settings");
+                titles.Add("Metalheads! Heed Here!");
+                subs.Add("Unite to the next Best Metal Page of All Times!!!");
 
                 HeroViewModel hero = new(1, imgSources, imgAlt, titles, subs);
                 return hero;
