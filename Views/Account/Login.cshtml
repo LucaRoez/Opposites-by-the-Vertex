@@ -4,7 +4,7 @@
     if (Model.User == null) { Model.User = new(); }
 }
 
-<div class="col">
+<div class="col align-content-center w-50">
     <form asp-action="Login" asp-route-email="@Model.User.Email" asp-route-password="@Model.User.Password" method="post">
         <div class="form-group">
             <label for="email" class="form-label"></label>
@@ -16,7 +16,7 @@
         <div class="form-group">
             <label for="pass" class="form-label">Password</label>
             @Html.TextBoxFor(m => m.User.Password,
-            new {@class="form-control", id="pass", type="text"})
+                new {@class="form-control", id="pass", type="password"})
             @Html.ValidationMessageFor(m => m.User.Password, "", new { @class = "text-danger" })
         </div>
 

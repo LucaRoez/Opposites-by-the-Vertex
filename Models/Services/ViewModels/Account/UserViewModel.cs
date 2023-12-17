@@ -15,19 +15,16 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewModels.Account
         public string LastName { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 2)]
-        [DataType(DataType.EmailAddress)]
         [EmailAddress]
         public string Email { get; set; }
         [Required]
-        [StringLength(100, MinimumLength = 6)]
-        [PasswordPropertyText]
+        [StringLength(20, MinimumLength = 8)]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#]).{8,20}$",
+            ErrorMessage = "Must contain at least one lower case, one upper case, one number, and one special character")]
         public string Password { get; set; }
         [Required]
-        [StringLength(100, MinimumLength = 6)]
-        [PasswordPropertyText]
         public string ConfirmationPassword { get; set; }
         [StringLength(100, MinimumLength = 4)]
-        [DataType(DataType.PhoneNumber)]
         [Phone]
         public string Phone { get; set; }
         public bool IsEmailConfirmed { get; set; }

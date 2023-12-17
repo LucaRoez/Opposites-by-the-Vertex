@@ -16,15 +16,12 @@ namespace Opuestos_por_el_Vertice.Data.Entities
         public string LastName { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 2)]
-        [DataType(DataType.EmailAddress)]
         [EmailAddress]
         public string Email { get; set; }
         [Required]
-        [StringLength(100, MinimumLength = 6)]
-        [DataType(DataType.Password)]
+        [StringLength(2000)]
         public string Password { get; set; }
         [StringLength(100, MinimumLength = 4)]
-        [DataType(DataType.PhoneNumber)]
         [Phone]
         public string Phone { get; set; }
         [Required]

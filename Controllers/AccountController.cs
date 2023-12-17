@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels.Account;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment;
@@ -32,29 +33,32 @@ namespace Opuestos_por_el_Vertice.Controllers
         {
             ModelState.Remove("User.FirstName"); ModelState.Remove("User.LastName");
             ModelState.Remove("User.Phone"); ModelState.Remove("User.Token");
+            ModelState.Remove("ObjectsClass.SelectedPost.Image"); ModelState.Remove("ObjectsClass.SelectedPost.Author");
+            ModelState.Remove("ObjectsClass.SelectedPost.Title"); ModelState.Remove("ObjectsClass.SelectedPost.SubTitle");
             if (ModelState.IsValid)
             {
                 UserViewModel user = webInfo.User;
 
                 string response = await _account.RegisterUser(user);
+                UserViewModel User = _account.GetUser(user.Email);
                 ViewData["Message"] = response;
                 if (response == "true")
                 {
                     string path = Path.Combine(_webHostEnvironment.ContentRootPath,
                         "Models/Services/EmailSender/HtmlTemplates/ConfirmationEmail.html");
                     string content = System.IO.File.ReadAllText(path);
-                    string url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Account/Confirm?token={user.Token}";
+                    string url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Account/Confirm?token={User.Token}";
                     string htmlBody;
-                    if (user.FirstName != null || user.FirstName != "")
+                    if (user.FirstName != null)
                     {
-                        htmlBody = string.Format(content, user.FirstName, url);
+                        htmlBody = string.Format(content, User.FirstName, url);
                     }
                     else
                     {
-                        htmlBody = string.Format(content, user.UserName, url);
+                        htmlBody = string.Format(content, User.UserName, url);
                     }
 
-                    EmailSender.Send(user.Email, htmlBody);
+                    EmailSender.Send(User.Email, htmlBody);
                     ViewData["Message"] = @"The account was registered successfully. And an email was sent to your email inbox" +
                         "to confirm that you actually are youself";
                 }

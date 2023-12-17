@@ -4,7 +4,7 @@
     if (Model.User == null) { Model.User = new(); }
 }
 
-<div class="col">
+<div class="col align-content-center w-50">
     <form asp-action="Register" class="" method="post">
         <div class="form-group">
             <label for="username" class="form-label">Username</label>
@@ -37,14 +37,14 @@
         <div class="form-group">
             <label for="pass" class="form-label">Password</label>
             @Html.TextBoxFor(m => m.User.Password,
-                new {@class="form-control", id="pass", type="text"})
+                new {@class="form-control", id="pass", type="password"})
             @Html.ValidationMessageFor(m => m.User.Password, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
             <label for="confirmationPass" class="form-label">Repeat Password</label>
             @Html.TextBoxFor(m => m.User.ConfirmationPassword,
-                new {@class="form-control", id="confirmationPass", type="text"})
+                new {@class="form-control", id="confirmationPass", type="password"})
             @Html.ValidationMessageFor(m => m.User.ConfirmationPassword, "", new { @class = "text-danger" })
         </div>
 

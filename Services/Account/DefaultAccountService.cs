@@ -90,6 +90,7 @@ namespace Opuestos_por_el_Vertice.Services.Account
             else
             {
                 user.Password = password;
+                user.IsAccountRestored = false;
                 _repository.UpdateUser(user);
             }
             return "The user was re-established successfully";
