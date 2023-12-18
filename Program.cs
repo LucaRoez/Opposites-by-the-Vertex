@@ -16,8 +16,8 @@ service.AddRouting(config => config.LowercaseUrls = true);
 
 string connectionString = config.GetConnectionString("DefaultConnection");
 service.AddDbContext<PostingDbContext>(op =>
-    op.UseSqlServer(connectionString)
-           .LogTo(Console.WriteLine, LogLevel.Information));
+    op.UseSqlServer(connectionString));
+service.AddLogging(builder => builder.AddConsole());
 
 service.AddTransient<IRepository, DefaultRepository>();
 //service.AddTransient<IDataTruck, DataTruck>();            //moving to functional approach

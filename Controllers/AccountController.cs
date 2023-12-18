@@ -75,6 +75,7 @@ namespace Opuestos_por_el_Vertice.Controllers
             ViewData["Message"] = loginMessage;
             if (loginMessage == "User logged successfully")
             {
+                TempData["Message"] = loginMessage;
                 return RedirectToAction("Index", "Home", await _envelopment.GetViewEnvelopment("Account"));
             }
             return View("Login", await _envelopment.GetViewEnvelopment("Account"));

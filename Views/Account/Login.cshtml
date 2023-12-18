@@ -4,12 +4,12 @@
     if (Model.User == null) { Model.User = new(); }
 }
 
-<div class="row">
+<div class="row justify-content-center>
     @if (ViewData["Message"] != null)
     {
         if (ViewData["Message"]?.ToString() != "")
         {
-            <div align="center" class="alert-danger p-2 text-center alert-data w-75">@ViewData["Message"]</div>
+            <div class="alert-danger mb-3 p-2 text-center alert-data w-75">@ViewData["Message"]</div>
         }
     }
 </div>

@@ -53,9 +53,10 @@ namespace Opuestos_por_el_Vertice.Services.Account
 
         public async Task<string> LoginUser(string input, string password)
         {
+            password = EmailSenderUtilities.ConvertSHA256(password);
             User? user = await _repository.GetUser(input);
             if (user == null) { return "Searched user doesn't exist"; }
-            else if (user.Password != password) { return "Incorrect entered password"; }
+            else if (user.Password != password) { return "Incorrect password entered"; }
             else if (user.IsEmailConfirmed!) { return @"The confirmation email was sent, please confirm your account first coming " +
                     "into your email inboxand lock for our email"; }
             else if (user.IsAccountRestored) { return @"Your account was requested to be re-established and wasn't confirmed yet, " +

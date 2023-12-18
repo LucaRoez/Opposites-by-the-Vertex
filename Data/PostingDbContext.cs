@@ -5,12 +5,16 @@ namespace Opuestos_por_el_Vertice.Data
 {
     public class PostingDbContext : DbContext
     {
+        private readonly ILoggerFactory _loggerFactory;
         public PostingDbContext()
         {
-
         }
-        public PostingDbContext(DbContextOptions<PostingDbContext> op)
-            : base(op) { }
+        public PostingDbContext(DbContextOptions<PostingDbContext> op,
+            ILoggerFactory loggerFactory
+            )
+            : base(op) {
+            _loggerFactory = loggerFactory;
+        }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Artist> Artists { get; set; }
@@ -19,9 +23,10 @@ namespace Opuestos_por_el_Vertice.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<New> News { get; set; }
         public DbSet<User> Users_Security { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Data_Post_Hub;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseLoggerFactory(_loggerFactory);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

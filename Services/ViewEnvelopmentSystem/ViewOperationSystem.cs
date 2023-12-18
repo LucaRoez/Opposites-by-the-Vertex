@@ -113,7 +113,7 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
         {
             public static HeroViewModel GetHomeHero(List<string> imgSources, List<string> imgAlt, List<string> titles, List<string> subs)
             {
-                imgSources.Add("/img/testing/home.jpg");
+                imgSources.Add("/img/testing/gargola1.jpg");
                 imgAlt.Add("");
                 titles.Add("Welcome to Opposites by the Vertex");
                 subs.Add("The page where you can find all about METAL!!!");
@@ -223,7 +223,7 @@ namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
             }
             public static HeroViewModel GetAdminHero(List<string> imgSources, List<string> imgAlt, List<string> titles, List<string> subs)
             {
-                imgSources.Add("/img/testing/admin.jpg");
+                imgSources.Add("/img/testing/gargola2.jpg");
                 imgAlt.Add("");
                 titles.Add("Administrator Page");
                 subs.Add("Make some CRUDs operations here.");
