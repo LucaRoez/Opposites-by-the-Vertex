@@ -3,13 +3,13 @@
 @{
 }
 
-<div class="admin-button row">
-    <div class="admin-button-content col">
+<div class="form-button row">
+    <div class="form-button-content col">
         <form asp-controller="Admin" asp-action="Modify" asp-route-id="@Model.Id" asp-route-category="@Model.Category" method="post">
             <button type="submit" class="btn btn-warning">Change Post</button>
         </form>
     </div>
-    <div class="admin-button-content col">
+    <div class="form-button-content col">
         <form asp-controller="Admin" asp-action="Delete" asp-route-id="@Model.Id" asp-route-category="@Model.Category" method="post">
             <button type="submit" class="btn btn-danger">Erase Post</button>
         </form>

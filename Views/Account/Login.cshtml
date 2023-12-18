@@ -4,22 +4,29 @@
     if (Model.User == null) { Model.User = new(); }
 }
 
-<div class="col align-content-center w-50">
-    <form asp-action="Login" asp-route-email="@Model.User.Email" asp-route-password="@Model.User.Password" method="post">
+<div class="row">
+    @if (ViewData["Message"] != null)
+    {
+        if (ViewData["Message"]?.ToString() != "")
+        {
+            <div align="center" class="alert-danger p-2 text-center alert-data w-75">@ViewData["Message"]</div>
+        }
+    }
+</div>
+<div class="row form-body ">
+    <form asp-action="Login" method="post">
         <div class="form-group">
-            <label for="email" class="form-label"></label>
-            @Html.TextBoxFor(m => m.User.Email,
-                new {@class="form-control", id="email", type="text"})
+            <label for="email" class="form-label">Email</label>
+            <input class="form-control" id="email" name="email" type="text" />
             @Html.ValidationMessageFor(m => m.User.Email, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
             <label for="pass" class="form-label">Password</label>
-            @Html.TextBoxFor(m => m.User.Password,
-                new {@class="form-control", id="pass", type="password"})
+            <input class="form-control" id="pass" name="password" type="password" />
             @Html.ValidationMessageFor(m => m.User.Password, "", new { @class = "text-danger" })
         </div>
 
-        <button type="submit" class="btn btn-dark admin-send">Log In</button>
+        <button type="submit" class="btn btn-dark form-send">Log In</button>
     </form>
 </div>

@@ -6,10 +6,10 @@
 }
 
 <div class="container text-center">
-    <div class="admin-title row">
+    <div class="form-title row">
         <h3>Create a New Post</h3>
     </div>
-    <div class="admin-body row">
+    <div class="form-body row">
         <form asp-action="Create" method="post">
             <div class="form-group">
                 <label for="post-title" class="form-label">Title</label>
@@ -59,7 +59,7 @@
                     new {@class="form-control", id="post-category", type="text"})
             </div>
 
-            <button type="submit" class="btn btn-dark admin-send">Send to Record</button>
+            <button type="submit" class="btn btn-dark form-send">Send to Record</button>
         </form>
     </div>
 </div>

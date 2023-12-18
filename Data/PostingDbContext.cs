@@ -19,6 +19,10 @@ namespace Opuestos_por_el_Vertice.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<New> News { get; set; }
         public DbSet<User> Users_Security { get; set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Data_Post_Hub;Trusted_Connection=True;MultipleActiveResultSets=true");
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

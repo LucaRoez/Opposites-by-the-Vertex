@@ -37,33 +37,27 @@ namespace Opuestos_por_el_Vertice.Controllers
             ModelState.Remove("ObjectsClass.SelectedPost.Title"); ModelState.Remove("ObjectsClass.SelectedPost.SubTitle");
             if (ModelState.IsValid)
             {
-                UserViewModel user = webInfo.User;
+                UserViewModel? user = webInfo.User;
 
                 string response = await _account.RegisterUser(user);
-                UserViewModel User = _account.GetUser(user.Email);
                 ViewData["Message"] = response;
                 if (response == "true")
                 {
-                    string path = Path.Combine(_webHostEnvironment.ContentRootPath,
-                        "Models/Services/EmailSender/HtmlTemplates/ConfirmationEmail.html");
-                    string content = System.IO.File.ReadAllText(path);
-                    string url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Account/Confirm?token={User.Token}";
-                    string htmlBody;
-                    if (user.FirstName != null)
+                    try
                     {
-                        htmlBody = string.Format(content, User.FirstName, url);
+                        UserViewModel? User = await _account.GetUser(user.Email);
+                        SendEmail(user, User);
+                        ViewData["Message"] = @"The account was registered successfully. And an email was sent to your email inbox" +
+                            "to confirm that you actually are youself";
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        htmlBody = string.Format(content, User.UserName, url);
+                        ViewData["Message"] = ex.Message;
                     }
-
-                    EmailSender.Send(User.Email, htmlBody);
-                    ViewData["Message"] = @"The account was registered successfully. And an email was sent to your email inbox" +
-                        "to confirm that you actually are youself";
                 }
                 else if (response == "Passwords Unmatched")
                 {
+                    ModelState.AddModelError("", "Passwords do not match");
                     return View(webInfo);
                 }
 
@@ -77,18 +71,23 @@ namespace Opuestos_por_el_Vertice.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
-            string loginMessage = _account.LoginUser(email, password);
+            string loginMessage = await _account.LoginUser(email, password);
             ViewData["Message"] = loginMessage;
             if (loginMessage == "User logged successfully")
             {
                 return RedirectToAction("Index", "Home", await _envelopment.GetViewEnvelopment("Account"));
             }
-            return View(await _envelopment.GetViewEnvelopment("Account"));
+            return View("Login", await _envelopment.GetViewEnvelopment("Account"));
         }
 
-        public IActionResult Confirm(string token)
+        //public IAccountResult Reconfirm()
+        //{
+
+        //}
+
+        public async Task<IActionResult> Confirm(string token)
         {
-            if (_account.ConfirmUser(token))
+            if (await _account.ConfirmUser(token))
             {
                 ViewData["Message"] = "Your email was confirmed succesfully, welcome to our page!";
             }
@@ -99,11 +98,31 @@ namespace Opuestos_por_el_Vertice.Controllers
             return View(_envelopment.GetViewEnvelopment("Account"));
         }
 
-        public IActionResult Restore(string token, string password)
+        public async Task<IActionResult> Restore(string token, string password)
         {
-            string response = _account.ReestablishUser(token, password);
+            string response = await _account.ReestablishUser(token, password);
             ViewData["Message"] = response;
             return View(_envelopment.GetViewEnvelopment("Account"));
+        }
+
+        private void SendEmail(UserViewModel user, UserViewModel User)   // user = entity posted - User = entity from repository
+        {
+            string path = Path.Combine(_webHostEnvironment.ContentRootPath,
+                "Models/Services/EmailSender/HtmlTemplates/ConfirmationEmail.html");
+            string content = System.IO.File.ReadAllText(path);
+            string url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/account/confirm?token={User.Token}";
+            string htmlBody;
+            if (user.FirstName != null)
+            {
+                htmlBody = string.Format(content, User.FirstName, url);
+            }
+            else
+            {
+                if (user.FirstName != "") { htmlBody = string.Format(content, User.FirstName, url); }
+                else { htmlBody = string.Format(content, User.UserName, url); }                
+            }
+
+            EmailSender.Send(User.Email, htmlBody);
         }
     }
 }

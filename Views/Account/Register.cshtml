@@ -4,7 +4,7 @@
     if (Model.User == null) { Model.User = new(); }
 }
 
-<div class="col align-content-center w-50">
+<div class="col form-body ">
     <form asp-action="Register" class="" method="post">
         <div class="form-group">
             <label for="username" class="form-label">Username</label>
@@ -55,6 +55,6 @@
             @Html.ValidationMessageFor(m => m.User.Phone, "", new { @class = "text-danger" })
         </div>
 
-        <button type="submit" class="btn btn-dark admin-send">Sign Up</button>
+        <button type="submit" class="btn btn-dark form-send">Sign Up</button>
     </form>
 </div>

@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.AspNetCore.Hosting;
+using Opuestos_por_el_Vertice.Data.Entities;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Opuestos_por_el_Vertice.Services.EmailSender

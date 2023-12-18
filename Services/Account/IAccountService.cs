@@ -5,10 +5,10 @@ namespace Opuestos_por_el_Vertice.Services.Account
     public interface IAccountService
     {
         Task<string> RegisterUser(UserViewModel user);
-        string LoginUser(string email, string password);
-        UserViewModel GetUser(string email);
-        bool ConfirmUser(string token);
-        string ReestablishUser(string token, string password);
+        Task<string> LoginUser(string email, string password);
+        Task<UserViewModel?> GetUser(string email);
+        Task<bool> ConfirmUser(string token);
+        Task<string> ReestablishUser(string token, string password);
         Task<UserViewModel> UpdateUser(UserViewModel newUser);
         Task<bool> DeleteUser(int id);
     }

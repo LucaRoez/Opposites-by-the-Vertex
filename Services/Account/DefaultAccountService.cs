@@ -16,7 +16,7 @@ namespace Opuestos_por_el_Vertice.Services.Account
 
         public async Task<string> RegisterUser(UserViewModel user)
         {
-            if (_repository.GetUser(user.Email) == null)
+            if (await _repository.GetUser(user.Email) == null)
             {
                 try
                 {
@@ -51,9 +51,9 @@ namespace Opuestos_por_el_Vertice.Services.Account
             }
         }
 
-        public string LoginUser(string input, string password)
+        public async Task<string> LoginUser(string input, string password)
         {
-            User? user = _repository.GetUser(input);
+            User? user = await _repository.GetUser(input);
             if (user == null) { return "Searched user doesn't exist"; }
             else if (user.Password != password) { return "Incorrect entered password"; }
             else if (user.IsEmailConfirmed!) { return @"The confirmation email was sent, please confirm your account first coming " +
@@ -63,35 +63,35 @@ namespace Opuestos_por_el_Vertice.Services.Account
             return "User logged successfully";
         }
 
-        public UserViewModel GetUser(string email)
+        public async Task<UserViewModel?> GetUser(string email)
         {
-            User? User = _repository.GetUser(email);
+            User? User = await _repository.GetUser(email);
 
             return DataConverter.GetUserModel(User);
         }
 
-        public bool ConfirmUser(string token)
+        public async Task<bool> ConfirmUser(string token)
         {
             if (_repository.ConfirmUser(token))
             {
-                User user = _repository.GetUserByToken(token);
+                User? user = await _repository.GetUserByToken(token);
                 user.IsEmailConfirmed = true;
-                _repository.UpdateUser(user);
+                await _repository.UpdateUser(user);
 
                 return true;
             }
             else { return false; }
         }
 
-        public string ReestablishUser(string token, string password)
+        public async Task<string> ReestablishUser(string token, string password)
         {
-            User user = _repository.GetUserByToken(token);
+            User? user = await _repository.GetUserByToken(token);
             if (user == null) { return "The user doesn't exist"; }
             else
             {
                 user.Password = password;
                 user.IsAccountRestored = false;
-                _repository.UpdateUser(user);
+                await _repository.UpdateUser(user);
             }
             return "The user was re-established successfully";
         }
