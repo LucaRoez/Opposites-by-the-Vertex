@@ -10,10 +10,10 @@ namespace Opuestos_por_el_Vertice.Controllers
     public class AdminController : Controller
     {
         private readonly ILogger<AdminController> _logger;
-        private readonly IViewEnvelopment _envelopment;
+        private readonly IControllerCore _envelopment;
         private readonly IAdminManager _admin;
 
-        public AdminController(ILogger<AdminController> logger, IViewEnvelopment envelopment, IAdminManager admin)
+        public AdminController(ILogger<AdminController> logger, IControllerCore envelopment, IAdminManager admin)
         {
             _logger = logger;
             _envelopment = envelopment;

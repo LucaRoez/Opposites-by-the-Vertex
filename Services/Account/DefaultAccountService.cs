@@ -1,5 +1,5 @@
-﻿using Opuestos_por_el_Vertice.Data.Entities;
-using Opuestos_por_el_Vertice.Data.Repository;
+﻿using Opuestos_por_el_Vertice.Data;
+using Opuestos_por_el_Vertice.Data.Entities;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels.Account;
 using Opuestos_por_el_Vertice.Services.DataTranfer;
 using Opuestos_por_el_Vertice.Services.EmailSender;
@@ -68,7 +68,7 @@ namespace Opuestos_por_el_Vertice.Services.Account
         {
             User? User = await _repository.GetUser(email);
 
-            return DataConverter.GetUserModel(User);
+            return DtoConverter.GetUserModel(User);
         }
 
         public async Task<bool> ConfirmUser(string token)

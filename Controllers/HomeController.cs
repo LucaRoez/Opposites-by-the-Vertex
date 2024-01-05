@@ -8,9 +8,9 @@ namespace Opuestos_por_el_Vertice.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IViewEnvelopment _envelopment;
+        private readonly IControllerCore _envelopment;
 
-        public HomeController(ILogger<HomeController> logger, IViewEnvelopment envelopment)
+        public HomeController(ILogger<HomeController> logger, IControllerCore envelopment)
         {
             _logger = logger;
             _envelopment = envelopment;

@@ -8,7 +8,7 @@ namespace Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem
      *  it will look for all of the post published, according to all data categories for displaying into the final View.
     */
 
-    public interface IViewEnvelopment
+    public interface IControllerCore
     {
         Task<ViewKindViewModel> GetViewEnvelopment(string controllerInput);
         Task<ViewKindViewModel> GetViewEnvelopment(string controllerInput, int id, string extraData);

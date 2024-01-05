@@ -11,12 +11,12 @@ namespace Opuestos_por_el_Vertice.Controllers
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
-        private readonly IViewEnvelopment _envelopment;
+        private readonly IControllerCore _envelopment;
         private readonly IAccountService _account;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public AccountController(
-            ILogger<AccountController> logger, IViewEnvelopment envelopment,
+            ILogger<AccountController> logger, IControllerCore envelopment,
             IAccountService account, IWebHostEnvironment webHostEnvironment
             )
         {

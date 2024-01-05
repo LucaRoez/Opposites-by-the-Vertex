@@ -1,8 +1,7 @@
 ﻿using Opuestos_por_el_Vertice.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
 
-namespace Opuestos_por_el_Vertice.Data.Repository
+namespace Opuestos_por_el_Vertice.Data
 {
     public class DefaultRepository : IRepository
     {
@@ -132,7 +131,8 @@ namespace Opuestos_por_el_Vertice.Data.Repository
                 case "Artists": _dbContext.Artists.RemoveRange(_dbContext.Artists); break;
                 case "Events": _dbContext.Events.RemoveRange(_dbContext.Events); break;
                 case "News": _dbContext.News.RemoveRange(_dbContext.News); break;
-                default: _dbContext.Genres.RemoveRange(_dbContext.Genres); _dbContext.Albums.RemoveRange(_dbContext.Albums);
+                default:
+                    _dbContext.Genres.RemoveRange(_dbContext.Genres); _dbContext.Albums.RemoveRange(_dbContext.Albums);
                     _dbContext.Artists.RemoveRange(_dbContext.Artists); _dbContext.Events.RemoveRange(_dbContext.Events);
                     _dbContext.News.RemoveRange(_dbContext.News); break;
             }

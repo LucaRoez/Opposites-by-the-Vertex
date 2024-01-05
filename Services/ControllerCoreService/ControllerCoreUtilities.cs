@@ -4,7 +4,7 @@ using Opuestos_por_el_Vertice.Models.Services.ViewModels.ViewEnvelopment;
 
 namespace Opuestos_por_el_Vertice.Services.ViewEnvelopmentSystem
 {
-    public static class ViewOperationSystem
+    public static class ControllerCoreUtilities
     {
         private static readonly string[] _categories = new[] { "New", "Event", "Artist", "Album", "Genre" };
         private static readonly Dictionary<string, Func<List<string>, List<string>, List<string>, List<string>, HeroViewModel>>

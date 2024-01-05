@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Opuestos_por_el_Vertice.Data;
-using Opuestos_por_el_Vertice.Data.Repository;
 using Opuestos_por_el_Vertice.Models.Services.ViewEnvelopmentSystem;
 using Opuestos_por_el_Vertice.Models.Services.ViewModels.Account;
 using Opuestos_por_el_Vertice.Services.Account;
@@ -23,7 +22,7 @@ service.AddTransient<IRepository, DefaultRepository>();
 //service.AddTransient<IDataTruck, DataTruck>();            //moving to functional approach
 service.AddScoped<UserViewModel>();
 //service.AddTransient<ISearcher, DefaultSearcher>();       //moving to functional approach
-service.AddTransient<IViewEnvelopment, DefaultViewEnvelopment>();
+service.AddTransient<IControllerCore, DefaultControllerCore>();
 service.AddTransient<IAdminManager, DefaultAdminManager>();
 service.AddTransient<IAccountService, DefaultAccountService>();
 

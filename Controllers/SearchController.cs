@@ -6,9 +6,9 @@ namespace Opuestos_por_el_Vertice.Controllers
     public class SearchController : Controller
     {
         private readonly ILogger<SearchController> _logger;
-        private readonly IViewEnvelopment _envelopment;
+        private readonly IControllerCore _envelopment;
 
-        public SearchController(ILogger<SearchController> logger, IViewEnvelopment envelopment)
+        public SearchController(ILogger<SearchController> logger, IControllerCore envelopment)
         {
             _logger = logger;
             _envelopment = envelopment;

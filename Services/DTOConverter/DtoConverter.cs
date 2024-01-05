@@ -4,7 +4,7 @@ using Opuestos_por_el_Vertice.Models.ViewModels;
 
 namespace Opuestos_por_el_Vertice.Services.DataTranfer
 {
-    public class DataConverter
+    public class DtoConverter
     {
         private static Dictionary<string, Func<PostViewModel, BasePost>> postDatas = new()
         {

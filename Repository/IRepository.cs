@@ -1,6 +1,6 @@
 ﻿using Opuestos_por_el_Vertice.Data.Entities;
 
-namespace Opuestos_por_el_Vertice.Data.Repository
+namespace Opuestos_por_el_Vertice.Data
 {
     /*
      * This is a traditional Repository desing pattern, where the interaction with the Data Base is isolated from Services and Controllers. 
@@ -12,7 +12,7 @@ namespace Opuestos_por_el_Vertice.Data.Repository
         Task Remove(BasePost post);
         Task Update(BasePost post);
         Task RemoveAll(string identifier);
-        Task<BasePost> DetailOne(string category,int id);
+        Task<BasePost> DetailOne(string category, int id);
         List<BasePost> DetailAll(string category);
         List<Category> GetCategories();
         Task UnbendDb();

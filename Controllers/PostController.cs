@@ -6,9 +6,9 @@ namespace Opuestos_por_el_Vertice.Controllers
     public class PostController : Controller
     {
         private readonly ILogger<PostController> _logger;
-        private readonly IViewEnvelopment _envelopment;
+        private readonly IControllerCore _envelopment;
 
-        public PostController(ILogger<PostController> logger, IViewEnvelopment envelopment)
+        public PostController(ILogger<PostController> logger, IControllerCore envelopment)
         {
             _logger = logger;
             _envelopment = envelopment;
